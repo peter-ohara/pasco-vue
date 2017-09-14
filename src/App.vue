@@ -26,10 +26,13 @@ export default {}
     margin-top 0px
 
   header
-    margin 0
+    top 0
+    width 100%
     height 60px
     background-color $primary
     box-shadow 0px 2px 20px 1px $neutral
+    position fixed
+    z-index: 10
     img
       padding 5px 10px
       height 50px

@@ -1,23 +1,27 @@
 <template>
  <div class="main">
-    <q-card class="search-area">
-      <q-input
-        v-model="text"
-        placeholder="Find a test"
-        :loading="loading"/>
-    </q-card>
+    <div class="search-area">
+      <q-card class="search-container">
+        <q-input
+          v-model="keyword"
+          placeholder="Find a test"
+          :loading="loading"/>
+      </q-card>
+    </div>
     <div class="content">
-      <q-card class="card">
+      <q-card v-for="test in tests" class="card">
         <div class="card-side">
-          <div class="card-icon">
-            <p>ES</p>
+          <div v-bind:class="{ blue: test.quiz_type == 'end_of_sem', green: test.quiz_type == 'mid_sem', orange: test.quiz_type == 'assignment',  }" class="card-icon">
+            <p v-if="test.quiz_type == 'end_of_sem'">ES</p>
+            <p v-if="test.quiz_type == 'mid_sem'">MS</p>
+            <p v-if="test.quiz_type == 'assignment'">A</p>
           </div>
         </div>
         <div class="card-main">
-          <p class="card-title">
-            CSM 2016 Mid Semester Exam
+          <p class="text card-title">
+            {{test.name}}
           </p>
-          <p class="duration">1hr</p>
+          <p class="text duration">{{test.duration}} hr</p>
         </div>
       </q-card>
     </div>
@@ -27,19 +31,39 @@
 <script>
 import {
   QInput,
-  QCard} from 'quasar'
+  QCard
+} from 'quasar'
 
-
-export default {
-  name: 'hello',
-  loading: true,
+var pageData = {
   components: {
     QInput,
     QCard
+  },
+  data(){
+    return{
+      name: 'hello',
+      loading: true,
+      keyword: "",
+      tests: []
+    }
+  },
+  methods: {
+    getTests: function(){
+      console.log('get tests')
+      this.$http.get('https://pasco-api-staging.herokuapp.com/quizzes').then(function(data){
+        console.log(data)
+        this.loading = false;
+        this.tests = data.body.quizzes
+      })
+    }
+  },
+  created(){
+    //console.log('page loaded')
+    this.getTests()
   }
-
-
 }
+
+export default pageData
 
 
 </script>
@@ -50,20 +74,24 @@ export default {
 
 .search-area
   height 45px
-  background white
+  position fixed
+  top 50px
+  width 100%
+  .search-container
+    height 45px
+    background white
   input
     height 40px
     padding 5px 10px 0px
 
 
 .content
-  margin-top 20px
+  margin-top 120px
 
 .card
   background white
   display flex
   padding 10px
-
 
 .card-side
   width 20%
@@ -78,9 +106,27 @@ export default {
   p
     line-height 60px
     color white
-    font-size 30px
+    font-size 22px
+    font-weight 100
 
+.text
+  text-align left
+  margin-bottom 0px
+
+.duration
+  color blue
 
 .card-title
-  text-align left
+  color $dark-gray
+  font-size 18px
+
+
+.blue
+  background-color $blue
+
+.orange
+  background-color $orange
+
+.green
+  background-color $green
 </style>
