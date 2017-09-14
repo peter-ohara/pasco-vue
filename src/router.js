@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Hello from '@/main.vue'
+import TestOverview from '@/testOverview.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,7 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: Hello }
+    { path: '/', component: Hello },
+    { path: '/test', component: TestOverview }
   ]
 })

@@ -1,11 +1,12 @@
 <template>
  <div class="main">
     <div class="search-area">
-      <q-card class="search-container">
+      <q-card @click="open" class="search-container">
         <q-input
           v-model="keyword"
           placeholder="Find a test"
-          :loading="loading"/>
+          :loading="loading"
+          @change="searchTests(keyword)"/>
       </q-card>
     </div>
     <div class="content">
@@ -44,17 +45,28 @@ var pageData = {
       name: 'hello',
       loading: true,
       keyword: "",
-      tests: []
+      tests: [],
+      timer: ""
     }
   },
   methods: {
-    getTests: function(){
+    getTests: function(keyword){
       console.log('get tests')
-      this.$http.get('https://pasco-api-staging.herokuapp.com/quizzes').then(function(data){
+      var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
+
+      this.$http.get(url).then(function(data){
         console.log(data)
         this.loading = false;
         this.tests = data.body.quizzes
       })
+    },
+    searchTests: function(keyword){
+      clearTimeout(this.timer)
+      var fxn = this;
+
+      this.timer = setTimeout(function(){
+        fxn.getTests(keyword)
+      }, 200)
     }
   },
   created(){
@@ -92,6 +104,8 @@ export default pageData
   background white
   display flex
   padding 10px
+  max-width 600px
+  margin 0px auto 10px
 
 .card-side
   width 20%
