@@ -30,7 +30,7 @@ export default {}
     width 100%
     height 60px
     background-color $primary
-    box-shadow 0px 2px 20px 1px $neutral
+    //box-shadow 0px 2px 20px 1px $neutral
     position fixed
     z-index: 10
     img

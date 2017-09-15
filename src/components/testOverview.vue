@@ -1,37 +1,74 @@
 <template>
- <div class="main">
-    <div class="top">
-
+ <div class="test">
+  <div class="main-details">
+    <div class="icon"></div>
+    <div class="test-details">
+      <p class="name">{{getName(test.name)}}</p>
+      <p class="type-duration">
+        {{test.year+" "+getType(test.quiz_type)}}
+        <span class="vertical-bar"></span>{{test.duration + ' h'}}
+      </p>
     </div>
   </div>
+  <div class="secondary-details">
+    <div class="section">
+      <h2 class="section-title">Instructions</h2>
+      <p class="section-content">Circle answers on both question and answer sheet</p>
+    </div>
+  </div>
+  <div class="footer">
+    <q-btn class="button">Start</q-btn>
+  </div>
+</div>
 </template>
 
 <script>
 import {
   QInput,
-  QCard
+  QCard,
+  QBtn
 } from 'quasar'
 
 var pageData = {
   components: {
     QInput,
-    QCard
+    QCard,
+    QBtn
   },
   data(){
     return{
-
+      id: this.$route.params.id,
+      test: {
+        name: "",
+        quiz_type: "",
+        year: "",
+        duration: ""
+      }
     }
   },
   methods: {
-    getTest: function(keyword){
-      console.log('get tests')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
+    getTest: function(){
+      console.log('get test')
+      var url = 'https://pasco-api-staging.herokuapp.com/quizzes/'+this.id
 
       this.$http.get(url).then(function(data){
         console.log(data)
         this.loading = false;
-        this.tests = data.body.quizzes
+        this.test = data.body.quiz
       })
+    },
+    getName: function(name){
+      var arr = name.split(" ");
+      delete arr[arr.length - 1];
+      return arr.join(" ");
+    },
+    getType: function(type){
+      if(type == "end_of_sem")
+        return "End of Semester"
+      else if(type == "mid_sem")
+        return "Mid Sem"
+      else
+        return ""
     }
   },
   created(){
@@ -49,4 +86,53 @@ export default pageData
 <style lang="stylus">
 @import '~variables'
 
+.test
+  .main-details
+    height 150px
+    background teal
+    margin-top 59px
+    p
+      color white
+
+  .test-details
+    overflow auto
+
+  .name
+    font-size 30px
+    font-weight 100
+    margin-top 50px
+
+  .type-duration
+    text-align center
+
+  .vertical-bar
+    background-color white
+    width 2px
+    height 20px
+    display inline-block
+    margin 5px 10px -4px
+
+  .secondary-details
+    margin: 0px 10px
+
+  .section-title
+    font-size 30px
+    text-align left
+  .section-title::after
+    content ""
+    display block
+    width 30px
+    height 2px
+    background-color $blue
+    margin-top 5px
+
+  .footer
+    position fixed
+    bottom 0px
+    width 100%
+    height 50px
+    background-color teal
+    .button
+      color white
+      margin-top 10px
 </style>

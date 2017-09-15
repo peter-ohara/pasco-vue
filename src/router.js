@@ -30,6 +30,6 @@ export default new VueRouter({
 
   routes: [
     { path: '/', component: Hello },
-    { path: '/test', component: TestOverview }
+    { path: '/test/:id', component: TestOverview }
   ]
 })

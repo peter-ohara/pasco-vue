@@ -10,21 +10,23 @@
       </q-card>
     </div>
     <div class="content">
-      <q-card v-for="test in tests" class="card">
-        <div class="card-side">
-          <div v-bind:class="{ blue: test.quiz_type == 'end_of_sem', green: test.quiz_type == 'mid_sem', orange: test.quiz_type == 'assignment',  }" class="card-icon">
-            <p v-if="test.quiz_type == 'end_of_sem'">ES</p>
-            <p v-if="test.quiz_type == 'mid_sem'">MS</p>
-            <p v-if="test.quiz_type == 'assignment'">A</p>
+      <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id">
+        <q-card class="card">
+          <div class="card-side">
+            <div v-bind:class="{ blue: test.quiz_type == 'end_of_sem', green: test.quiz_type == 'mid_sem', orange: test.quiz_type == 'assignment',  }" class="card-icon">
+              <p v-if="test.quiz_type == 'end_of_sem'">ES</p>
+              <p v-if="test.quiz_type == 'mid_sem'">MS</p>
+              <p v-if="test.quiz_type == 'assignment'">A</p>
+            </div>
           </div>
-        </div>
-        <div class="card-main">
-          <p class="text card-title">
-            {{test.name}}
-          </p>
-          <p class="text duration">{{test.duration}} hr</p>
-        </div>
-      </q-card>
+          <div class="card-main">
+            <p class="text card-title">
+              {{test.name}}
+            </p>
+            <p class="text duration">{{test.duration}} hr</p>
+          </div>
+        </q-card>
+      </router-link>
     </div>
   </div>
 </template>
@@ -98,14 +100,13 @@ export default pageData
 
 
 .content
-  margin-top 120px
+  max-width 600px
+  margin 120px auto 10px
 
 .card
   background white
   display flex
   padding 10px
-  max-width 600px
-  margin 0px auto 10px
 
 .card-side
   width 20%
