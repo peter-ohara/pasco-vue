@@ -1,5 +1,5 @@
 <template>
- <div class="test">
+<div class="main test">
   <div class="main-details">
     <div class="icon"></div>
     <div class="test-details">
@@ -16,9 +16,11 @@
       <p class="section-content">{{test.instructions}}</p>
     </div>
   </div>
-  <div class="footer">
-    <q-btn class="button">Start</q-btn>
-  </div>
+  <router-link v-bind:to="'/questions/'+ test.id">
+    <div class="footer">
+      <q-btn class="button">Start</q-btn>
+    </div>
+  </router-link>
 </div>
 </template>
 
@@ -39,6 +41,7 @@ var pageData = {
     return{
       id: this.$route.params.id,
       test: {
+        id: 0,
         name: "",
         quiz_type: "",
         year: "",
