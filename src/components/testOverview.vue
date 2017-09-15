@@ -13,7 +13,7 @@
   <div class="secondary-details">
     <div class="section">
       <h2 class="section-title">Instructions</h2>
-      <p class="section-content">Circle answers on both question and answer sheet</p>
+      <p class="section-content">{{test.instructions}}</p>
     </div>
   </div>
   <div class="footer">
@@ -124,7 +124,10 @@ export default pageData
     width 30px
     height 2px
     background-color $blue
-    margin-top 5px
+    margin-top 20px
+
+  .section-content
+    text-align left
 
   .footer
     position fixed
@@ -135,4 +138,7 @@ export default pageData
     .button
       color white
       margin-top 10px
+      width 100%
+      height 50px
+      margin-top 0px
 </style>
