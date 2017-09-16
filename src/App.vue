@@ -2,7 +2,9 @@
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <header>
-      <img src="~assets/logo3.png" alt="">
+      <router-link v-bind:to="'/'">
+        <img src="~assets/logo3.png" alt="">
+      </router-link>
     </header>
     <main>
 <!--      <img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">-->
