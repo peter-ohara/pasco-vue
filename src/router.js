@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Hello from '@/main.vue'
 import TestOverview from '@/testOverview.vue'
+import Questions from '@/questions.vue'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,7 @@ export default new VueRouter({
 
   routes: [
     { path: '/', component: Hello },
-    { path: '/test/:id', component: TestOverview }
+    { path: '/test/:id', component: TestOverview },
+    { path: '/questions/:id', component: Questions }
   ]
 })

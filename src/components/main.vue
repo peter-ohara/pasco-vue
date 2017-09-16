@@ -1,7 +1,7 @@
 <template>
  <div class="main">
     <div class="search-area">
-      <q-card @click="open" class="search-container">
+      <q-card class="search-container">
         <q-input
           v-model="keyword"
           placeholder="Find a test"
@@ -13,7 +13,7 @@
       <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id">
         <q-card class="card">
           <div class="card-side">
-            <div v-bind:class="{ blue: test.quiz_type == 'end_of_sem', green: test.quiz_type == 'mid_sem', orange: test.quiz_type == 'assignment',  }" class="card-icon">
+            <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
               <p v-if="test.quiz_type == 'end_of_sem'">ES</p>
               <p v-if="test.quiz_type == 'mid_sem'">MS</p>
               <p v-if="test.quiz_type == 'assignment'">A</p>
@@ -134,7 +134,6 @@ export default pageData
 .card-title
   color $dark-gray
   font-size 18px
-
 
 .blue
   background-color $blue
