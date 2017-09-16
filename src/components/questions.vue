@@ -18,7 +18,7 @@
         <p>Question No: <span>{{currentQue.number}}</span></p>
       </div>
       <div class="question">
-        <p>{{currentQue.question || 'Question is unavailable. Please move to the next questions'}}</p>
+        <p v-html="currentQue.question">Question is unavailable. Please move to the next questions</p>
       </div>
     </div>
     <div v-if="true" class="answer-container">
@@ -70,6 +70,9 @@ var pageData = {
         this.test = data.body.quiz
         this.questions = data.body.quiz.questions;
         this.totalQue = this.questions.length
+
+        //initiate mathjax
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
       })
     },
     getChoiceLetter: function(index){
@@ -78,15 +81,15 @@ var pageData = {
     openQuestion: function(index){
       this.currentQueNum = index + 1;
       this.currentQue = this.questions[index];
-      console.log(this.currentQue)
+      //console.log(this.currentQue)
     },
     nextQuestion: function(){
-      console.log(this.currentQueNum, this.totalQue)
+      //console.log(this.currentQueNum, this.totalQue)
       if(this.currentQueNum < this.totalQue)
         this.openQuestion(this.currentQueNum)
     },
     prevQuestion: function(){
-      console.log(this.currentQueNum, this.totalQue)
+      //console.log(this.currentQueNum, this.totalQue)
       if(this.currentQueNum > 1)
         this.openQuestion(this.currentQueNum - 2)
     }
