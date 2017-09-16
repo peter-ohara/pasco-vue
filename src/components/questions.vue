@@ -25,7 +25,7 @@
       <ul class="choices-container">
         <li v-for="(choice, index) in currentQue.choices" class="choices">
           <p class="letter">{{getChoiceLetter(index)}}</p>
-          <p class="choice">{{choice}}</p>
+          <p class="choice" v-html="choice"></p>
         </li>
       </ul>
     </div>
@@ -72,8 +72,14 @@ var pageData = {
         this.totalQue = this.questions.length
 
         //initiate mathjax
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        this.currentQue = this.questions[0];
+        this.runMathJax()
       })
+    },
+    runMathJax: function(){
+      this.$nextTick(function() {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+      });
     },
     getChoiceLetter: function(index){
       return String.fromCharCode(97 + index);
@@ -81,7 +87,7 @@ var pageData = {
     openQuestion: function(index){
       this.currentQueNum = index + 1;
       this.currentQue = this.questions[index];
-      //console.log(this.currentQue)
+      this.runMathJax()
     },
     nextQuestion: function(){
       //console.log(this.currentQueNum, this.totalQue)
