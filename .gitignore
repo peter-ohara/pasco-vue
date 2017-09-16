@@ -5,3 +5,7 @@ dist/
 npm-debug.log*
 cordova/platforms
 cordova/plugins
+
+
+# Ignore Webstorm files
+.idea/
