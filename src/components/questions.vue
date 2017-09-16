@@ -15,18 +15,23 @@
     </div>
     <div class="question-container">
       <div class="number">
-        <p>{{currentQue.number}}</p>
+        <p>Question No: <span>{{currentQue.number}}</span></p>
       </div>
       <div class="question">
-        <p>{{currentQue.question}}</p>
-      </div>
-      <div v-if="currentQue.choices" class="options">
-
+        <p v-html="currentQue.question">Question is unavailable. Please move to the next questions</p>
       </div>
     </div>
+    <div v-if="true" class="answer-container">
+      <ul class="choices-container">
+        <li v-for="(choice, index) in currentQue.choices" class="choices">
+          <p class="letter">{{getChoiceLetter(index)}}</p>
+          <p class="choice" v-html="choice"></p>
+        </li>
+      </ul>
+    </div>
     <div class="footer">
-      <q-btn @click="nextQuestion()" class="button prev">Prev</q-btn>
-      <q-btn @click="prevQuestion()" class="button next">Next</q-btn>
+      <q-btn @click="prevQuestion()" class="button prev">Prev</q-btn>
+      <q-btn @click="nextQuestion()" class="button next">Next</q-btn>
     </div>
   </div>
 </template>
@@ -63,22 +68,36 @@ var pageData = {
         console.log(data)
         this.loading = false;
         this.test = data.body.quiz
-        this.questions = data.body.quiz.questions
+        this.questions = data.body.quiz.questions;
         this.totalQue = this.questions.length
+
+        //initiate mathjax
+        this.currentQue = this.questions[0];
+        this.runMathJax()
       })
+    },
+    runMathJax: function(){
+      this.$nextTick(function() {
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+      });
+    },
+    getChoiceLetter: function(index){
+      return String.fromCharCode(97 + index);
     },
     openQuestion: function(index){
       this.currentQueNum = index + 1;
       this.currentQue = this.questions[index];
-      console.log(this.currentQue)
+      this.runMathJax()
     },
     nextQuestion: function(){
-      if(this.currentQue < this.totalQue)
-        this.openQuestion(this.currentQueNum + 1)
+      //console.log(this.currentQueNum, this.totalQue)
+      if(this.currentQueNum < this.totalQue)
+        this.openQuestion(this.currentQueNum)
     },
     prevQuestion: function(){
-      if(this.currentQue > 1)
-        this.openQuestion(this.currentQueNum - 1)
+      //console.log(this.currentQueNum, this.totalQue)
+      if(this.currentQueNum > 1)
+        this.openQuestion(this.currentQueNum - 2)
     }
   },
   created(){
@@ -142,7 +161,33 @@ export default pageData
     p
       font-size 20px
       text-align left
+  .number
+    color $mid-gray
+    span
+      color $orange
 
+  .answer-container
+    padding 10px
+
+  .choices-container
+    background-color white
+    padding 5px 12px
+
+  .choices
+    display block
+    //background-color $mid-gray
+    display flex
+    margin-top 10px
+    padding 10px
+    border-bottom 1px solid $light-gray
+    p
+      font-size 20px
+    p.choice
+      color $mid-gray
+      text-align left
+    p.letter
+      padding 0px 25px 0px 10px
+      color $blue
 
   .footer
     position fixed
