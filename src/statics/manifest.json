@@ -1,20 +1,20 @@
 {
-  "name": "Quasar App",
-  "short_name": "Quasar-PWA",
+  "name": "Pasco",
+  "short_name": "Pasco",
   "icons": [
     {
-      "src": "/statics/icons/icon-192x192.png",
-      "sizes": "192x192",
+      "src": "/statics/icons/ms-icon-150x150.png",
+      "sizes": "150x150",
       "type": "image/png"
     },
     {
-      "src": "/statics/icons/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "/statics/icons/ms-icon-310x310.png",
+      "sizes": "310x310",
       "type": "image/png"
     }
   ],
   "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#027be3"
+  "theme_color": "#008080"
 }
