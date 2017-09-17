@@ -10,7 +10,7 @@
       </q-card>
     </div>
     <div class="content">
-      <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id">
+      <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id" v-on:click.native="loadPage()">
         <q-card class="card">
           <div class="card-side">
             <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
@@ -24,6 +24,7 @@
               {{test.name}}
             </p>
             <p class="text duration">{{test.duration}} hr</p>
+            <p class="text question-count">{{test.question_count}}Q</p>
           </div>
         </q-card>
       </router-link>
@@ -44,7 +45,6 @@ var pageData = {
   },
   data(){
     return{
-      name: 'hello',
       loading: true,
       keyword: "",
       tests: [],
@@ -69,6 +69,10 @@ var pageData = {
       this.timer = setTimeout(function(){
         fxn.getTests(keyword)
       }, 200)
+    },
+    loadPage: function(){
+      console.log('button clicked')
+      this.$isPageLoading = true
     }
   },
   created(){
@@ -118,6 +122,7 @@ export default pageData
   border-radius 50px
   height 60px
   width 60px
+  margin-top 5px
   p
     line-height 60px
     color white
@@ -128,8 +133,12 @@ export default pageData
   text-align left
   margin-bottom 0px
 
+.question-count
+  color $blue
+  font-size 15px
+
 .duration
-  color blue
+  color $mid-gray
 
 .card-title
   color $dark-gray
