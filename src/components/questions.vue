@@ -18,10 +18,11 @@
         <p>Question No: <span>{{currentQue.number}}</span></p>
       </div>
       <div class="question">
-        <p v-html="currentQue.question">Question is unavailable. Please move to the next questions</p>
+        <p v-html="currentQue.question"></p>
+        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>
       </div>
     </div>
-    <div v-if="true" class="answer-container">
+    <div v-if="currentQue.choices && currentQue.choices.length > 0" class="answer-container">
       <ul class="choices-container">
         <li v-for="(choice, index) in currentQue.choices" class="choices">
           <p class="letter">{{getChoiceLetter(index)}}</p>
@@ -29,6 +30,7 @@
         </li>
       </ul>
     </div>
+    <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
     <div class="footer">
       <q-btn @click="prevQuestion()" class="button prev">Prev</q-btn>
       <q-btn @click="nextQuestion()" class="button next">Next</q-btn>
@@ -56,7 +58,8 @@ var pageData = {
       questions: [],
       currentQueNum: 1,
       currentQue: {},
-      totalQue: 0
+      totalQue: 0,
+      isPageLoading: true
     }
   },
   methods: {
@@ -74,6 +77,7 @@ var pageData = {
         //initiate mathjax
         this.currentQue = this.questions[0];
         this.runMathJax()
+        this.isPageLoading = false
       })
     },
     runMathJax: function(){
@@ -121,6 +125,7 @@ export default pageData
     overflow auto
     overflow-y:hidden
     position fixed
+    background-color white
     p
       float left
       padding 5px
@@ -172,6 +177,9 @@ export default pageData
   .choices-container
     background-color white
     padding 5px 12px
+  .error-text
+    color $orange
+
 
   .choices
     display block

@@ -4,7 +4,7 @@
     <div class="icon"></div>
     <div class="test-details">
       <p class="name">{{getName(test.name)}}</p>
-      <p class="type-duration">
+      <p class="type-duration" v-if="test.duration" >
         {{test.year+" "+getType(test.quiz_type)}}
         <span class="vertical-bar"></span>{{test.duration + ' h'}}
       </p>
@@ -16,6 +16,7 @@
       <p class="section-content">{{test.instructions}}</p>
     </div>
   </div>
+  <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
   <router-link v-bind:to="'/questions/'+ test.id">
     <div class="footer">
       <q-btn class="button">Start</q-btn>
@@ -46,7 +47,8 @@ var pageData = {
         quiz_type: "",
         year: "",
         duration: ""
-      }
+      },
+      isPageLoading: true
     }
   },
   methods: {
@@ -57,7 +59,8 @@ var pageData = {
       this.$http.get(url).then(function(data){
         console.log(data)
         this.loading = false;
-        this.test = data.body.quiz
+        this.test = data.body.quiz;
+        this.isPageLoading = false
       })
     },
     getName: function(name){
@@ -76,6 +79,7 @@ var pageData = {
   },
   created(){
     //console.log('page loaded')
+    this.$isPageLoading = true;
     this.getTest()
   }
 }
