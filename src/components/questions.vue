@@ -18,7 +18,7 @@
 <!--        <p>Question No: <span>{{currentQue.number}}</span></p>-->
       </div>
       <div class="question">
-        <p v-html="currentQue.question"></p>
+        <p v-html="replaceInputs(currentQue.question)"></p>
         <p v-html="currentQue.title"></p>
 <!--        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>-->
       </div>
@@ -106,6 +106,13 @@ var pageData = {
       //console.log(this.currentQueNum, this.totalQue)
       if(this.currentQueNum > 1)
         this.openQuestion(this.currentQueNum - 2)
+    },
+    escapeRegExp(str) {
+      return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    },
+    replaceInputs: function(question){
+      //console.log("testing question", question)
+      return question ? question.replace(new RegExp(this.escapeRegExp("{$a}"), 'g'), "________") : "";
     }
   },
   created(){
