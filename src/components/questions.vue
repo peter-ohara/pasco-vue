@@ -4,8 +4,8 @@
       <div class="numbers-inner">
         <p
           @click="openQuestion(index)"
-          v-for="(number, index) in (new Array(totalQue))"
-          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{index + 1}}</p>
+          v-for="(question, index) in questions"
+          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{question.number}}</p>
       </div>
     </div>
     <div class="progress">
