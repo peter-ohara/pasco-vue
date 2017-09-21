@@ -129,6 +129,7 @@ export default pageData
     overflow auto
     overflow-y:hidden
     position fixed
+    z-index 10
     background-color white
     p
       float left
