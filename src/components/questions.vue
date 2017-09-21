@@ -27,7 +27,7 @@
       <p v-html="currentQue.content"></p>
     </div>
     <div v-if="currentQue.choices && currentQue.choices.length > 0" class="answer-container">
-       <ul class="choices-container">
+      <ul class="choices-container">
         <li v-for="(choice, index) in currentQue.choices" class="choices">
           <p class="letter">{{getChoiceLetter(index)}}</p>
           <p class="choice" v-html="choice"></p>
@@ -178,9 +178,6 @@ export default pageData
   .answer-container
     padding 10px
 
-  .choices-container
-    background-color white
-    padding 5px 12px
   .error-text
     color $orange
 
@@ -200,6 +197,14 @@ export default pageData
     p.letter
       padding 0px 25px 0px 10px
       color $blue
+
+  .choices-container
+    background-color white
+    padding 5px 12px
+    .choices:nth-last-child(1){
+      border-bottom: none;
+    }
+
 
   .footer
     position fixed
