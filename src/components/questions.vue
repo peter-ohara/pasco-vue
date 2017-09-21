@@ -5,7 +5,7 @@
         <p
           @click="openQuestion(index)"
           v-for="(question, index) in questions"
-          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{question.number}}</p>
+          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{question.number || 'Hd'}}</p>
       </div>
     </div>
     <div class="progress">
@@ -15,15 +15,19 @@
     </div>
     <div class="question-container">
       <div class="number">
-        <p>Question No: <span>{{currentQue.number}}</span></p>
+<!--        <p>Question No: <span>{{currentQue.number}}</span></p>-->
       </div>
       <div class="question">
         <p v-html="currentQue.question"></p>
-        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>
+        <p v-html="currentQue.title"></p>
+<!--        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>-->
       </div>
     </div>
+    <div class="content-container">
+      <p v-html="currentQue.content"></p>
+    </div>
     <div v-if="currentQue.choices && currentQue.choices.length > 0" class="answer-container">
-      <ul class="choices-container">
+       <ul class="choices-container">
         <li v-for="(choice, index) in currentQue.choices" class="choices">
           <p class="letter">{{getChoiceLetter(index)}}</p>
           <p class="choice" v-html="choice"></p>
