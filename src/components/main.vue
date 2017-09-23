@@ -23,7 +23,7 @@
             <p class="text card-title">
               {{test.name}}
             </p>
-            <p class="text duration">{{test.duration}} hr</p>
+            <p class="text duration">{{test.course_name}}</p>
             <p class="text question-count">{{test.question_count}}Q</p>
           </div>
         </q-card>

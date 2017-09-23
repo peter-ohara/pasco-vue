@@ -4,8 +4,8 @@
       <div class="numbers-inner">
         <p
           @click="openQuestion(index)"
-          v-for="(number, index) in (new Array(totalQue))"
-          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{index + 1}}</p>
+          v-for="(question, index) in questions"
+          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{question.number || 'Hd'}}</p>
       </div>
     </div>
     <div class="progress">
@@ -15,12 +15,16 @@
     </div>
     <div class="question-container">
       <div class="number">
-        <p>Question No: <span>{{currentQue.number}}</span></p>
+<!--        <p>Question No: <span>{{currentQue.number}}</span></p>-->
       </div>
       <div class="question">
-        <p v-html="currentQue.question"></p>
-        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>
+        <p v-html="replaceInputs(currentQue.question)"></p>
+        <p v-html="currentQue.title"></p>
+<!--        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>-->
       </div>
+    </div>
+    <div class="content-container">
+      <p v-html="currentQue.content"></p>
     </div>
     <div v-if="currentQue.choices && currentQue.choices.length > 0" class="answer-container">
       <ul class="choices-container">
@@ -102,6 +106,13 @@ var pageData = {
       //console.log(this.currentQueNum, this.totalQue)
       if(this.currentQueNum > 1)
         this.openQuestion(this.currentQueNum - 2)
+    },
+    escapeRegExp(str) {
+      return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    },
+    replaceInputs: function(question){
+      //console.log("testing question", question)
+      return question ? question.replace(new RegExp(this.escapeRegExp("{$a}"), 'g'), "________") : "";
     }
   },
   created(){
@@ -125,6 +136,7 @@ export default pageData
     overflow auto
     overflow-y:hidden
     position fixed
+    z-index 10
     background-color white
     p
       float left
@@ -174,9 +186,6 @@ export default pageData
   .answer-container
     padding 10px
 
-  .choices-container
-    background-color white
-    padding 5px 12px
   .error-text
     color $orange
 
@@ -196,6 +205,14 @@ export default pageData
     p.letter
       padding 0px 25px 0px 10px
       color $blue
+
+  .choices-container
+    background-color white
+    padding 5px 12px
+    .choices:nth-last-child(1){
+      border-bottom: none;
+    }
+
 
   .footer
     position fixed
