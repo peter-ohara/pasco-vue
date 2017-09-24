@@ -56,11 +56,21 @@
     <!-- Todo: only include in production -->
     <%= htmlWebpackPlugin.options.serviceWorkerLoader %>
     <!-- built files will be auto injected -->
+
+
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         messageStyle: "none"
       });
     </script>
-    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML'></script>
+
+    <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.publicPath %>statics/katex/katex.min.css">
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML-full'></script>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/ASCIIMathTeXKaTeX-2016-06-17.min.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/katex/katex.min.js"></script>
+    <script>
+      if (typeof(katex) != "undefined") AMfunc(true);
+    </script>
+
   </body>
 </html>

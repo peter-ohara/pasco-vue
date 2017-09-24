@@ -86,7 +86,7 @@ var pageData = {
     },
     runMathJax: function(){
       this.$nextTick(function() {
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        if (typeof(katex) != "undefined") AMfunc(true);
       });
     },
     getChoiceLetter: function(index){
