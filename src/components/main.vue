@@ -56,6 +56,7 @@ var pageData = {
       console.log('get tests')
       var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
 
+      this.loading = true;
       this.$http.get(url).then(function(data){
         console.log(data)
         this.loading = false;
