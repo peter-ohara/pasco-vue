@@ -14,11 +14,13 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
 import VueResource from 'vue-resource'
+import Vue2Filters from 'vue2-filters'
 import 'quasar-extras/material-icons'
 
 Vue.config.productionTip = false
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueResource) // Install Vue Resource Framework
+Vue.use(Vue2Filters)
 
 if (__THEME === 'mat') {
   // require('quasar-extras/roboto-font')
