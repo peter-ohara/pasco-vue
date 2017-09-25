@@ -3,11 +3,10 @@
     <div class="search-area">
       <q-search
         class="search-input"
-        color="primary"
-        inverted
+        color="white"
+        :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a test"
         @change="searchTests(keyword)"/>
     </div>
     <div class="content">
@@ -101,6 +100,25 @@ export default pageData
   .search-input
     padding 10px
     width 100%
+
+    .q-if-control
+      color: $tertiary !important;
+    .q-if-inner
+      input
+        color: black !important;
+
+      input::-webkit-input-placeholder /* Chrome/Opera/Safari */
+        color $tertiary !important
+
+      input::-moz-placeholder  /* Firefox 19+ */
+        color $tertiary !important
+
+      input:-ms-input-placeholder  /* IE 10+ */
+        color $tertiary !important
+
+      input:-moz-placeholder  /* Firefox 18- */
+        color $tertiary !important
+
 
 
 .content
