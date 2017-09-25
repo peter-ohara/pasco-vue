@@ -4,8 +4,8 @@
       <q-search
         class="search-input"
         color="primary"
-        inverted="true"
-        debounce="300"
+        inverted
+        :debounce="300"
         v-model="keyword"
         placeholder="Find a test"
         @change="searchTests(keyword)"/>
