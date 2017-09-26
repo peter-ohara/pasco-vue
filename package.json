@@ -1,8 +1,11 @@
 {
-  "name": "quasar-app",
+  "name": "pasco-vue",
   "version": "0.0.1",
-  "description": "A Quasar App",
-  "author": "Your Name",
+  "description": "A PWA of the Pasco app by Wires and Bytes",
+  "author": "Wires & Bytes",
+  "repository": "https://thewiresandbytes@bitbucket.org/wiresandbytes/pasco-vue.git",
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
