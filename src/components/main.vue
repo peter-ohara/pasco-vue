@@ -147,10 +147,8 @@ export default pageData
   height 60px
   width 60px
   margin-top 5px
-  padding-top 15px
   padding-bottom 15px
-  padding-right auto
-  padding-left auto
+  padding-top 15px
   text-align center
   p
     line-height 1.2em
