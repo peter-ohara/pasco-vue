@@ -10,6 +10,7 @@
 <!--      <img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">-->
       <router-view></router-view>
     </main>
+    <q-ajax-bar color="orange" :delay="500" />
   </div>
 </template>
 
@@ -18,12 +19,14 @@
  * Root component
  */
 import {
-  QIcon
+  QIcon,
+  QAjaxBar
 } from 'quasar'
 
 export default {
   components: {
-    QIcon
+    QIcon,
+    QAjaxBar
   },
   data(){
     return{

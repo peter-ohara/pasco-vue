@@ -34,7 +34,7 @@
         </li>
       </ul>
     </div>
-    <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
+    <q-inner-loading :visible="isPageLoading"></q-inner-loading>
     <div class="footer">
       <q-btn @click="prevQuestion()" class="button prev">Prev</q-btn>
       <q-btn @click="nextQuestion()" class="button next">Next</q-btn>
@@ -46,14 +46,20 @@
 import {
   QInput,
   QCard,
-  QBtn
+  QBtn,
+  QInnerLoading,
+  QTransition,
+  QSpinnerGears
 } from 'quasar'
 
 var pageData = {
   components: {
     QInput,
     QCard,
-    QBtn
+    QBtn,
+    QInnerLoading,
+    QTransition,
+    QSpinnerGears
   },
   data(){
     return{
@@ -71,6 +77,7 @@ var pageData = {
       console.log('get test')
       var url = 'https://pasco-api-staging.herokuapp.com/quizzes/'+this.id+'?include=questions';
 
+      this.isPageLoading = true;
       this.$http.get(url).then(function(data){
         console.log(data)
         this.loading = false;
@@ -129,6 +136,7 @@ export default pageData
 @import '~variables'
 
 .questions
+  min-height 300px
   margin-top 60px
   .numbers
     height 45px
@@ -161,16 +169,6 @@ export default pageData
     width auto
     position absolute
     background-color white
-  .progress
-    width 100%
-    height 2px
-    position fixed
-    top 105px
-    .progress-bar
-      background $orange
-      height 100%
-      width 0%
-
 
   .question-container
     margin-top 60px

@@ -1,13 +1,13 @@
 <template>
  <div class="main">
     <div class="search-area">
-      <q-card class="search-container">
-        <q-input
-          v-model="keyword"
-          placeholder="Find a test"
-          :loading="loading"
-          @change="searchTests(keyword)"/>
-      </q-card>
+      <q-search
+        class="search-input"
+        color="white"
+        :inverted="true"
+        :debounce="300"
+        v-model="keyword"
+        @change="searchTests(keyword)"/>
     </div>
     <div class="content">
       <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id" v-on:click.native="loadPage()">
@@ -34,13 +34,13 @@
 
 <script>
 import {
-  QInput,
+  QSearch,
   QCard
 } from 'quasar'
 
 var pageData = {
   components: {
-    QInput,
+    QSearch,
     QCard
   },
   data(){
@@ -56,6 +56,7 @@ var pageData = {
       console.log('get tests')
       var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
 
+      this.loading = true;
       this.$http.get(url).then(function(data){
         console.log(data)
         this.loading = false;
@@ -91,21 +92,38 @@ export default pageData
 @import '~variables'
 
 .search-area
-  height 45px
-  position fixed
-  top 50px
-  width 100%
-  .search-container
-    height 45px
-    background white
-  input
-    height 40px
-    padding 5px 10px 0px
+  max-width 600px
+  margin 70px auto 20px
+  padding-left 8px
+  padding-right 8px
+
+  .search-input
+    padding 10px
+    width 100%
+
+    .q-if-control
+      color: $tertiary !important;
+    .q-if-inner
+      input
+        color: black !important;
+
+      input::-webkit-input-placeholder /* Chrome/Opera/Safari */
+        color $tertiary !important
+
+      input::-moz-placeholder  /* Firefox 19+ */
+        color $tertiary !important
+
+      input:-ms-input-placeholder  /* IE 10+ */
+        color $tertiary !important
+
+      input:-moz-placeholder  /* Firefox 18- */
+        color $tertiary !important
+
 
 
 .content
   max-width 600px
-  margin 120px auto 10px
+  margin 0px auto 10px
 
 .card
   background white
