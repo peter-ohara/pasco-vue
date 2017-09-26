@@ -13,32 +13,24 @@
         v-bind:style="{width: ((currentQueNum/totalQue) * 100)+'%'}"
         class="progress-bar"></div>
     </div>
-    <div class="question-container">
-      <div class="number">
-<!--        <p>Question No: <span>{{currentQue.number}}</span></p>-->
-      </div>
-      <div class="question">
-        <p v-html="replaceInputs(currentQue.question)"></p>
-        <p v-html="currentQue.title"></p>
-<!--        <p class="error-text" v-if="!currentQue.question && totalQue">Question is unavailable. Please skip to other questions</p>-->
-      </div>
-    </div>
-    <div class="content-container">
+    <div v-show="currentQue.question_type === 'header'" class="header-container">
+      <p v-html="currentQue.title"></p>
       <p v-html="currentQue.content"></p>
     </div>
-    <div v-if="currentQue.choices && currentQue.choices.length > 0" class="answer-container">
-      <ul class="choices-container">
+    <div v-show="currentQue.question_type !== 'header'" class="question-container">
+      <p v-html="replaceInputs(currentQue.question)" class="question"></p>
+      <ul class="choices-container" v-show="currentQue.choices && currentQue.choices.length > 0">
         <li v-for="(choice, index) in currentQue.choices" class="choices">
           <p class="letter">{{getChoiceLetter(index)}}</p>
           <p class="choice" v-html="choice"></p>
         </li>
       </ul>
     </div>
-    <q-inner-loading :visible="isPageLoading"></q-inner-loading>
     <div class="footer">
       <q-btn @click="prevQuestion()" class="button prev">Prev</q-btn>
       <q-btn @click="nextQuestion()" class="button next">Next</q-btn>
     </div>
+    <q-inner-loading :visible="isPageLoading"></q-inner-loading>
   </div>
 </template>
 
@@ -61,8 +53,8 @@ var pageData = {
     QTransition,
     QSpinnerGears
   },
-  data(){
-    return{
+  data () {
+    return {
       id: this.$route.params.id,
       test: {},
       questions: [],
@@ -73,57 +65,55 @@ var pageData = {
     }
   },
   methods: {
-    getQuestions: function(){
+    getQuestions: function () {
       console.log('get test')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes/'+this.id+'?include=questions';
+      var url = 'https://pasco-api-staging.herokuapp.com/quizzes/' + this.id + '?include=questions'
 
-      this.isPageLoading = true;
-      this.$http.get(url).then(function(data){
+      this.isPageLoading = true
+      this.$http.get(url).then(function (data) {
         console.log(data)
-        this.loading = false;
+        this.loading = false
         this.test = data.body.quiz
-        this.questions = data.body.quiz.questions;
+        this.questions = data.body.quiz.questions
         this.totalQue = this.questions.length
 
-        //initiate mathjax
-        this.currentQue = this.questions[0];
+        // initiate mathjax
+        this.currentQue = this.questions[0]
         this.runMathJax()
         this.isPageLoading = false
       })
     },
-    runMathJax: function(){
+    runMathJax: function () {
       this.$nextTick(function() {
-        if (typeof(katex) != "undefined") AMfunc(true);
-      });
+        if (typeof(katex) != "undefined") AMfunc(true)
+      })
     },
-    getChoiceLetter: function(index){
-      return String.fromCharCode(97 + index);
+    getChoiceLetter: function (index) {
+      return String.fromCharCode(97 + index)
     },
-    openQuestion: function(index){
-      this.currentQueNum = index + 1;
-      this.currentQue = this.questions[index];
+    openQuestion: function (index) {
+      this.currentQueNum = index + 1
+      this.currentQue = this.questions[index]
       this.runMathJax()
     },
-    nextQuestion: function(){
-      //console.log(this.currentQueNum, this.totalQue)
-      if(this.currentQueNum < this.totalQue)
+    nextQuestion: function () {
+      if (this.currentQueNum < this.totalQue) {
         this.openQuestion(this.currentQueNum)
+      }
     },
-    prevQuestion: function(){
-      //console.log(this.currentQueNum, this.totalQue)
-      if(this.currentQueNum > 1)
+    prevQuestion: function () {
+      if (this.currentQueNum > 1) {
         this.openQuestion(this.currentQueNum - 2)
+      }
     },
-    escapeRegExp(str) {
-      return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+    escapeRegExp (str) {
+      return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1')
     },
-    replaceInputs: function(question){
-      //console.log("testing question", question)
-      return question ? question.replace(new RegExp(this.escapeRegExp("{$a}"), 'g'), "________") : "";
+    replaceInputs: function (question) {
+      return question ? question.replace(new RegExp(this.escapeRegExp('{$a}'), 'g'), '________') : ''
     }
   },
-  created(){
-    //console.log('page loaded')
+  created () {
     this.getQuestions()
   }
 }
@@ -170,30 +160,31 @@ export default pageData
     position absolute
     background-color white
 
+
+  .header-container
+    margin-top 60px
+    padding-left 8px
+    padding-right 8px
+    margin-bottom 82px
+
+
   .question-container
     margin-top 60px
-    padding 10px
-    p
+    padding-left 8px
+    padding-right 8px
+    margin-bottom 82px
+    .question
       font-size 20px
       text-align left
-  .number
-    color $mid-gray
-    span
-      color $orange
-
-  .answer-container
-    padding 10px
-
-  .error-text
-    color $orange
-
+      padding-bottom 32px
 
   .choices
     display block
     //background-color $mid-gray
     display flex
-    margin-top 10px
-    padding 10px
+    margin-top 8px
+    padding-left 8px
+    padding-right 8px
     border-bottom 1px solid $light-gray
     p
       font-size 20px
@@ -201,7 +192,7 @@ export default pageData
       color $mid-gray
       text-align left
     p.letter
-      padding 0px 25px 0px 10px
+      padding 0px 25px 0px 8px
       color $blue
 
   .choices-container
@@ -220,7 +211,7 @@ export default pageData
     background-color teal
     .button
       color white
-      margin-top 10px
+      margin-top 8px
       width 50%
       height 50px
       margin-top 0px
