@@ -13,15 +13,13 @@
         v-bind:style="{width: ((currentQueNum/totalQue) * 100)+'%'}"
         class="progress-bar"></div>
     </div>
-    <div v-show="currentQue.question_type === 'header'" class="content-container">
+    <div v-show="currentQue.question_type === 'header'" class="header-container">
       <p v-html="currentQue.title"></p>
       <p v-html="currentQue.content"></p>
     </div>
     <div v-show="currentQue.question_type !== 'header'" class="question-container">
-      <p v-html="replaceInputs(currentQue.question)"></p>
-    </div>
-    <div v-show="currentQue.choices && currentQue.choices.length > 0" class="answer-container">
-      <ul class="choices-container">
+      <p v-html="replaceInputs(currentQue.question)" class="question"></p>
+      <ul class="choices-container" v-show="currentQue.choices && currentQue.choices.length > 0">
         <li v-for="(choice, index) in currentQue.choices" class="choices">
           <p class="letter">{{getChoiceLetter(index)}}</p>
           <p class="choice" v-html="choice"></p>
@@ -162,28 +160,23 @@ export default pageData
     position absolute
     background-color white
 
+
+  .header-container
+    margin-top 60px
+    padding-left 8px
+    padding-right 8px
+    margin-bottom 82px
+
+
   .question-container
     margin-top 60px
     padding-left 8px
     padding-right 8px
-    p
+    margin-bottom 82px
+    .question
       font-size 20px
       text-align left
-
-  .content-container
-    margin-top 60px
-    padding-left 8px
-    padding-right 8px
-
-  .answer-container
-    padding-bottom 8px
-    padding-left 8px
-    padding-right 8px
-    margin-bottom 50px
-
-  .error-text
-    color $orange
-
+      padding-bottom 32px
 
   .choices
     display block
