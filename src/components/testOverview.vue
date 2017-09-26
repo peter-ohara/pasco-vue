@@ -3,10 +3,13 @@
   <div class="main-details">
     <div class="icon"></div>
     <div class="test-details">
-      <p class="name">{{getName(test.name)}}</p>
-      <p class="type-duration" v-if="test.duration" >
-        {{test.year+" "+getType(test.quiz_type)}}
-        <span class="vertical-bar"></span>{{test.duration + ' h'}}
+      <p class="name">{{ test.course_code }}</p>
+      <p class="type-duration">
+        {{ test.course_name }}
+        <br>
+        {{ test.year }} {{ getType(test.quiz_type) }}
+        <br>
+        {{ test.duration }} {{ test.duration | pluralize('hr') }}
       </p>
     </div>
   </div>
@@ -68,13 +71,17 @@ var pageData = {
       delete arr[arr.length - 1];
       return arr.join(" ");
     },
-    getType: function(type){
-      if(type == "end_of_sem")
-        return "End of Semester"
-      else if(type == "mid_sem")
-        return "Mid Sem"
+    getType: function(type) {
+      if (type === "mid_sem")
+        return "End of Semester";
+      else if (type === "end_of_sem")
+        return "Mid Sem";
+      else if (type === "class_test")
+        return "Class Test";
+      else if (type === "assignment")
+        return "Assignment";
       else
-        return ""
+        return "";
     }
   },
   created(){
@@ -107,7 +114,7 @@ export default pageData
   .name
     font-size 30px
     font-weight 100
-    margin-top 50px
+    margin-top 30px
 
   .type-duration
     text-align center
