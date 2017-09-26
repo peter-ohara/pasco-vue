@@ -14,9 +14,11 @@
         <q-card class="card">
           <div class="card-side">
             <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
-              <p v-if="test.quiz_type == 'end_of_sem'">ES</p>
-              <p v-if="test.quiz_type == 'mid_sem'">MS</p>
-              <p v-if="test.quiz_type == 'assignment'">A</p>
+              <p>
+                {{ splitCourseCode(test.course_code)[1] }}
+                <br>
+                {{ splitCourseCode(test.course_code)[2] }}
+              </p>
             </div>
           </div>
           <div class="card-main">
@@ -52,6 +54,9 @@ var pageData = {
     }
   },
   methods: {
+    splitCourseCode: function (courseCode) {
+      return courseCode.match(/([a-zA-Z]*)([0-9]*)/);
+    },
     getTests: function(keyword){
       console.log('get tests')
       var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
@@ -141,11 +146,15 @@ export default pageData
   height 60px
   width 60px
   margin-top 5px
+  padding-top 15px
+  padding-bottom 15px
+  padding-right auto
+  padding-left auto
+  text-align center
   p
-    line-height 60px
+    line-height 1.2em
     color white
-    font-size 22px
-    font-weight 100
+    font-size 0.8em
 
 .text
   text-align left
