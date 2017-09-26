@@ -82,6 +82,15 @@ var pageData = {
         return "Assignment";
       else
         return "";
+    },
+  },
+  filters: {
+    pluralize: function (number, word) {
+      if (number === 1) {
+        return word
+      } else {
+        return word + 's'
+      }
     }
   },
   created(){
