@@ -1,167 +1,161 @@
 <template>
-<div class="main test">
-  <div class="main-details">
-    <div class="icon"></div>
-    <div class="test-details">
-      <p class="name">{{ test.course_code }}</p>
-      <p class="type-duration">
-        {{ test.course_name }}
-        <br>
-        {{ test.year }} {{ getType(test.quiz_type) }}
-        <br>
-        {{ test.duration }} {{ test.duration | pluralize('hr') }}
-      </p>
+  <div class="main test">
+    <div class="main-details">
+      <div class="icon"></div>
+      <div class="test-details">
+        <p class="name">{{ test.course_code }}</p>
+        <p class="type-duration">
+          {{ test.course_name }}
+          <br>
+          {{ test.year }} {{ getType(test.quiz_type) }}
+          <br>
+          {{ test.duration }} {{ test.duration | pluralize('hr') }}
+        </p>
+      </div>
     </div>
+    <div class="secondary-details">
+      <div class="section">
+        <h2 class="section-title">Instructions</h2>
+        <p class="section-content">{{test.instructions}}</p>
+      </div>
+    </div>
+    <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
+    <router-link v-bind:to="'/questions/'+ test.id">
+      <div class="footer">
+        <q-btn class="button">Start</q-btn>
+      </div>
+    </router-link>
   </div>
-  <div class="secondary-details">
-    <div class="section">
-      <h2 class="section-title">Instructions</h2>
-      <p class="section-content">{{test.instructions}}</p>
-    </div>
-  </div>
-  <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
-  <router-link v-bind:to="'/questions/'+ test.id">
-    <div class="footer">
-      <q-btn class="button">Start</q-btn>
-    </div>
-  </router-link>
-</div>
 </template>
 
 <script>
-import {
-  QInput,
-  QCard,
-  QBtn
-} from 'quasar'
-
-var pageData = {
-  components: {
+  import {
     QInput,
     QCard,
     QBtn
-  },
-  data(){
-    return{
-      id: this.$route.params.id,
-      test: {
-        id: 0,
-        name: "",
-        quiz_type: "",
-        year: "",
-        duration: ""
-      },
-      isPageLoading: true
-    }
-  },
-  methods: {
-    getTest: function(){
-      console.log('get test')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes/'+this.id
+  } from 'quasar'
 
-      this.$http.get(url).then(function(data){
-        console.log(data)
-        this.loading = false;
-        this.test = data.body.quiz;
-        this.isPageLoading = false
-      })
+  let pageData = {
+    components: {
+      QInput,
+      QCard,
+      QBtn
     },
-    getName: function(name){
-      var arr = name.split(" ");
-      delete arr[arr.length - 1];
-      return arr.join(" ");
+    data () {
+      return {
+        id: this.$route.params.id,
+        test: {
+          id: 0,
+          course_code: '',
+          course_name: '',
+          name: '',
+          quiz_type: '',
+          year: '',
+          duration: '',
+          instructions: ''
+        }
+      }
     },
-    getType: function(type) {
-      if (type === "mid_sem")
-        return "End of Semester";
-      else if (type === "end_of_sem")
-        return "Mid Sem";
-      else if (type === "class_test")
-        return "Class Test";
-      else if (type === "assignment")
-        return "Assignment";
-      else
-        return "";
+    computed: {
+      isPageLoading () {
+        return this.$store.state.loadingUsersTests
+      }
     },
-  },
-  filters: {
-    pluralize: function (number, word) {
-      if (number === 1) {
-        return word
+    methods: {
+      getType: function (type) {
+        if (type === 'mid_sem') {
+          return 'End of Semester'
+        } else if (type === 'end_of_sem') {
+          return 'Mid Sem'
+        } else if (type === 'class_test') {
+          return 'Class Test'
+        } else if (type === 'assignment') {
+          return 'Assignment'
+        } else {
+          return ''
+        }
+      }
+    },
+    filters: {
+      pluralize: function (number, word) {
+        if (number === 1) {
+          return word
+        } else {
+          return word + 's'
+        }
+      }
+    },
+    created () {
+      if (this.$store.state.usersTests.length !== 0) {
+        this.test = this.$store.state.usersTests.find(quiz => quiz.id === parseInt(this.id))
       } else {
-        return word + 's'
+        let self = this
+        this.$store.dispatch('getUsersTests').then(function () {
+          self.test = self.$store.state.usersTests.find(quiz => quiz.id === parseInt(self.id))
+        })
       }
     }
-  },
-  created(){
-    //console.log('page loaded')
-    this.$isPageLoading = true;
-    this.getTest()
   }
-}
 
-export default pageData
-
-
+  export default pageData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
-@import '~variables'
+  @import '~variables'
 
-.test
-  .main-details
-    height 150px
-    background teal
-    margin-top 59px
-    p
-      color white
+  .test
+    .main-details
+      height 150px
+      background teal
+      margin-top 59px
+      p
+        color white
 
-  .test-details
-    overflow auto
+    .test-details
+      overflow auto
 
-  .name
-    font-size 30px
-    font-weight 100
-    margin-top 30px
+    .name
+      font-size 30px
+      font-weight 100
+      margin-top 30px
 
-  .type-duration
-    text-align center
+    .type-duration
+      text-align center
 
-  .vertical-bar
-    background-color white
-    width 2px
-    height 20px
-    display inline-block
-    margin 5px 10px -4px
+    .vertical-bar
+      background-color white
+      width 2px
+      height 20px
+      display inline-block
+      margin 5px 10px -4px
 
-  .secondary-details
-    margin: 0px 10px
+    .secondary-details
+      margin: 0 10px
 
-  .section-title
-    font-size 30px
-    text-align left
-  .section-title::after
-    content ""
-    display block
-    width 30px
-    height 2px
-    background-color $blue
-    margin-top 20px
+    .section-title
+      font-size 30px
+      text-align left
+    .section-title::after
+      content ""
+      display block
+      width 30px
+      height 2px
+      background-color $blue
+      margin-top 20px
 
-  .section-content
-    text-align left
+    .section-content
+      text-align left
 
-  .footer
-    position fixed
-    bottom 0px
-    width 100%
-    height 50px
-    background-color teal
-    .button
-      color white
-      margin-top 10px
+    .footer
+      position fixed
+      bottom 0
       width 100%
       height 50px
-      margin-top 0px
+      background-color teal
+      .button
+        color white
+        width 100%
+        height 50px
+        margin-top 0
 </style>

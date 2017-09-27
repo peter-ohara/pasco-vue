@@ -7,7 +7,7 @@
       </router-link>
     </header>
     <main>
-<!--      <img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">-->
+      <!--<img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">-->
       <router-view></router-view>
     </main>
     <q-ajax-bar color="orange" :delay="500" />
@@ -28,13 +28,10 @@ export default {
     QIcon,
     QAjaxBar
   },
-  data(){
-    return{
+  data () {
+    return {
 
     }
-  },
-  created (){
-    //this.isPageLoading = this.$isPageLoading
   }
 }
 </script>

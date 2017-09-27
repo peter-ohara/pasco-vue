@@ -44,7 +44,7 @@ import {
   QSpinnerGears
 } from 'quasar'
 
-var pageData = {
+let pageData = {
   components: {
     QInput,
     QCard,
@@ -60,32 +60,19 @@ var pageData = {
       questions: [],
       currentQueNum: 1,
       currentQue: {},
-      totalQue: 0,
-      isPageLoading: true
+      totalQue: 0
+    }
+  },
+  computed: {
+    isPageLoading () {
+      return this.$store.state.loadingUsersTests
     }
   },
   methods: {
-    getQuestions: function () {
-      console.log('get test')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes/' + this.id + '?include=questions'
-
-      this.isPageLoading = true
-      this.$http.get(url).then(function (data) {
-        console.log(data)
-        this.loading = false
-        this.test = data.body.quiz
-        this.questions = data.body.quiz.questions
-        this.totalQue = this.questions.length
-
-        // initiate mathjax
-        this.currentQue = this.questions[0]
-        this.runMathJax()
-        this.isPageLoading = false
-      })
-    },
     runMathJax: function () {
-      this.$nextTick(function() {
-        if (typeof(katex) != "undefined") AMfunc(true)
+      this.$nextTick(function () {
+        // eslint-disable-next-line no-undef,eqeqeq
+        if (typeof (katex) != 'undefined') AMfunc(true)
       })
     },
     getChoiceLetter: function (index) {
@@ -114,7 +101,26 @@ var pageData = {
     }
   },
   created () {
-    this.getQuestions()
+    if (this.$store.state.usersTests.length !== 0) {
+      this.test = this.$store.state.usersTests.find(quiz => quiz.id === parseInt(this.id))
+      this.questions = this.test.questions
+      this.totalQue = this.questions.length
+
+      this.currentQue = this.questions[0]
+      this.runMathJax()
+    } else {
+      let self = this
+      this.$store.dispatch('getUsersTests').then(function () {
+        self.test = self.$store.state.usersTests.find(quiz => quiz.id === parseInt(self.id))
+        self.questions = self.test.questions
+
+        self.totalQue = self.questions.length
+
+        // initiate mathjax
+        self.currentQue = self.questions[0]
+        self.runMathJax()
+      })
+    }
   }
 }
 
@@ -179,8 +185,6 @@ export default pageData
       padding-bottom 32px
 
   .choices
-    display block
-    //background-color $mid-gray
     display flex
     margin-top 8px
     padding-left 8px
@@ -192,7 +196,7 @@ export default pageData
       color $mid-gray
       text-align left
     p.letter
-      padding 0px 25px 0px 8px
+      padding 0 25px 0 8px
       color $blue
 
   .choices-container
@@ -205,16 +209,15 @@ export default pageData
 
   .footer
     position fixed
-    bottom 0px
+    bottom 0
     width 100%
     height 50px
     background-color teal
     .button
       color white
-      margin-top 8px
       width 50%
       height 50px
-      margin-top 0px
+      margin-top 0
     .prev
       float left
     .next

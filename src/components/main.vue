@@ -8,7 +8,7 @@
         :debounce="300"
         v-model="keyword"
         placeholder="Find a test"
-        @change="searchTests(keyword)"/>
+        @change="filterTests(keyword)"/>
     </div>
     <div class="content">
       <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id" v-on:click.native="loadPage()">
@@ -41,56 +41,41 @@ import {
   QCard
 } from 'quasar'
 
-var pageData = {
+let pageData = {
   components: {
     QSearch,
     QCard
   },
-  data(){
-    return{
+  data () {
+    return {
       loading: true,
-      keyword: "",
-      tests: [],
-      timer: ""
+      keyword: '',
+      timer: ''
+    }
+  },
+  created () {
+    if (this.$store.state.usersTests.length === 0) {
+      this.$store.dispatch('getUsersTests')
+    }
+  },
+  computed: {
+    tests () {
+      return this.$store.state.usersTests
     }
   },
   methods: {
     splitCourseCode: function (courseCode) {
-      return courseCode.match(/([a-zA-Z]*)([0-9]*)/);
+      return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
     },
-    getTests: function(keyword){
-      console.log('get tests')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
-
-      this.loading = true;
-      this.$http.get(url).then(function(data){
-        console.log(data)
-        this.loading = false;
-        this.tests = data.body.quizzes
-      })
+    filterTests: function (keyword) {
+      // Write test filtering code here
     },
-    searchTests: function(keyword){
-      clearTimeout(this.timer)
-      var fxn = this;
-
-      this.timer = setTimeout(function(){
-        fxn.getTests(keyword)
-      }, 200)
-    },
-    loadPage: function(){
-      console.log('button clicked')
-      this.$isPageLoading = true
+    loadPage: function () {
     }
-  },
-  created(){
-    //console.log('page loaded')
-    this.getTests()
   }
 }
 
 export default pageData
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -14,7 +14,7 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
 import VueResource from 'vue-resource'
-import 'quasar-extras/material-icons'
+import store from './store/index'
 
 Vue.config.productionTip = false
 Vue.use(Quasar) // Install Quasar Framework
@@ -23,13 +23,14 @@ Vue.use(VueResource) // Install Vue Resource Framework
 if (__THEME === 'mat') {
   // require('quasar-extras/roboto-font')
 }
-// import 'quasar-extras/material-icons'
+import 'quasar-extras/material-icons'
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 
 /* eslint-disable no-new */
 new Vue({
+  store, // inject store to all children
   el: '#q-app',
   router,
   render: h => h(require('./App'))
