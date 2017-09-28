@@ -25,11 +25,11 @@
     <!-- Global Site Tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64316417-4"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments)};
-      gtag('js', new Date());
+      window.dataLayer = window.dataLayer || []
+      function gtag () { dataLayer.push(arguments) }
+      gtag('js', new Date())
 
-      gtag('config', 'UA-64316417-4');
+      gtag('config', 'UA-64316417-4')
     </script>
 
     <style>
@@ -65,12 +65,8 @@
     </script>
 
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.publicPath %>statics/katex/katex.min.css">
-    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML-full'></script>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/MathJax/MathJax.js?config=AM_CHTML-full" async type="text/javascript"></script>
     <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/ASCIIMathTeXKaTeX-2016-06-17.min.js"></script>
     <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/katex/katex.min.js"></script>
-    <script>
-      if (typeof(katex) != "undefined") AMfunc(true);
-    </script>
-
   </body>
 </html>

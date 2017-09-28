@@ -1,24 +1,44 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueResource from 'vue-resource'
+import localforage from 'localforage'
+import api from '../api'
 
-Vue.use(VueResource)
 Vue.use(Vuex)
-
-const API_ROOT = 'https://pasco-api-staging.herokuapp.com/'
-const QuizResource = Vue.resource(API_ROOT + 'quizzes{/id}?include=questions')
 
 const FETCH_USERS_TESTS_REQUEST = 'fetchUserTestsRequest'
 const FETCH_USERS_TESTS_SUCCESS = 'fetchUserTestsSuccess'
 const FETCH_USERS_TESTS_FAILURE = 'fetchUserTestsFailure'
+const SET_CURRENT_QUIZ = 'setCurrentQuiz'
+const SET_CURRENT_QUESTION = 'setCurrentQuestion'
+
+const USER_TESTS_KEY = 'userTests'
 
 export default new Vuex.Store({
   state: {
     usersTests: [],
-    testDetail: {},
-    currentQuiz: {},
+    currentQuiz: {
+      id: 0,
+      course_code: '',
+      course_name: '',
+      name: '',
+      quiz_type: '',
+      year: '',
+      duration: '',
+      instructions: '',
+      questions: []
+    },
+    currentQuestion: {
+      id: 0,
+      question_type: 'header',
+      title: '',
+      content: '',
+      question: '',
+      choices: ''
+    },
+    previousQuestionUrl: '/',
+    nextQuestionUrl: '/',
     loadingUsersTests: false,
-    errorLoadingUsersTests: false
+    loadingTestsError: {}
   },
   mutations: {
     // we can use the ES2015 computed property name feature
@@ -30,9 +50,28 @@ export default new Vuex.Store({
       state.loadingUsersTests = false
       state.usersTests = payload.usersTests
     },
-    [FETCH_USERS_TESTS_FAILURE] (state) {
+    [FETCH_USERS_TESTS_FAILURE] (state, payload) {
       state.loadingUsersTests = false
-      state.loadingUsersTests = true
+      state.loadingTestsError = payload.error
+    },
+    [SET_CURRENT_QUIZ] (state, payload) {
+      state.currentQuiz = state.usersTests.find(quiz => quiz.id === payload.quizId)
+    },
+    [SET_CURRENT_QUESTION] (state, payload) {
+      let currentQuiz = state.usersTests.find(quiz => quiz.id === payload.quizId)
+
+      if (currentQuiz) {
+        state.currentQuiz = currentQuiz
+
+        let questions = state.currentQuiz.questions
+        let currentQuestionIndex = questions.findIndex(question => question.id === payload.questionId)
+
+        state.currentQuestion = questions[currentQuestionIndex]
+        state.previousQuestionUrl = getPreviousQuestionUrl(currentQuiz.id, currentQuestionIndex, questions)
+        state.nextQuestionUrl = getNextQuestionUrl(currentQuiz.id, currentQuestionIndex, questions)
+      } else {
+        console.error('Quiz with id' + payload.quizId + ' doesn\'t exist in this quiz')
+      }
     }
   },
   actions: {
@@ -40,13 +79,141 @@ export default new Vuex.Store({
       console.log('Getting tests...')
 
       commit(FETCH_USERS_TESTS_REQUEST)
-      return QuizResource.get().then(function (data) {
-        console.log('Received users tests', data)
-        commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: data.body.quizzes })
+
+      return getFromCache(USER_TESTS_KEY).then(function (userTests) {
+        if (userTests) {
+          console.log('Commiting cached userTests', userTests)
+          commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: userTests })
+          return refreshCache()
+        } else {
+          return fetchNewData().then(function (userTests) {
+            console.log('Committing userTests')
+            commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: userTests })
+            return userTests
+          })
+        }
       }).catch(function (error) {
-        console.log('Error receiving users tests', error)
-        commit(FETCH_USERS_TESTS_FAILURE)
+        console.error('There was an error getting the new data or saving it to the localforage to cache', error)
+        commit(FETCH_USERS_TESTS_FAILURE, { error: error })
+      })
+    },
+    getTestDetails ({ commit, state }, payload) {
+      if (state.usersTests.length !== 0) {
+        commit(SET_CURRENT_QUIZ, { quizId: payload.quizId })
+        return
+      }
+
+      console.log('Getting tests...')
+
+      commit(FETCH_USERS_TESTS_REQUEST)
+
+      return getFromCache(USER_TESTS_KEY).then(function (userTests) {
+        if (userTests) {
+          console.log('Commiting cached userTests', userTests)
+          commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: userTests })
+          console.log('Setting current quiz', payload)
+          commit(SET_CURRENT_QUIZ, { quizId: payload.quizId })
+          console.log('Refreshing cache', payload)
+          return refreshCache()
+        } else {
+          return fetchNewData().then(function (userTests) {
+            console.log('Committing userTests')
+            commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: userTests })
+            console.log('Setting current quiz')
+            commit(SET_CURRENT_QUIZ, { quizId: payload.quizId })
+            return userTests
+          })
+        }
+      }).catch(function (error) {
+        console.error('There was an error getting the new data or saving it to the localforage to cache', error)
+        commit(FETCH_USERS_TESTS_FAILURE, { error: error })
+      })
+    },
+    getQuestion ({ commit, state }, payload) {
+      if (state.usersTests.length !== 0) {
+        console.log('Setting current Question', payload)
+        commit(SET_CURRENT_QUESTION, { quizId: payload.quizId, questionId: payload.questionId })
+        return
+      }
+
+      // commit(FETCH_USERS_TESTS_REQUEST)
+
+      return getFromCache(USER_TESTS_KEY).then(function (userTests) {
+        if (userTests) {
+          console.log('Commiting cached userTests', userTests)
+          commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: userTests })
+          console.log('Setting current Question', payload)
+          commit(SET_CURRENT_QUESTION, { quizId: payload.quizId, questionId: payload.questionId })
+          console.log('Refreshing cache', payload)
+          return refreshCache()
+        } else {
+          return fetchNewData().then(function (userTests) {
+            console.log('Committing userTests')
+            commit(FETCH_USERS_TESTS_SUCCESS, { usersTests: userTests })
+            console.log('Setting current question')
+            commit(SET_CURRENT_QUESTION, { quizId: payload.quizId, questionId: payload.questionId })
+            return userTests
+          })
+        }
+      }).catch(function (error) {
+        console.error('There was an error getting the new data or saving it to the localforage to cache', error)
+        commit(FETCH_USERS_TESTS_FAILURE, { error: error })
       })
     }
   }
 })
+
+function getFromCache (key) {
+  return localforage.getItem(key)
+}
+
+function refreshCache () {
+  return api.userTests()
+    .then(function (userTests) {
+      console.log('Saving item to cache', userTests)
+      return localforage.setItem(USER_TESTS_KEY, userTests)
+    })
+}
+
+function fetchNewData () {
+  return api.userTests()
+    .then(function (userTests) {
+      console.log('Successfully fetched new data', userTests)
+      console.log('Saving new data to localForage cache...')
+      return localforage.setItem(USER_TESTS_KEY, userTests).then(function (userTests) {
+        return userTests
+      })
+    })
+}
+
+function getPreviousQuestionUrl (currentQuizId, currentQuestionIndex, questions) {
+  let previousQuestionIndex
+
+  if (currentQuestionIndex === -1) {
+    // no question
+    console.error('Question with id' + currentQuestionIndex + ' doesn\'t exist in this quiz')
+  } else if (currentQuestionIndex === 0) {
+    // first question
+    previousQuestionIndex = currentQuestionIndex
+  } else {
+    previousQuestionIndex = currentQuestionIndex - 1
+  }
+
+  return '/quiz/' + currentQuizId + '/question/' + questions[previousQuestionIndex].id
+}
+
+function getNextQuestionUrl (currentQuizId, currentQuestionIndex, questions) {
+  let nextQuestionIndex
+
+  if (currentQuestionIndex === -1) {
+    // no question
+    console.error('Question with id' + currentQuestionIndex + ' doesn\'t exist in this quiz')
+  } else if (currentQuestionIndex === questions.length - 1) {
+    // last question
+    nextQuestionIndex = currentQuestionIndex
+  } else {
+    nextQuestionIndex = currentQuestionIndex + 1
+  }
+
+  return '/quiz/' + currentQuizId + '/question/' + questions[nextQuestionIndex].id
+}

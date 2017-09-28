@@ -11,7 +11,7 @@
         @change="filterTests(keyword)"/>
     </div>
     <div class="content">
-      <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id" v-on:click.native="loadPage()">
+      <router-link v-for="test in tests"  v-bind:to="'quiz/'+ test.id" v-on:click.native="loadPage()">
         <q-card class="card">
           <div class="card-side">
             <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">

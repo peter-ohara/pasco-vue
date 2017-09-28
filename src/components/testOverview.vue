@@ -20,7 +20,7 @@
       </div>
     </div>
     <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
-    <router-link v-bind:to="'/questions/'+ test.id">
+    <router-link v-bind:to="firstQuestionUrl">
       <div class="footer">
         <q-btn class="button">Start</q-btn>
       </div>
@@ -41,24 +41,20 @@
       QCard,
       QBtn
     },
-    data () {
-      return {
-        id: this.$route.params.id,
-        test: {
-          id: 0,
-          course_code: '',
-          course_name: '',
-          name: '',
-          quiz_type: '',
-          year: '',
-          duration: '',
-          instructions: ''
-        }
-      }
-    },
     computed: {
       isPageLoading () {
         return this.$store.state.loadingUsersTests
+      },
+      test () {
+        return this.$store.state.currentQuiz
+      },
+      firstQuestionUrl () {
+        if (this.$store.state.currentQuiz.questions.length > 0) {
+          return '/quiz/' + this.$store.state.currentQuiz.id +
+            '/question/' + this.$store.state.currentQuiz.questions[0].id
+        } else {
+          return ''
+        }
       }
     },
     methods: {
@@ -86,14 +82,9 @@
       }
     },
     created () {
-      if (this.$store.state.usersTests.length !== 0) {
-        this.test = this.$store.state.usersTests.find(quiz => quiz.id === parseInt(this.id))
-      } else {
-        let self = this
-        this.$store.dispatch('getUsersTests').then(function () {
-          self.test = self.$store.state.usersTests.find(quiz => quiz.id === parseInt(self.id))
-        })
-      }
+      this.$store.dispatch('getTestDetails', {
+        quizId: parseInt(this.$route.params.quizId)
+      })
     }
   }
 
