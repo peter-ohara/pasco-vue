@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Hello from '@/main.vue'
+import Main from '@/main.vue'
 import TestOverview from '@/testOverview.vue'
 import QuestionsPager from '@/questionsPager.vue'
 
@@ -30,7 +30,7 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: Hello },
+    { path: '/', component: Main },
     { path: '/quiz/:quizId', component: TestOverview },
     { path: '/quiz/:quizId/question/:questionId', component: QuestionsPager }
   ]
