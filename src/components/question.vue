@@ -17,7 +17,7 @@
     </div>
 
     <div class="share-buttons">
-      <a v-bind:href="whatsappShareUrl" data-action="share/whatsapp/share" alt="Share via Whatsapp">
+      <a v-bind:href="questionUrl" data-action="share/whatsapp/share" alt="Share via Whatsapp">
         <q-icon name="fa-whatsapp" size="2em" />
       </a>
     </div>
@@ -39,13 +39,10 @@
       QTransition,
       QIcon
     },
-    props: ['question'],
+    props: ['question', 'questionUrl'],
     computed: {
       isPageLoading () {
         return this.$store.state.loadingUsersTests
-      },
-      whatsappShareUrl () {
-        return 'whatsapp://send?text=Checkout this past question ' + location.href
       }
     },
     mounted () {

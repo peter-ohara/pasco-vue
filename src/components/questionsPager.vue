@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <question :question="currentQuestion"></question>
+    <question :question="currentQuestion" :question-url="whatsappShareUrl"></question>
 
     <div class="footer">
       <router-link v-bind:to="previousQuestionUrl">
@@ -54,6 +54,10 @@
       },
       nextQuestionUrl () {
         return this.$store.state.nextQuestionUrl
+      },
+      whatsappShareUrl () {
+        return 'whatsapp://send?text=Checkout this past question ' +
+          location.host + '/#/quiz/' + this.currentQuiz.id + '/question/' + this.currentQuestion.id
       }
     },
     methods: { },
