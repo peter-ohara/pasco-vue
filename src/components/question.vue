@@ -15,13 +15,6 @@
         </li>
       </ul>
     </div>
-
-    <div class="share-buttons">
-      <a v-bind:href="questionUrl" data-action="share/whatsapp/share" alt="Share via Whatsapp">
-        <q-icon name="fa-whatsapp" size="2em" />
-      </a>
-    </div>
-
     <q-inner-loading :visible="isPageLoading"></q-inner-loading>
   </div>
 </template>
@@ -36,10 +29,9 @@
   let pageData = {
     components: {
       QInnerLoading,
-      QTransition,
-      QIcon
+      QTransition
     },
-    props: ['question', 'questionUrl'],
+    props: ['question'],
     computed: {
       isPageLoading () {
         return this.$store.state.loadingUsersTests
