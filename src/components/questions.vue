@@ -5,7 +5,7 @@
         <p
           @click="openQuestion(index)"
           v-for="(question, index) in questions"
-          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{question.number || 'Hd'}}</p>
+          v-bind:class="{'current-que': (index+1) === currentQueNum}">{{question.number || 'Pre'}}</p>
       </div>
     </div>
     <div class="progress">

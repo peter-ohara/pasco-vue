@@ -7,7 +7,7 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a test"
+        placeholder="Search Your Library"
         @change="searchTests(keyword)"/>
     </div>
     <div class="content">
@@ -94,14 +94,19 @@ export default pageData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+
+
+
 <style lang="stylus">
 @import '~variables'
+
 
 .search-area
   max-width 600px
   margin 70px auto 20px
   padding-left 8px
   padding-right 8px
+  
 
   .search-input
     padding 10px
@@ -132,7 +137,7 @@ export default pageData
   margin 0px auto 10px
 
 .card
-  background white
+  background #fff
   display flex
   padding 10px
 

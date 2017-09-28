@@ -109,6 +109,9 @@ export default pageData
 <style lang="stylus">
 @import '~variables'
 
+template
+    
+  
 .test
   .main-details
     height 150px
@@ -154,6 +157,7 @@ export default pageData
 
   .footer
     position fixed
+    margin 0 auto
     bottom 0px
     width 100%
     height 50px

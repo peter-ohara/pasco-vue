@@ -42,6 +42,7 @@ export default {
 <style lang="stylus">
   @import '~variables'
 
+
   main
     text-align center
     margin-top 0px
