@@ -1,9 +1,11 @@
 <template>
   <div class="single-question">
+
     <div v-show="question.question_type === 'header'" class="header-container">
       <p v-html="question.title"></p>
       <p v-html="question.content"></p>
     </div>
+
     <div v-show="question.question_type !== 'header'" class="question-container">
       <p v-html="replaceInputs(question.question)" class="question"></p>
       <ul class="choices-container" v-show="question.choices && question.choices.length > 0">
@@ -13,6 +15,13 @@
         </li>
       </ul>
     </div>
+
+    <div class="share-buttons">
+      <a v-bind:href="whatsappShareUrl" data-action="share/whatsapp/share" alt="Share via Whatsapp">
+        <q-icon name="fa-whatsapp" size="2em" />
+      </a>
+    </div>
+
     <q-inner-loading :visible="isPageLoading"></q-inner-loading>
   </div>
 </template>
@@ -20,18 +29,23 @@
 <script>
   import {
     QInnerLoading,
-    QTransition
+    QTransition,
+    QIcon
   } from 'quasar'
 
   let pageData = {
     components: {
       QInnerLoading,
-      QTransition
+      QTransition,
+      QIcon
     },
     props: ['question'],
     computed: {
       isPageLoading () {
         return this.$store.state.loadingUsersTests
+      },
+      whatsappShareUrl () {
+        return 'whatsapp://send?text=Checkout this past question ' + location.href
       }
     },
     mounted () {
@@ -71,43 +85,42 @@
   .single-question
     min-height 300px
     margin-top 60px
+    margin-bottom 82px
 
     .header-container
       margin-top 60px
       padding-left 8px
       padding-right 8px
-      margin-bottom 82px
 
     .question-container
       margin-top 60px
       padding-left 8px
       padding-right 8px
-      margin-bottom 82px
       .question
         font-size 20px
         text-align left
         padding-bottom 32px
 
-    .choices
-      display flex
-      margin-top 8px
-      padding-left 8px
-      padding-right 8px
-      border-bottom 1px solid $light-gray
-      p
-        font-size 20px
-      p.choice
-        color $mid-gray
-        text-align left
-      p.letter
-        padding 0 25px 0 8px
-        color $blue
+      .choices
+        display flex
+        margin-top 8px
+        padding-left 8px
+        padding-right 8px
+        border-bottom 1px solid $light-gray
+        p
+          font-size 20px
+        p.choice
+          color $mid-gray
+          text-align left
+        p.letter
+          padding 0 25px 0 8px
+          color $blue
 
-    .choices-container
-      background-color white
-      padding 5px 12px
-      .choices:nth-last-child(1) {
-        border-bottom: none;
-      }
+      .choices-container
+        background-color white
+        padding 5px 12px
+        .choices:nth-last-child(1) {
+          border-bottom: none;
+        }
 
 </style>

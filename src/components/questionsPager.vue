@@ -15,8 +15,6 @@
 
     <question :question="currentQuestion"></question>
 
-    <a href="whatsapp://send?text=previousQuestionUrl" data-action="share/whatsapp/share">Share via Whatsapp</a>
-
     <div class="footer">
       <router-link v-bind:to="previousQuestionUrl">
         <q-btn class="button prev">Prev</q-btn>
