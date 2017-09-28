@@ -4,7 +4,7 @@
     <div class="numbers">
       <div class="numbers-inner">
         <router-link v-for="(question, index) in currentQuiz.questions"
-          v-bind:to="'/quiz/'+ currentQuiz.id + '/question/'+ question.id">
+          v-bind:to="'/quiz/'+ currentQuiz.id + '/question/'+ question.id" replace>
           <p v-bind:class="{ 'current-que': question.id === currentQuestion.id }"
              class="button prev">
             {{question.number || 'Hd'}}
@@ -16,10 +16,10 @@
     <question :question="currentQuestion" :question-url="whatsappShareUrl"></question>
 
     <div class="footer">
-      <router-link v-bind:to="previousQuestionUrl">
+      <router-link v-bind:to="previousQuestionUrl" replace>
         <q-btn class="button prev">Prev</q-btn>
       </router-link>
-      <router-link v-bind:to="nextQuestionUrl">
+      <router-link v-bind:to="nextQuestionUrl" replace>
         <q-btn class="button next">Next</q-btn>
       </router-link>
     </div>

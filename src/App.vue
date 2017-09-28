@@ -2,9 +2,7 @@
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
     <header>
-      <router-link v-bind:to="'/'">
-        <img src="~assets/logo3.png" class="logo" alt="">
-      </router-link>
+      <img src="~assets/logo3.png" class="logo" alt="" v-go-back="'/'">
     </header>
     <main>
       <!--<img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">-->
@@ -20,13 +18,17 @@
  */
 import {
   QIcon,
-  QAjaxBar
+  QAjaxBar,
+  GoBack
 } from 'quasar'
 
 export default {
   components: {
     QIcon,
     QAjaxBar
+  },
+  directives: {
+    GoBack
   },
   data () {
     return {
