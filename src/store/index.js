@@ -56,6 +56,18 @@ export default new Vuex.Store({
     },
     [SET_CURRENT_QUIZ] (state, payload) {
       state.currentQuiz = state.usersTests.find(quiz => quiz.id === payload.quizId)
+      let questions = state.currentQuiz.questions
+      let currentQuestionIndex = questions.findIndex(question => question.id === state.currentQuestion.id)
+      if (currentQuestionIndex === -1) {
+        // currentQuestion is not actually from this quiz
+        // so set it to be the first question under this quiz
+        let currentQuestion = questions[0]
+        console.log('Setting current question to be', currentQuestion)
+        state.currentQuestion = currentQuestion
+      } else {
+        // currentQuestion has been set correctly
+        console.log('Current question has already been set to', state.currentQuestion)
+      }
     },
     [SET_CURRENT_QUESTION] (state, payload) {
       let currentQuiz = state.usersTests.find(quiz => quiz.id === payload.quizId)

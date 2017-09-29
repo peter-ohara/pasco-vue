@@ -20,7 +20,7 @@
       </div>
     </div>
     <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
-    <router-link v-bind:to="firstQuestionUrl">
+    <router-link v-bind:to="questionUrl">
       <div class="footer">
         <q-btn class="button">Start</q-btn>
       </div>
@@ -48,10 +48,10 @@
       test () {
         return this.$store.state.currentQuiz
       },
-      firstQuestionUrl () {
+      questionUrl () {
         if (this.$store.state.currentQuiz.questions.length > 0) {
           return '/quiz/' + this.$store.state.currentQuiz.id +
-            '/question/' + this.$store.state.currentQuiz.questions[0].id
+            '/question/' + this.$store.state.currentQuestion.id
         } else {
           return ''
         }
