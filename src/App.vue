@@ -16,8 +16,8 @@
     </q-toolbar>
 
     <!-- Navigation -->
-    <q-tabs slot="navigation" v-if="this.$route.name === 'questionsPager'">
-      <q-route-tab slot="title" icon="view_quilt" hide="icon"
+    <q-tabs slot="navigation" v-if="this.$route.name === 'questionsPager'" inverted>
+      <q-route-tab slot="title"
                    v-bind:to="getTabUrl(question)" replace
                    :label="getTabLabel(question)"
                    v-for="(question, index) in currentQuiz.questions"/>
@@ -65,7 +65,7 @@
       GoBack
     },
     computed: {
-      currentQuiz() {
+      currentQuiz () {
         return this.$store.state.currentQuiz
       }
     },
