@@ -7,11 +7,10 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a test"
-        @change="filterTests(keyword)"/>
+        placeholder="Find a test"/>
     </div>
     <div class="content">
-      <router-link v-for="test in tests"  v-bind:to="'quiz/'+ test.id" v-on:click.native="loadPage()">
+      <router-link v-for="test in filterQuizzes"  v-bind:to="'quiz/'+ test.id" v-on:click.native="loadPage()">
         <q-card class="card">
           <div class="card-side">
             <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
@@ -61,14 +60,18 @@ let pageData = {
   computed: {
     tests () {
       return this.$store.state.usersTests
+    },
+    filterQuizzes () {
+      let self = this
+      return this.tests.filter(function (test) {
+        let searchData = (test.name + ' ' + test.course_name).toUpperCase()
+        return searchData.indexOf(self.keyword.toUpperCase()) !== -1
+      })
     }
   },
   methods: {
     splitCourseCode: function (courseCode) {
       return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
-    },
-    filterTests: function (keyword) {
-      // Write test filtering code here
     },
     loadPage: function () {
     }
