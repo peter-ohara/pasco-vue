@@ -1,71 +1,93 @@
 <template>
   <!-- Don't drop "q-app" class -->
-  <div id="q-app">
-    <header>
-      <img src="~assets/logo3.png" class="logo" alt="" v-go-back="'/'">
-    </header>
-    <main>
-      <!--<img src="~assets/quasar-logo-full.svg" alt="Quasar PWA">-->
-      <router-view></router-view>
-    </main>
-    <q-ajax-bar color="orange" :delay="500" />
-  </div>
+  <q-layout ref="layout" id="q-app" reveal>
+
+    <!-- Header -->
+    <q-toolbar slot="header">
+      <q-btn flat v-go-back="'/'">
+        <img src="~assets/logo3.png" class="logo" alt="">
+      </q-btn>
+      <q-toolbar-title>
+      </q-toolbar-title>
+
+      <q-btn flat @click="shareUrl()">
+        <q-icon name="share"/>
+      </q-btn>
+    </q-toolbar>
+
+    <!-- Navigation -->
+    <q-tabs slot="navigation" v-if="this.$route.name === 'questionsPager'">
+      <q-route-tab slot="title" icon="view_quilt" hide="icon"
+                   v-bind:to="getTabUrl(question)" replace
+                   :label="getTabLabel(question)"
+                   v-for="(question, index) in currentQuiz.questions"/>
+    </q-tabs>
+
+    <router-view></router-view>
+
+    <q-ajax-bar color="orange" :delay="500"/>
+
+  </q-layout>
 </template>
 
 <script>
-/*
- * Root component
- */
-import {
-  QIcon,
-  QAjaxBar,
-  GoBack
-} from 'quasar'
-
-export default {
-  components: {
+  /*
+   * Root component
+   */
+  import {
+    QLayout,
+    QToolbar,
+    QToolbarTitle,
+    QTabs,
+    QRouteTab,
+    QBtn,
     QIcon,
-    QAjaxBar
-  },
-  directives: {
-    GoBack
-  },
-  data () {
-    return {
+    QPopover,
+    QAjaxBar,
+    GoBack,
+    openURL
+  } from 'quasar'
 
+  export default {
+    components: {
+      QLayout,
+      QToolbar,
+      QToolbarTitle,
+      QRouteTab,
+      QTabs,
+      QBtn,
+      QIcon,
+      QPopover,
+      QAjaxBar,
+      openURL
+    },
+    directives: {
+      GoBack
+    },
+    computed: {
+      currentQuiz() {
+        return this.$store.state.currentQuiz
+      }
+    },
+    methods: {
+      shareUrl () {
+        let url = 'whatsapp://send?text= Checkout the pasco app' + location.href
+        openURL(url)
+      },
+      getTabUrl (question) {
+        return '/quiz/' + this.currentQuiz.id + '/question/' + question.id
+      },
+      getTabLabel (question) {
+        return question.question_type === 'header' ? question.title : question.number
+      }
     }
   }
-}
 </script>
 
 <style lang="stylus">
   @import '~variables'
 
-  main
-    text-align center
-    margin-top 0px
-
-  header
-    top 0
-    width 100%
-    height 60px
-    background-color $primary
-    //box-shadow 0px 2px 20px 1px $neutral
-    position fixed
-    z-index: 10
-    img.logo
-      padding 5px 10px
-      height 50px
-      margin 5px
-      float left
-.loading-icon
-  width 30px
-  height 30px
-  margin 12px 12px
-  animation: spinIt 1.5s infinite linear;
-
-@keyframes spinIt {
-  0%   { transform: rotate(0deg); }
-  100% { transform: rotate(359deg); }
-}
+  img.logo
+  //padding 5px 10px
+    height 24px
 </style>
