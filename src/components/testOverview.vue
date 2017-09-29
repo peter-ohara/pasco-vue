@@ -97,6 +97,7 @@
 
   .test
     .main-details
+      text-align center
       height 150px
       background teal
       p
