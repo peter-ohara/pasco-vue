@@ -2,7 +2,6 @@
   <div class="single-question">
 
     <div v-show="question.question_type === 'header'" class="header-container">
-      <p v-html="question.title"></p>
       <p v-html="question.content"></p>
     </div>
 
