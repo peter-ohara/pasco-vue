@@ -15,15 +15,16 @@
         </li>
       </ul>
     </div>
+
     <q-inner-loading :visible="isPageLoading"></q-inner-loading>
+
   </div>
 </template>
 
 <script>
   import {
     QInnerLoading,
-    QTransition,
-    QIcon
+    QTransition
   } from 'quasar'
 
   let pageData = {
@@ -73,16 +74,14 @@
 
   .single-question
     min-height 300px
-    margin-top 60px
+    margin-top 16px
     margin-bottom 82px
 
     .header-container
-      margin-top 60px
       padding-left 8px
       padding-right 8px
 
     .question-container
-      margin-top 60px
       padding-left 8px
       padding-right 8px
       .question

@@ -99,7 +99,6 @@
     .main-details
       height 150px
       background teal
-      margin-top 59px
       p
         color white
 

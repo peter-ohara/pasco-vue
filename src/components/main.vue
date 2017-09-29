@@ -84,7 +84,7 @@ export default pageData
 
 .search-area
   max-width 600px
-  margin 70px auto 20px
+  margin 0 auto 20px
   padding-left 8px
   padding-right 8px
 
