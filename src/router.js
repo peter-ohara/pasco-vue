@@ -30,8 +30,8 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: Main },
-    { path: '/quiz/:quizId', component: TestOverview },
-    { path: '/quiz/:quizId/question/:questionId', component: QuestionsPager }
+    { name: 'main', path: '/', component: Main },
+    { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
+    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager }
   ]
 })
