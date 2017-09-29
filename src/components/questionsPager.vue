@@ -1,18 +1,6 @@
 <template>
   <div class="main questions">
 
-    <div class="numbers">
-      <div class="numbers-inner">
-        <router-link v-for="(question, index) in currentQuiz.questions"
-          v-bind:to="'/quiz/'+ currentQuiz.id + '/question/'+ question.id" replace>
-          <p v-bind:class="{ 'current-que': question.id === currentQuestion.id }"
-             class="button prev">
-            {{question.number || 'Hd'}}
-          </p>
-        </router-link>
-      </div>
-    </div>
-
     <question :question="currentQuestion"></question>
 
     <div class="footer">
@@ -83,38 +71,6 @@
 
   .questions
     min-height 300px
-    margin-top 60px
-    .numbers
-      height 45px
-      width 100%
-      overflow auto
-      overflow-y:hidden
-      position fixed
-      z-index 10
-      background-color white
-      p
-        float left
-        padding 5px
-        border-radius 30px
-        width 35px
-        height 35px
-        margin 5px
-        color $dark-gray
-      .current-que
-        background-color $blue
-        color white
-    .numbers::-webkit-scrollbar {
-      height: 3px;
-      background-color: $white;
-    }
-    .numbers::-webkit-scrollbar-thumb {
-      background-color: $dark-gray;
-    }
-    .numbers-inner
-      display flex
-      width auto
-      position absolute
-      background-color white
 
     .footer
       position fixed
