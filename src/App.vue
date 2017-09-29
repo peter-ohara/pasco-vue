@@ -71,7 +71,7 @@
     },
     methods: {
       shareUrl () {
-        let url = 'whatsapp://send?text= Checkout the pasco app' + location.href
+        let url = 'whatsapp://send?text= Hey, get all your past questions on your phone with Pasco. Check it out at ' + location.href
         openURL(url)
       },
       getTabUrl (question) {
