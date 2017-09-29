@@ -90,4 +90,7 @@
   img.logo
   //padding 5px 10px
     height 24px
+
+  .q-tabs-inverted .q-tabs-head
+    background #f0f0f0
 </style>
