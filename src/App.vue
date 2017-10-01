@@ -10,7 +10,10 @@
       <q-toolbar-title>
       </q-toolbar-title>
 
-      <q-btn flat @click="shareUrl()">
+      <q-btn flat
+             v-clipboard:copy="shareUrl"
+             v-clipboard:success="onCopy"
+             v-clipboard:error="onError">
         <q-icon name="link"/>
       </q-btn>
     </q-toolbar>
@@ -42,8 +45,7 @@
     QRouteTab,
     QBtn,
     QIcon,
-    QPopover,
-    Dialog,
+    Toast,
     QAjaxBar,
     GoBack,
     openURL
@@ -58,7 +60,6 @@
       QTabs,
       QBtn,
       QIcon,
-      QPopover,
       QAjaxBar,
       openURL
     },
@@ -68,23 +69,17 @@
     computed: {
       currentQuiz () {
         return this.$store.state.currentQuiz
+      },
+      shareUrl () {
+        return location.href
       }
     },
     methods: {
-      shareUrl () {
-        let url = location.href
-
-        Dialog.create({
-          form: {
-            name: {
-              type: 'text',
-              model: url
-            }
-          },
-          buttons: [
-            'OK'
-          ]
-        })
+      onCopy (e) {
+        Toast.create(e.text + ' copied!')
+      },
+      onError (e) {
+        Toast.create('Failed to copy link')
       },
       getTabUrl (question) {
         return '/quiz/' + this.currentQuiz.id + '/question/' + question.id
