@@ -87,6 +87,13 @@ module.exports = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ]),
+    // copy _redirects file
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/_redirects'),
+        to: ''
+      }
+    ]),
     // service worker caching
     new SWPrecacheWebpackPlugin({
       cacheId: 'my-quasar-app',
