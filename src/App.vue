@@ -11,7 +11,7 @@
       </q-toolbar-title>
 
       <q-btn flat @click="shareUrl()">
-        <q-icon name="share"/>
+        <q-icon name="link"/>
       </q-btn>
     </q-toolbar>
 
@@ -43,6 +43,7 @@
     QBtn,
     QIcon,
     QPopover,
+    Dialog,
     QAjaxBar,
     GoBack,
     openURL
@@ -71,8 +72,19 @@
     },
     methods: {
       shareUrl () {
-        let url = 'whatsapp://send?text= Hey, get all your past questions on your phone with Pasco. Check it out at ' + location.href
-        openURL(url)
+        let url = location.href
+
+        Dialog.create({
+          form: {
+            name: {
+              type: 'text',
+              model: url
+            }
+          },
+          buttons: [
+            'OK'
+          ]
+        })
       },
       getTabUrl (question) {
         return '/quiz/' + this.currentQuiz.id + '/question/' + question.id
