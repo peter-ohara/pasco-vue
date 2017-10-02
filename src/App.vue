@@ -10,11 +10,11 @@
       <q-toolbar-title>
       </q-toolbar-title>
 
-      <q-btn flat
-             v-clipboard:copy="shareUrl"
-             v-clipboard:success="onCopy"
-             v-clipboard:error="onError">
-        <q-icon name="link"/>
+      <!--<q-btn flat-->
+             <!--v-clipboard:copy="shareUrl"-->
+             <!--v-clipboard:success="onCopy"-->
+             <!--v-clipboard:error="onError">-->
+        <!--<q-icon name="link"/>-->
       </q-btn>
     </q-toolbar>
 
