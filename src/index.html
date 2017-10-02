@@ -7,7 +7,9 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Pasco</title>
+    <title>Pasco | Past Questions on Your Smartphone or PC</title>
+    <meta name="description" content="Pasco helps you prepare for exams by making it possible to access past questions and other resources from your smartphone or PC."/>
+     <meta name="keywords" content="Pasco, Passco, Pasco App, Pasco KNUST, Past Questions App">
     <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-16x16.png">
     <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>statics/manifest.json">
@@ -17,6 +19,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
     <meta name="apple-mobile-web-app-title" content="Pasco">
     <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/apple-icon-152x152.png">
+
     <!-- Add to home screen for Windows -->
     <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/ms-icon-144x144.png">
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -37,6 +40,7 @@
         height: 100%;
         width: 100%;
         background: #f0f0f0 !important;
+
       }
       body{
         top: 0px;
@@ -47,6 +51,15 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+    <!--User session recording using SmartLook-->
+    <!--<script type="text/javascript">-->
+      <!--window.smartlook||(function(d) {-->
+        <!--var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];-->
+        <!--var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';-->
+        <!--c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);-->
+      <!--})(document);-->
+      <!--smartlook('init', '59b80c738331731d8aa64484200e756acb99bf2e');-->
+    <!--</script>-->
   </head>
   <body>
     <noscript>

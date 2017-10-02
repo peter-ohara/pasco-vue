@@ -10,8 +10,11 @@
       <q-toolbar-title>
       </q-toolbar-title>
 
-      <q-btn flat @click="shareUrl()">
-        <q-icon name="share"/>
+      <!--<q-btn flat-->
+             <!--v-clipboard:copy="shareUrl"-->
+             <!--v-clipboard:success="onCopy"-->
+             <!--v-clipboard:error="onError">-->
+        <!--<q-icon name="link"/>-->
       </q-btn>
     </q-toolbar>
 
@@ -42,7 +45,7 @@
     QRouteTab,
     QBtn,
     QIcon,
-    QPopover,
+    Toast,
     QAjaxBar,
     GoBack,
     openURL
@@ -57,7 +60,6 @@
       QTabs,
       QBtn,
       QIcon,
-      QPopover,
       QAjaxBar,
       openURL
     },
@@ -67,12 +69,17 @@
     computed: {
       currentQuiz () {
         return this.$store.state.currentQuiz
+      },
+      shareUrl () {
+        return location.href
       }
     },
     methods: {
-      shareUrl () {
-        let url = 'whatsapp://send?text= Hey, get all your past questions on your phone with Pasco. Check it out at ' + location.href
-        openURL(url)
+      onCopy (e) {
+        Toast.create(e.text + ' copied!')
+      },
+      onError (e) {
+        Toast.create('Failed to copy link')
       },
       getTabUrl (question) {
         return '/quiz/' + this.currentQuiz.id + '/question/' + question.id

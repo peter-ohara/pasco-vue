@@ -29,6 +29,7 @@ export default new VueRouter({
    * build publicPath back to '' so Cordova builds work again.
    */
 
+  mode: 'history',
   routes: [
     { name: 'main', path: '/', component: Main },
     { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
