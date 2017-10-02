@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Hello from '@/main.vue'
+import Main from '@/main.vue'
 import TestOverview from '@/testOverview.vue'
-import Questions from '@/questions.vue'
+import QuestionsPager from '@/questionsPager.vue'
 
 Vue.use(VueRouter)
 
@@ -29,9 +29,10 @@ export default new VueRouter({
    * build publicPath back to '' so Cordova builds work again.
    */
 
+  mode: 'history',
   routes: [
-    { path: '/', component: Hello },
-    { path: '/test/:id', component: TestOverview },
-    { path: '/questions/:id', component: Questions }
+    { name: 'main', path: '/', component: Main },
+    { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
+    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager }
   ]
 })

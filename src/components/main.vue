@@ -7,11 +7,10 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a test"
-        @change="searchTests(keyword)"/>
+        placeholder="Find a test"/>
     </div>
     <div class="content">
-      <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id" v-on:click.native="loadPage()">
+      <router-link v-for="test in filterQuizzes"  v-bind:to="'quiz/'+ test.id" v-on:click.native="loadPage()">
         <q-card class="card">
           <div class="card-side">
             <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
@@ -41,56 +40,45 @@ import {
   QCard
 } from 'quasar'
 
-var pageData = {
+let pageData = {
   components: {
     QSearch,
     QCard
   },
-  data(){
-    return{
+  data () {
+    return {
       loading: true,
-      keyword: "",
-      tests: [],
-      timer: ""
+      keyword: '',
+      timer: ''
+    }
+  },
+  created () {
+    if (this.$store.state.usersTests.length === 0) {
+      this.$store.dispatch('getUsersTests')
+    }
+  },
+  computed: {
+    tests () {
+      return this.$store.state.usersTests
+    },
+    filterQuizzes () {
+      let self = this
+      return this.tests.filter(function (test) {
+        let searchData = (test.name + ' ' + test.course_name).toUpperCase()
+        return searchData.indexOf(self.keyword.toUpperCase()) !== -1
+      })
     }
   },
   methods: {
     splitCourseCode: function (courseCode) {
-      return courseCode.match(/([a-zA-Z]*)([0-9]*)/);
+      return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
     },
-    getTests: function(keyword){
-      console.log('get tests')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
-
-      this.loading = true;
-      this.$http.get(url).then(function(data){
-        console.log(data)
-        this.loading = false;
-        this.tests = data.body.quizzes
-      })
-    },
-    searchTests: function(keyword){
-      clearTimeout(this.timer)
-      var fxn = this;
-
-      this.timer = setTimeout(function(){
-        fxn.getTests(keyword)
-      }, 200)
-    },
-    loadPage: function(){
-      console.log('button clicked')
-      this.$isPageLoading = true
+    loadPage: function () {
     }
-  },
-  created(){
-    //console.log('page loaded')
-    this.getTests()
   }
 }
 
 export default pageData
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -99,7 +87,7 @@ export default pageData
 
 .search-area
   max-width 600px
-  margin 70px auto 20px
+  margin 0 auto 20px
   padding-left 8px
   padding-right 8px
 
