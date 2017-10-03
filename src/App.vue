@@ -9,9 +9,29 @@
       </q-btn>
       <q-toolbar-title>
       </q-toolbar-title>
+      <q-btn ref="target" flat>
+        <q-icon name="more_vert"/>
+        <!-- Direct child of target -->
+        <q-popover ref="popover">
+          <!--
+            The DOM element(s) that make up the popup,
+            in this case a list:
+          -->
+          <q-list item-separator link>
+            <router-link v-bind:to="'/signin'">
+              <q-item>
+                Sign In
+              </q-item>
+            </router-link>
+            <q-item @click="doSomething(), $refs.popover.close()">
+              Sign Up
+            </q-item>
+            <q-item @click="doSomething(), $refs.popover.close()">
+              Share
+            </q-item>
 
-      <q-btn flat @click="shareUrl()">
-        <q-icon name="share"/>
+          </q-list>
+        </q-popover>
       </q-btn>
     </q-toolbar>
 
@@ -45,6 +65,8 @@
     QPopover,
     QAjaxBar,
     GoBack,
+    QList,
+    QItem,
     openURL
   } from 'quasar'
 
@@ -59,6 +81,8 @@
       QIcon,
       QPopover,
       QAjaxBar,
+      QList,
+      QItem,
       openURL
     },
     directives: {
