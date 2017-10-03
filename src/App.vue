@@ -38,9 +38,14 @@
                 Give Feedback
               </q-item>
             </a>
-             <a :href="'http://bit.ly/PascoSupport'">
+            <a :href="'http://bit.ly/PascoSupport'">
               <q-item>
                 Contact Support
+              </q-item>
+            </a>
+            <a :href="'https://docs.google.com/document/d/1ZHX2coQ2rlTMO6cZxJXYTVFlbolEbs_fQ3GATAds9eA/edit'">
+              <q-item>
+                About
               </q-item>
             </a>
 <!--
