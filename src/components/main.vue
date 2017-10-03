@@ -159,7 +159,6 @@ export default pageData
 .card-title
   color $dark-gray
   font-size 18px
-  font-family 'Montserrat'
   font-weight 300
   margin-top 5px
 
