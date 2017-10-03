@@ -39,6 +39,7 @@ export default new Vuex.Store({
     nextQuestionUrl: '/',
     loadingUsersTests: false,
     loadingTestsError: {},
+    bookmarks: []
   },
   mutations: {
     // we can use the ES2015 computed property name feature
@@ -84,6 +85,9 @@ export default new Vuex.Store({
       } else {
         console.error('Quiz with id' + payload.quizId + ' doesn\'t exist in this quiz')
       }
+    },
+    [ADD_BOOKMARK](state, payload){
+      //state.newBookmark =
     }
   },
   actions: {
