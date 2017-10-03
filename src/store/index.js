@@ -38,7 +38,7 @@ export default new Vuex.Store({
     previousQuestionUrl: '/',
     nextQuestionUrl: '/',
     loadingUsersTests: false,
-    loadingTestsError: {}
+    loadingTestsError: {},
   },
   mutations: {
     // we can use the ES2015 computed property name feature

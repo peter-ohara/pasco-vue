@@ -4,8 +4,9 @@ import VueRouter from 'vue-router'
 import Main from '@/main.vue'
 import TestOverview from '@/testOverview.vue'
 import QuestionsPager from '@/questionsPager.vue'
+import SignIn from '@/signIn.vue'
 
-Vue.use(VueRouter)
+Vue.use (VueRouter)
 
 /*
  * Uncomment this section and use "load()" if you want
@@ -33,6 +34,7 @@ export default new VueRouter({
   routes: [
     { name: 'main', path: '/', component: Main },
     { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
-    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager }
+    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager },
+    { name: 'signIn', path: '/signin', component: SignIn }
   ]
 })
