@@ -15,11 +15,8 @@ import Quasar from 'quasar'
 import router from './router'
 import VueResource from 'vue-resource'
 import store from './store/index'
-<<<<<<< HEAD
 import VueClipboard from 'vue-clipboard2'
-=======
 import Vuelidate from 'vuelidate'
->>>>>>> Pasco-vue/feature/authentication
 
 Vue.config.productionTip = false
 Vue.use(Quasar) // Install Quasar Framework
