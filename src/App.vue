@@ -18,17 +18,36 @@
             in this case a list:
           -->
           <q-list item-separator link>
+<!--
             <router-link v-bind:to="'/signin'">
               <q-item>
                 Sign In
               </q-item>
             </router-link>
-            <q-item @click="doSomething(), $refs.popover.close()">
+            <q-item @click="$refs.popover.close()">
               Sign Up
             </q-item>
-            <q-item @click="doSomething(), $refs.popover.close()">
+-->
+            <a :href="'http://bit.ly/PascoReportIssue'">
+              <q-item>
+                Report an Issue
+              </q-item>
+            </a>
+             <a :href="'http://bit.ly/PascoFeedback'">
+              <q-item>
+                Give Feedback
+              </q-item>
+            </a>
+             <a :href="'http://bit.ly/PascoSupport'">
+              <q-item>
+                Contact Support
+              </q-item>
+            </a>
+<!--
+            <q-item @click="$refs.popover.close()">
               Share
             </q-item>
+-->
 
       <!--<q-btn flat-->
              <!--v-clipboard:copy="shareUrl"-->
@@ -72,7 +91,8 @@
     GoBack,
     QList,
     QItem,
-    openURL
+    openURL,
+    QPopover
   } from 'quasar'
 
   export default {
@@ -87,7 +107,8 @@
       QAjaxBar,
       QList,
       QItem,
-      openURL
+      openURL,
+      QPopover
     },
     directives: {
       GoBack
@@ -126,4 +147,7 @@
 
   .q-tabs-inverted .q-tabs-head
     background #f0f0f0
+
+  .q-popover .q-item
+    color $dark-gray
 </style>
