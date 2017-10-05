@@ -1,6 +1,15 @@
 <template>
   <div class="main questions">
-
+    <div class="bookmark-area">
+      <q-btn
+        class="bookmark-btn"
+        color="tertiary"
+        icon="star"
+        @click="addBookmark()"
+        >
+        Bookmark
+      </q-btn>
+    </div>
     <question :question="currentQuestion"></question>
 
     <div class="footer">
@@ -44,7 +53,14 @@
         return this.$store.state.nextQuestionUrl
       }
     },
-    methods: { },
+    methods: {
+      addBookmark(){
+        console.log("Bookmark pay load before dispatch", this.currentQuestion);
+        const question = this.currentQuestion;
+        question.quiz_name = this.currentQuiz.name
+        this.$store.dispatch('addBookmark', this.currentQuestion)
+      }
+    },
     created () {
       this.$store.dispatch('getQuestion', {
         quizId: parseInt(this.$route.params.quizId),
@@ -87,4 +103,11 @@
         float left
       .next
         float right
+
+  .bookmark-area
+    margin 10px
+    overflow auto
+
+  .bookmark-btn
+    float right
 </style>

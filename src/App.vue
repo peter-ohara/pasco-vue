@@ -48,7 +48,7 @@
                 About
               </q-item>
             </a>
-            <q-item to="bookmarks">
+            <q-item to="/bookmarks">
               Bookmarks
             </q-item>
 <!--

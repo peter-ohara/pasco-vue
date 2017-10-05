@@ -119,44 +119,6 @@ export default pageData
   max-width 600px
   margin 0px auto 10px
 
-.card
-  background white
-  display flex
-  padding 10px
-
-.card-side
-  width 20%
-  max-width 200px
-  min-width 80px
-
-.card-icon
-  background-color $info
-  border-radius 50px
-  height 60px
-  width 60px
-  margin-top 5px
-  padding-bottom 15px
-  padding-top 15px
-  text-align center
-  p
-    line-height 1.2em
-    color white
-    font-size 0.8em
-
-.text
-  text-align left
-  margin-bottom 0px
-
-.question-count
-  color $blue
-  font-size 15px
-
-.duration
-  color $mid-gray
-
-.card-title
-  color $dark-gray
-  font-size 18px
 
 .blue
   background-color $blue

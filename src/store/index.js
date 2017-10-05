@@ -10,6 +10,9 @@ const FETCH_USERS_TESTS_SUCCESS = 'fetchUserTestsSuccess'
 const FETCH_USERS_TESTS_FAILURE = 'fetchUserTestsFailure'
 const SET_CURRENT_QUIZ = 'setCurrentQuiz'
 const SET_CURRENT_QUESTION = 'setCurrentQuestion'
+const ADD_BOOKMARK = 'addBookmark'
+const SET_BOOKMARKS = 'setBookmarks'
+const REMOVE_BOOKMARK = 'removeBookmark'
 
 const USER_TESTS_KEY = 'userTests'
 
@@ -39,7 +42,7 @@ export default new Vuex.Store({
     nextQuestionUrl: '/',
     loadingUsersTests: false,
     loadingTestsError: {},
-    bookmarks: []
+    bookmarks: {}
   },
   mutations: {
     // we can use the ES2015 computed property name feature
@@ -86,8 +89,21 @@ export default new Vuex.Store({
         console.error('Quiz with id' + payload.quizId + ' doesn\'t exist in this quiz')
       }
     },
-    [ADD_BOOKMARK](state, payload){
-      //state.newBookmark =
+    [ADD_BOOKMARK] (state, payload){
+      state.bookmarks[payload.id] = payload
+      console.log(state)
+      saveToCache('bookmarks', state.bookmarks)
+      //console.log(state)
+    },
+    [REMOVE_BOOKMARK] (state, id){
+      delete state.bookmarks[id]
+      saveToCache('bookmarks', state.bookmarks)
+      //console.log(state)
+    },
+    [SET_BOOKMARKS] (state, payload){
+      state.bookmarks = payload
+      //saveToCache('bookmarks', state.bookmarks)
+      //console.log(state)
     }
   },
   actions: {
@@ -175,12 +191,33 @@ export default new Vuex.Store({
         console.error('There was an error getting the new data or saving it to the localforage to cache', error)
         commit(FETCH_USERS_TESTS_FAILURE, { error: error })
       })
+    },
+    addBookmark ({commit, state}, payload) {
+      console.log(payload)
+      commit(ADD_BOOKMARK, payload)
+    },
+    getBookmarks ({commit, state}, payload) {
+      return getFromCache('bookmarks').then(function(data){
+        console.log(data)
+        if (data) {
+          commit(SET_BOOKMARKS, data)
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
     }
   }
 })
 
 function getFromCache (key) {
+
   return localforage.getItem(key)
+}
+
+function saveToCache (key, payload) {
+  console.log("Saving to cache", key)
+  return localforage.setItem(key, payload)
 }
 
 function refreshCache () {

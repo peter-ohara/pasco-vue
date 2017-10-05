@@ -4,24 +4,27 @@
       <p>Bookmarks</p>
     </div>
     <div class="content">
-      <p class="empty-list" v-if="!bookmarks.length">Looks like you have not bookmarked anything yet.<br> <span>Go to the homepage, pick a test and start bookmarking questions you want to revisit</span></p>
-      <router-link v-for="bookmark in bookmarks"  v-bind:to="bookmark.url" v-on:click.native="loadPage()">
+      <p class="empty-list" v-if="!(Object.keys(bookmarks).length)">Looks like you have not bookmarked anything yet.<br> <span>Go to the homepage, pick a test and start bookmarking questions you want to revisit</span></p>
+      <router-link
+        v-for="bookmark in bookmarks"
+        v-bind:to="bookmark.links.quiz.replace('quizzes', 'quiz')+bookmark.links.self.replace('questions', 'question')" v-on:click.native="loadPage()">
         <q-card class="card">
+<!--
           <div class="card-side">
-            <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
+            <div v-bind:class="{ blue: bookmark.quiz_type === 'end_of_sem', green: bookmark.quiz_type === 'mid_sem', orange: bookmark.quiz_type === 'assignment'  }" class="card-icon">
               <p>
-                {{ splitCourseCode(test.course_code)[1] }}
+                {{ splitCourseCode(bookmark.course_code)[1] }}
                 <br>
-                {{ splitCourseCode(test.course_code)[2] }}
+                {{ splitCourseCode(bookmark.course_code)[2] }}
               </p>
             </div>
           </div>
+-->
           <div class="card-main">
-            <p class="text card-title">
-              {{test.name}}
-            </p>
-            <p class="text duration">{{test.course_name}}</p>
-            <p class="text question-count">{{test.question_count}}Q</p>
+            <p class="text card-title" v-html="bookmark.quiz_name"></p>
+            <p class="text question" v-html="bookmark.question || bookmark.content"></p>
+            <p class="text duration">{{bookmark.question_type}}</p>
+            <p class="text question-count"><span v-if="bookmark.number">No.</span> {{bookmark.number}}</p>
           </div>
         </q-card>
       </router-link>
@@ -36,7 +39,8 @@
     QTransition,
     QOptionGroup,
     QInput,
-    QBtn
+    QBtn,
+    QCard
   } from 'quasar'
 
   let pageData = {
@@ -45,15 +49,36 @@
       QTransition,
       QOptionGroup,
       QInput,
-      QBtn
+      QBtn,
+      QCard
     },
-    data () {
-      return {
-        bookmarks: this.$store.state.bookmarks
+    computed: {
+      bookmarks () {
+        console.log(this.$store.state.bookmarks)
+        return this.$store.state.bookmarks
       }
     },
+//    data () {
+//      return {
+//        bookmarks: this.$store.state.bookmarks
+//      }
+//    },
     methods: {
-
+      splitCourseCode: function (courseCode = "") {
+        return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
+      },
+      renderMath: function () {
+        this.$nextTick(function () {
+          // eslint-disable-next-line no-undef,eqeqeq
+          if (typeof (katex) != 'undefined') AMfunc(true)
+        })
+      }
+    },
+    created () {
+      this.$store.dispatch('getBookmarks')
+    },
+    mounted () {
+      this.renderMath()
     }
   }
 
@@ -68,12 +93,40 @@
     width 100%
 
   .content
-    margin-top 20px
-    padding 10px
+    margin-top 0px
 
   .empty-list
     text-align center
     color orange
     span
       color $mid-gray
+
+  .card-title, .question
+    text-overflow ellipsis
+    word-wrap break-word
+    overflow hidden
+    max-height 1.8em
+    line-height 1.8em
+    -webkit-line-clamp 1
+    overflow hidden
+    display -webkit-box
+    -webkit-box-orient vertical
+    font-weight 300
+    color $primary
+
+  .question
+    color $dark-gray
+    font-weight 400
+    font-size 13px !important
+
+  .duration
+    float left
+    font-size 12px
+
+  .question-count
+    color $secondary
+    font-size 12px
+    float left
+    margin-left 5px
+
 </style>
