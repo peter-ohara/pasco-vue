@@ -7,7 +7,7 @@
       <p class="empty-list" v-if="!(Object.keys(bookmarks).length)">Looks like you have not bookmarked anything yet.<br> <span>Go to the homepage, pick a test and start bookmarking questions you want to revisit</span></p>
       <router-link
         v-for="bookmark in bookmarks"
-        v-bind:to="bookmark.links.quiz.replace('quizzes', 'quiz')+bookmark.links.self.replace('questions', 'question')" v-on:click.native="loadPage()">
+        v-bind:to="bookmark.links.quiz.replace('quizzes', 'quiz')+bookmark.links.self.replace('questions', 'question')">
         <q-card class="card">
 <!--
           <div class="card-side">
@@ -74,11 +74,9 @@
         })
       }
     },
-    created () {
-      this.$store.dispatch('getBookmarks')
-    },
     mounted () {
       this.renderMath()
+      this.$store.dispatch('getBookmarks')
     }
   }
 
@@ -98,6 +96,7 @@
     .empty-list
       text-align center
       color orange
+      padding 10px
       span
         color $mid-gray
 

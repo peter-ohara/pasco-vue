@@ -3,9 +3,10 @@
     <div class="bookmark-area">
       <q-btn
         class="bookmark-btn"
-        color="tertiary"
+        v-bind:class="{tertiary: !isBookmarked, primary: isBookmarked}"
         icon="star"
-        @click="addBookmark()"
+        @click="editBookmark()"
+        small
         >
         Bookmark
       </q-btn>
@@ -53,12 +54,27 @@
         return this.$store.state.nextQuestionUrl
       }
     },
+    data () {
+      return{
+        isBookmarked: false
+      }
+    },
     methods: {
-      addBookmark(){
-        console.log("Bookmark pay load before dispatch", this.currentQuestion);
-        const question = this.currentQuestion;
-        question.quiz_name = this.currentQuiz.name
-        this.$store.dispatch('addBookmark', this.currentQuestion)
+      editBookmark () {
+        this.isBookmarked = !this.isBookmarked
+
+        //If bookmark removed
+        if(!this.isBookmarked){
+          this.$store.dispatch('removeBookmark', this.currentQuestion.id)
+        } else{
+          //console.log("Bookmark pay load before dispatch", this.currentQuestion);
+          const question = this.currentQuestion;
+          question.quiz_name = this.currentQuiz.name
+          this.$store.dispatch('addBookmark', this.currentQuestion)
+        }
+      },
+      checkBookmark () {
+        this.isBookmarked = this.currentQuestion.id in this.$store.state.bookmarks
       }
     },
     created () {
@@ -74,7 +90,16 @@
           quizId: parseInt(this.$route.params.quizId),
           questionId: parseInt(this.$route.params.questionId)
         })
+
+        this.checkBookmark()
       }
+    },
+    mounted () {
+      const self = this
+      this.$store.dispatch('getBookmarks').then(function(){
+        self.checkBookmark()
+      })
+
     }
   }
 
@@ -110,4 +135,11 @@
 
   .bookmark-btn
     float right
+
+  .tertiary
+    background-color $neutral
+
+  .primary
+    background-color $primary
+    color white
 </style>

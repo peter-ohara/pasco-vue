@@ -206,7 +206,11 @@ export default new Vuex.Store({
       .catch(error => {
         console.log(error)
       })
-    }
+    },
+    removeBookmark ({commit, state}, payload) {
+      console.log(payload)
+      commit(REMOVE_BOOKMARK, payload)
+    },
   }
 })
 
