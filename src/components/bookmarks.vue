@@ -86,47 +86,48 @@
 </script>
 
 
-<style lang="stylus" scoped>
+<style lang="stylus">
   @import '~variables'
 
   .bookmarks
     width 100%
 
-  .content
-    margin-top 0px
+    .content
+      margin-top 0px
 
-  .empty-list
-    text-align center
-    color orange
-    span
-      color $mid-gray
+    .empty-list
+      text-align center
+      color orange
+      span
+        color $mid-gray
 
-  .card-title, .question
-    text-overflow ellipsis
-    word-wrap break-word
-    overflow hidden
-    max-height 1.8em
-    line-height 1.8em
-    -webkit-line-clamp 1
-    overflow hidden
-    display -webkit-box
-    -webkit-box-orient vertical
-    font-weight 300
-    color $primary
+    .card-title, .question
+      text-overflow ellipsis
+      word-wrap break-word
+      overflow hidden !important
+      max-height 1.8em
+      line-height 1.8em
+      -webkit-line-clamp 1
+      overflow hidden
+      display -webkit-box
+      -webkit-box-orient vertical
+      font-weight 300
+      color $primary
 
-  .question
-    color $dark-gray
-    font-weight 400
-    font-size 13px !important
+    .question
+      color $dark-gray
+      font-weight 400
+      font-size 13px
+      p
+        font-size 13px
+    .duration
+      float left
+      font-size 12px
 
-  .duration
-    float left
-    font-size 12px
-
-  .question-count
-    color $secondary
-    font-size 12px
-    float left
-    margin-left 5px
+    .question-count
+      color $secondary
+      font-size 12px
+      float left
+      margin-left 5px
 
 </style>
