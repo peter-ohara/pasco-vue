@@ -85,6 +85,7 @@ export default pageData
 <style lang="stylus">
 @import '~variables'
 
+
 .search-area
   max-width 600px
   margin 0 auto 20px
@@ -122,12 +123,13 @@ export default pageData
 .card
   background white
   display flex
-  padding 10px
+  padding 5px 10px
 
 .card-side
   width 20%
   max-width 200px
   min-width 80px
+  margin-top 5px
 
 .card-icon
   background-color $info
@@ -149,7 +151,7 @@ export default pageData
 
 .question-count
   color $blue
-  font-size 15px
+  font-size 12px
 
 .duration
   color $mid-gray
@@ -157,6 +159,8 @@ export default pageData
 .card-title
   color $dark-gray
   font-size 18px
+  font-weight 300
+  margin-top 5px
 
 .blue
   background-color $blue

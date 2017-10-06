@@ -94,6 +94,9 @@
 <style lang="stylus">
   @import '~variables'
 
+  .q-tabs
+    font-family 'Montserrat'
+
   img.logo
   //padding 5px 10px
     height 24px
