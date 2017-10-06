@@ -88,7 +88,6 @@ export default pageData
 <style lang="stylus">
 @import '~variables'
 
-
 .search-area
   max-width 600px
   margin 0 auto 20px
