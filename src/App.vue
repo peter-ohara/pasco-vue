@@ -9,12 +9,58 @@
       </q-btn>
       <q-toolbar-title>
       </q-toolbar-title>
+      <q-btn ref="target" flat>
+        <q-icon name="more_vert"/>
+        <!-- Direct child of target -->
+        <q-popover ref="popover">
+          <!--
+            The DOM element(s) that make up the popup,
+            in this case a list:
+          -->
+          <q-list item-separator link>
+<!--
+            <router-link v-bind:to="'/signin'">
+              <q-item>
+                Sign In
+              </q-item>
+            </router-link>
+            <q-item @click="$refs.popover.close()">
+              Sign Up
+            </q-item>
+-->
+            <a :href="'http://bit.ly/PascoReportIssue'">
+              <q-item>
+                Report an Issue
+              </q-item>
+            </a>
+             <a :href="'http://bit.ly/PascoFeedback'">
+              <q-item>
+                Give Feedback
+              </q-item>
+            </a>
+            <a :href="'http://bit.ly/PascoSupport'">
+              <q-item>
+                Contact Support
+              </q-item>
+            </a>
+            <a :href="'https://docs.google.com/document/d/1ZHX2coQ2rlTMO6cZxJXYTVFlbolEbs_fQ3GATAds9eA/edit'">
+              <q-item>
+                About
+              </q-item>
+            </a>
+<!--
+            <q-item @click="$refs.popover.close()">
+              Share
+            </q-item>
+-->
 
       <!--<q-btn flat-->
              <!--v-clipboard:copy="shareUrl"-->
              <!--v-clipboard:success="onCopy"-->
              <!--v-clipboard:error="onError">-->
         <!--<q-icon name="link"/>-->
+          </q-list>
+        </q-popover>
       </q-btn>
     </q-toolbar>
 
@@ -48,7 +94,10 @@
     Toast,
     QAjaxBar,
     GoBack,
-    openURL
+    QList,
+    QItem,
+    openURL,
+    QPopover
   } from 'quasar'
 
   export default {
@@ -61,7 +110,10 @@
       QBtn,
       QIcon,
       QAjaxBar,
-      openURL
+      QList,
+      QItem,
+      openURL,
+      QPopover
     },
     directives: {
       GoBack
@@ -103,4 +155,7 @@
 
   .q-tabs-inverted .q-tabs-head
     background #f0f0f0
+
+  .q-popover .q-item
+    color $dark-gray
 </style>
