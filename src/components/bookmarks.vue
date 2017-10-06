@@ -54,7 +54,8 @@
     },
     computed: {
       bookmarks () {
-        console.log(this.$store.state.bookmarks)
+        //console.log(this.$store.state.bookmarks)
+        this.renderMath()
         return this.$store.state.bookmarks
       }
     },
@@ -74,7 +75,7 @@
         })
       }
     },
-    mounted () {
+    created () {
       this.renderMath()
       this.$store.dispatch('getBookmarks')
     }
