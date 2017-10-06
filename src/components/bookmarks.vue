@@ -93,6 +93,9 @@
     .content
       margin-top 0px
 
+    .card
+      overflow hidden
+
     .empty-list
       text-align center
       color orange
