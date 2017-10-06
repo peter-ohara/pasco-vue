@@ -114,22 +114,22 @@
       overflow hidden
       display -webkit-box
       -webkit-box-orient vertical
-      font-weight 300
+      font-weight 400
       color $primary
 
     .question
       color $dark-gray
       font-weight 400
-      font-size 13px
+      font-size 15px
       p
-        font-size 13px
+        font-size 15px
     .duration
       float left
-      font-size 12px
+      font-size 15px
 
     .question-count
       color $secondary
-      font-size 12px
+      font-size 15px
       float left
       margin-left 5px
 
