@@ -48,6 +48,9 @@
                 About
               </q-item>
             </a>
+            <q-item to="/bookmarks">
+              Bookmarks
+            </q-item>
 <!--
             <q-item @click="$refs.popover.close()">
               Share
@@ -145,6 +148,9 @@
 
 <style lang="stylus">
   @import '~variables'
+
+  .q-tabs
+    font-family 'Montserrat'
 
   img.logo
   //padding 5px 10px

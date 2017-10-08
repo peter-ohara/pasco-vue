@@ -1,6 +1,6 @@
 <template>
   <div class="signin">
-    <div class="header">
+    <div class="screen-header">
       <p>Sign In</p>
     </div>
     <form>
@@ -89,12 +89,6 @@
 
   .signin
     width 100%
-    .header
-      height 60px
-      background teal
-      font-size 30px
-      color white
-      padding 20px 15px
     form
       margin-top 15vh
       padding 10px
