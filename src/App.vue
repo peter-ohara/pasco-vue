@@ -33,7 +33,7 @@
                 Report an Issue
               </q-item>
             </a>
-             <a :href="'http://bit.ly/PascoFeedback'">
+             <a :href="'http://bit.ly/PascoFeedback2'">
               <q-item>
                 Give Feedback
               </q-item>
