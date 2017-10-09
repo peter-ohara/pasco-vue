@@ -33,7 +33,6 @@ export default new VueRouter({
 
   mode: 'history',
   routes: [
-    { path: '/index.html?utm_source=homescreen', component: Main }, // Added for launching from homescreen
     { name: 'main', path: '/', component: Main },
     { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
     { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager },
