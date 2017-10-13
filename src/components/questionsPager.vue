@@ -77,7 +77,7 @@
         this.isBookmarked = this.currentQuestion.id in this.$store.state.bookmarks
       },
       checkTimer () {
-        if (this.$store.state.isTimerOn) {
+        if (this.$store.state.isTimerOn && this.$store.state.timer === "00:00:00") {
           //start timer
           let date = new Date(this.$store.state.currentQuiz.duration*60*60*1000)
           //let date = new Date(5000)
