@@ -14,6 +14,16 @@
       </div>
     </div>
     <div class="secondary-details">
+      <div class="section timer">
+        <q-item tag="label">
+          <q-item-main>
+            <q-item-tile label>Timer</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-toggle v-model="isTimerOn" />
+          </q-item-side>
+        </q-item>
+      </div>
       <div class="section">
         <h2 class="section-title">Instructions</h2>
         <p class="section-content">{{test.instructions}}</p>
@@ -32,14 +42,31 @@
   import {
     QInput,
     QCard,
-    QBtn
+    QBtn,
+    QToggle,
+    QItem,
+    QItemMain,
+    QItemTile,
+    QItemSideRight,
+    QItemSide
   } from 'quasar'
 
   let pageData = {
     components: {
       QInput,
       QCard,
-      QBtn
+      QBtn,
+      QToggle,
+      QItem,
+      QItemMain,
+      QItemTile,
+      QItemSideRight,
+      QItemSide
+    },
+    data() {
+      return {
+        isTimerOn: false
+      }
     },
     computed: {
       isPageLoading () {
@@ -85,6 +112,11 @@
       this.$store.dispatch('getTestDetails', {
         quizId: parseInt(this.$route.params.quizId)
       })
+    },
+    watch: {
+      isTimerOn: function () {
+        this.$store.dispatch('setTimer', this.isTimerOn)
+      }
     }
   }
 
@@ -137,6 +169,14 @@
 
     .section-content
       text-align left
+
+    .section
+      padding 0px 10px
+
+    .timer
+      background $light-gray
+      margin-top 20px
+      border-radius 30px
 
     .footer
       position fixed
