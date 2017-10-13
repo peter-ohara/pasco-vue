@@ -9,6 +9,9 @@
         v-model="keyword"
         placeholder="Find a test"/>
     </div>
+    <div class="trial-period">
+      <p>Pasco is currently in the trial period till October 31st</p>
+    </div>
     <div class="content">
       <router-link v-for="test in filterQuizzes"  v-bind:to="'quiz/'+ test.id" v-on:click.native="loadPage()">
         <q-card class="card">
@@ -113,21 +116,24 @@ export default pageData
       input:-moz-placeholder  /* Firefox 18- */
         color $tertiary !important
 
+.trial-period p
+  text-align center
+  color orange
 
-
-.content
+.content, .trial-period
   max-width 600px
   margin 0px auto 10px
 
 .card
   background white
   display flex
-  padding 10px
+  padding 5px 10px
 
 .card-side
   width 20%
   max-width 200px
   min-width 80px
+  margin-top 5px
 
 .card-icon
   background-color $info
@@ -149,7 +155,7 @@ export default pageData
 
 .question-count
   color $blue
-  font-size 15px
+  font-size 12px
 
 .duration
   color $mid-gray
@@ -157,6 +163,8 @@ export default pageData
 .card-title
   color $dark-gray
   font-size 18px
+  font-weight 300
+  margin-top 5px
 
 .blue
   background-color $blue
