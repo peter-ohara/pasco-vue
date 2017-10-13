@@ -75,6 +75,17 @@
       },
       checkBookmark () {
         this.isBookmarked = this.currentQuestion.id in this.$store.state.bookmarks
+      },
+      checkTimer () {
+        if (this.$store.state.isTimerOn) {
+          //start timer
+          let date = new Date(this.$store.state.currentQuiz.duration*60*60*1000)
+          setInterval(() => {
+            this.$store.dispatch("setTimer", ('0'+date.getHours()).slice(-2) + " : "+ ('0'+date.getMinutes()).slice(-2) + " : "+ ('0'+date.getSeconds()).slice(-2))
+            date.setSeconds(date.getSeconds() - 1)
+          }, 1000)
+
+        }
       }
     },
     created () {
@@ -99,7 +110,7 @@
       this.$store.dispatch('getBookmarks').then(function(){
         self.checkBookmark()
       })
-
+      this.checkTimer()
     }
   }
 

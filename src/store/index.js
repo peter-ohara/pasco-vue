@@ -13,6 +13,7 @@ const SET_CURRENT_QUESTION = 'setCurrentQuestion'
 const ADD_BOOKMARK = 'addBookmark'
 const SET_BOOKMARKS = 'setBookmarks'
 const REMOVE_BOOKMARK = 'removeBookmark'
+const SET_TIMER_VISIBILITY = 'setTimerVisibility'
 const SET_TIMER = 'setTimer'
 
 const USER_TESTS_KEY = 'userTests'
@@ -44,7 +45,8 @@ export default new Vuex.Store({
     loadingUsersTests: false,
     loadingTestsError: {},
     bookmarks: {},
-    isTimerOn: false
+    isTimerOn: false,
+    timer: "00:00:00"
   },
   mutations: {
     // we can use the ES2015 computed property name feature
@@ -107,9 +109,12 @@ export default new Vuex.Store({
       //saveToCache('bookmarks', state.bookmarks)
       //console.log(state)
     },
-    [SET_TIMER] (state, payload) {
+    [SET_TIMER_VISIBILITY] (state, payload) {
       console.log('timer set', payload)
       state.isTimerOn = payload
+    },
+    [SET_TIMER] (state, payload) {
+      state.timer = payload
     }
   },
   actions: {
@@ -216,6 +221,9 @@ export default new Vuex.Store({
     removeBookmark ({commit, state}, payload) {
       console.log(payload)
       commit(REMOVE_BOOKMARK, payload)
+    },
+    setTimerVisibility ({commit, state}, payload){
+      commit(SET_TIMER_VISIBILITY, payload)
     },
     setTimer ({commit, state}, payload){
       commit(SET_TIMER, payload)

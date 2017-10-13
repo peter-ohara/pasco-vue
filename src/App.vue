@@ -9,6 +9,7 @@
       </q-btn>
       <q-toolbar-title>
       </q-toolbar-title>
+      <q-btn flat v-if="isTimerOn">{{currentTime}}</q-btn>
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
@@ -127,6 +128,12 @@
       },
       shareUrl () {
         return location.href
+      },
+      isTimerOn () {
+        return this.$store.state.isTimerOn
+      },
+      currentTime () {
+        return this.$store.state.timer
       }
     },
     methods: {

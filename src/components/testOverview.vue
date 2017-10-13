@@ -115,7 +115,7 @@
     },
     watch: {
       isTimerOn: function () {
-        this.$store.dispatch('setTimer', this.isTimerOn)
+        this.$store.dispatch('setTimerVisibility', this.isTimerOn)
       }
     }
   }
