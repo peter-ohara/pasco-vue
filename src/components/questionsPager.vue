@@ -80,11 +80,16 @@
         if (this.$store.state.isTimerOn) {
           //start timer
           let date = new Date(this.$store.state.currentQuiz.duration*60*60*1000)
-          setInterval(() => {
+          //let date = new Date(5000)
+          var timerInt = setInterval(() => {
+            if(!(date.getHours() + date.getMinutes() + date.getSeconds())){
+              //time is up
+              alert('Time is up');
+              clearInterval(timerInt)
+            }
             this.$store.dispatch("setTimer", ('0'+date.getHours()).slice(-2) + " : "+ ('0'+date.getMinutes()).slice(-2) + " : "+ ('0'+date.getSeconds()).slice(-2))
-            date.setSeconds(date.getSeconds() - 1)
+            date.setSeconds(date.getSeconds() - 1);
           }, 1000)
-
         }
       }
     },
