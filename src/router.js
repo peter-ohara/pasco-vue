@@ -6,6 +6,7 @@ import TestOverview from '@/testOverview.vue'
 import QuestionsPager from '@/questionsPager.vue'
 import SignIn from '@/signIn.vue'
 import Bookmarks from '@/bookmarks.vue'
+import About from '@/about.vue'
 
 Vue.use (VueRouter)
 
@@ -38,6 +39,7 @@ export default new VueRouter({
     { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
     { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager },
     { name: 'signIn', path: '/signin', component: SignIn },
-    { name: 'bookmarks', path: '/bookmarks', component: Bookmarks }
+    { name: 'bookmarks', path: '/bookmarks', component: Bookmarks },
+    { name: 'about', path: '/about', component: About }
   ]
 })
