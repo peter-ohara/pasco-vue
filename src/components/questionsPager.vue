@@ -29,7 +29,8 @@
   import Question from '@/question.vue'
 
   import {
-    QBtn
+    QBtn,
+    Dialog
   } from 'quasar'
 
   let pageData = {
@@ -56,7 +57,8 @@
     },
     data () {
       return{
-        isBookmarked: false
+        isBookmarked: false,
+        timerInt: null
       }
     },
     methods: {
@@ -81,16 +83,27 @@
           //start timer
           let date = new Date(this.$store.state.currentQuiz.duration*60*60*1000)
           //let date = new Date(5000)
-          var timerInt = setInterval(() => {
+          this.timerInt = setInterval(() => {
             if(!(date.getHours() + date.getMinutes() + date.getSeconds())){
               //time is up
-              alert('Time is up');
-              clearInterval(timerInt)
+              this.timeUpDialog ()
+              this.clearTimer()
             }
             this.$store.dispatch("setTimer", ('0'+date.getHours()).slice(-2) + " : "+ ('0'+date.getMinutes()).slice(-2) + " : "+ ('0'+date.getSeconds()).slice(-2))
             date.setSeconds(date.getSeconds() - 1);
           }, 1000)
         }
+      },
+      timeUpDialog () {
+        Dialog.create({
+          title: 'Alert',
+          message: 'Your time is up'
+        })
+      },
+      clearTimer () {
+        clearInterval(this.timerInt);
+        this.$store.dispatch('setTimerVisibility', false)
+        this.$store.dispatch('setTimer', "00:00:00")
       }
     },
     created () {
@@ -107,15 +120,35 @@
           questionId: parseInt(this.$route.params.questionId)
         })
 
-        this.checkBookmark()
+        //check if question is bookmarked
+        this.checkBookmark ()
       }
     },
     mounted () {
       const self = this
-      this.$store.dispatch('getBookmarks').then(function(){
+      this.$store.dispatch('getBookmarks').then(function () {
         self.checkBookmark()
       })
       this.checkTimer()
+    },
+    beforeRouteLeave (to, from, next) {
+      // called when the route that renders this component is about to
+      // be navigated away from.
+      // has access to `this` component instance.
+
+
+      if (!to.fullPath.startsWith("/bookmark") && this.$store.state.isTimerOn) {
+        const answer = window.confirm('You are in the middle of a timed quiz. if you leave, the timer will be reset. Do you still want to leave?')
+
+        if (answer) {
+          this.clearTimer()
+          next()
+        } else {
+          next(false)
+        }
+      } else {
+        next()
+      }
     }
   }
 

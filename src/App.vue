@@ -160,7 +160,6 @@
     font-family 'Montserrat'
 
   img.logo
-  //padding 5px 10px
     height 24px
 
   .q-tabs-inverted .q-tabs-head
