@@ -55,8 +55,23 @@
     computed: {
       bookmarks () {
         //console.log(this.$store.state.bookmarks)
-        this.renderMath()
-        return this.$store.state.bookmarks
+        if (this.$store.state.isTimerOn) {
+          //If timer is on, get bookmarks that are in the current quiz
+          let bookmarks = {};
+          const allBookmarks = this.$store.state.bookmarks
+          Object.keys(allBookmarks).map((key) => {
+            if (allBookmarks[key].quiz_id === this.$store.state.currentQuiz.id) {
+              bookmarks[key] = allBookmarks[key]
+            }
+          })
+
+          console.log("FILTERED", bookmarks)
+          this.renderMath()
+          return bookmarks
+        } else {
+          this.renderMath()
+          return this.$store.state.bookmarks
+        }
       }
     },
 //    data () {
@@ -78,6 +93,25 @@
     created () {
       this.renderMath()
       this.$store.dispatch('getBookmarks')
+    },
+    beforeRouteLeave (to, from, next) {
+      // called when the route that renders this component is about to
+      // be navigated away from.
+      // has access to `this` component instance.
+
+
+      if (!to.fullPath.includes("/question") && this.$store.state.isTimerOn) {
+        const answer = window.confirm('You are in the middle of a timed quiz. if you leave, the timer will be reset. Do you still want to leave?')
+
+        if (answer) {
+          this.$store.dispatch('clearTimer')
+          next()
+        } else {
+          next(false)
+        }
+      } else {
+        next()
+      }
     }
   }
 

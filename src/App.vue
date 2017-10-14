@@ -9,7 +9,14 @@
       </q-btn>
       <q-toolbar-title>
       </q-toolbar-title>
-      <q-btn flat v-if="isTimerOn">{{currentTime}}</q-btn>
+      <q-btn flat v-if="isTimerOn">
+        {{currentTime}}
+        <q-popover ref="popover">
+          <q-item @click="clearTimer">
+            Stop Timer
+          </q-item>
+        </q-popover>
+      </q-btn>
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
@@ -148,6 +155,9 @@
       },
       getTabLabel (question) {
         return question.question_type === 'header' ? question.title : question.number
+      },
+      clearTimer () {
+        this.$store.dispatch('clearTimer')
       }
     }
   }

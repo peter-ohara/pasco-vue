@@ -57,8 +57,7 @@
     },
     data () {
       return{
-        isBookmarked: false,
-        timerInt: null
+        isBookmarked: false
       }
     },
     methods: {
@@ -82,16 +81,15 @@
         if (this.$store.state.isTimerOn && this.$store.state.timer === "00:00:00") {
           //start timer
           let date = new Date(this.$store.state.currentQuiz.duration*60*60*1000)
-          //let date = new Date(5000)
-          this.timerInt = setInterval(() => {
+          this.$store.dispatch('startTimer', setInterval(() => {
             if(!(date.getHours() + date.getMinutes() + date.getSeconds())){
               //time is up
               this.timeUpDialog ()
-              this.clearTimer()
+              this.clearTimer ()
             }
             this.$store.dispatch("setTimer", ('0'+date.getHours()).slice(-2) + " : "+ ('0'+date.getMinutes()).slice(-2) + " : "+ ('0'+date.getSeconds()).slice(-2))
             date.setSeconds(date.getSeconds() - 1);
-          }, 1000)
+          }, 1000))
         }
       },
       timeUpDialog () {
@@ -101,9 +99,7 @@
         })
       },
       clearTimer () {
-        clearInterval(this.timerInt);
-        this.$store.dispatch('setTimerVisibility', false)
-        this.$store.dispatch('setTimer', "00:00:00")
+        this.$store.dispatch('clearTimer')
       }
     },
     created () {
