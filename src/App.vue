@@ -51,11 +51,9 @@
                 Contact Support
               </q-item>
             </a>
-            <a :href="'https://docs.google.com/document/d/1ZHX2coQ2rlTMO6cZxJXYTVFlbolEbs_fQ3GATAds9eA/edit'">
-              <q-item>
-                About
-              </q-item>
-            </a>
+            <q-item to="/about">
+              About
+            </q-item>
             <q-item to="/bookmarks">
               Bookmarks
             </q-item>
