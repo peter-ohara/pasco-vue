@@ -9,6 +9,14 @@
       </q-btn>
       <q-toolbar-title>
       </q-toolbar-title>
+      <q-btn flat v-if="isTimerOn">
+        {{currentTime}}
+        <q-popover ref="popover">
+          <q-item @click="clearTimer">
+            Stop Timer
+          </q-item>
+        </q-popover>
+      </q-btn>
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
@@ -127,6 +135,12 @@
       },
       shareUrl () {
         return location.href
+      },
+      isTimerOn () {
+        return this.$store.state.isTimerOn
+      },
+      currentTime () {
+        return this.$store.state.timer
       }
     },
     methods: {
@@ -141,6 +155,9 @@
       },
       getTabLabel (question) {
         return question.question_type === 'header' ? question.title : question.number
+      },
+      clearTimer () {
+        this.$store.dispatch('clearTimer')
       }
     }
   }
@@ -153,7 +170,6 @@
     font-family 'Montserrat'
 
   img.logo
-  //padding 5px 10px
     height 24px
 
   .q-tabs-inverted .q-tabs-head
