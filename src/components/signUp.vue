@@ -1,8 +1,18 @@
 <template>
   <div class="signin">
-    <form v-on:submit.prevent="signIn()">
-      <div class="form-group email">
+    <form v-on:submit.prevent="signUp()">
+      <div class="form-group name">
         {{ form.error }}
+        <q-input
+          type="text"
+          id="email"
+          v-model="form.name"
+          @blur="$v.form.name.$touch"
+          :error="$v.form.name.$error"
+          placeholder="Name"
+        />
+      </div>
+      <div class="form-group email">
         <q-input
           type="email"
           id="email"
@@ -21,11 +31,11 @@
         />
       </div>
       <div class="form-group">
-        <router-link v-bind:to="'/signup'">
-          Sign Up
+        <router-link v-bind:to="'/signin'">
+          Sign In
         </router-link>
         <q-btn class="submit-btn">
-          Sign In
+          Sign Up
         </q-btn>
       </div>
     </form>
@@ -57,29 +67,31 @@
     },
     validations: {
       form: {
+        name: {required},
         email: {required, email}
       }
     },
     data () {
       return {
         form: {
+          name: '',
           email: '',
-          password: '',
-          error: ''
+          password: ''
         }
       }
     },
     methods: {
-      signIn () {
-        this.$auth.login({
+      signUp () {
+        this.$auth.register({
           body: {
-            auth: {
+            user: {
+              name: this.form.name,
               email: this.form.email,
               password: this.form.password
             }
           },
           error: function () {
-            this.form.error = 'Incorrect username or password'
+            this.form.error = 'email is already taken or something'
           }
         })
       }

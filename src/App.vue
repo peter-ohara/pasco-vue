@@ -26,16 +26,11 @@
             in this case a list:
           -->
           <q-list item-separator link>
-<!--
-            <router-link v-bind:to="'/signin'">
-              <q-item>
-                Sign In
-              </q-item>
-            </router-link>
-            <q-item @click="$refs.popover.close()">
-              Sign Up
+
+            <q-item to="/bookmarks">
+              Bookmarks
             </q-item>
--->
+
             <a :href="'http://bit.ly/PascoReportIssue'">
               <q-item>
                 Report an Issue
@@ -54,14 +49,14 @@
             <q-item to="/about">
               About
             </q-item>
-            <q-item to="/bookmarks">
-              Bookmarks
-            </q-item>
 <!--
             <q-item @click="$refs.popover.close()">
               Share
             </q-item>
 -->
+            <q-item v-if="$auth.check()" @click="logOut()">
+              Logout
+            </q-item>
 
       <!--<q-btn flat-->
              <!--v-clipboard:copy="shareUrl"-->
@@ -81,7 +76,13 @@
                    v-for="(question, index) in currentQuiz.questions"/>
     </q-tabs>
 
-    <router-view></router-view>
+    <div v-if="$auth.ready()">
+      <router-view></router-view>
+    </div>
+
+    <div v-if="!$auth.ready()">
+      Loading ...
+    </div>
 
     <q-ajax-bar color="orange" :delay="500"/>
 
@@ -156,6 +157,20 @@
       },
       clearTimer () {
         this.$store.dispatch('clearTimer')
+      },
+      logOut () {
+        this.$auth.logout({
+          success: function () {
+            console.log('logged out')
+          },
+          error: function () {
+            console.log('error logging out')
+          },
+          redirect: {name: 'signIn'}
+        })
+        // TODO: Invalidate vuex store
+        // TODO: Invalidate quizzes in localforage
+        this.$refs.popover.close()
       }
     }
   }

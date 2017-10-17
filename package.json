@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "@websanova/vue-auth": "^2.18.3-beta",
     "auth0-js": "^8.10.1",
     "auth0-lock": "^10.22.0",
     "axios": "^0.16.2",

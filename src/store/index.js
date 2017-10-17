@@ -253,7 +253,7 @@ function getFromCache (key) {
 
 function saveToCache (key, payload) {
   console.log("Saving to cache", key)
-  return localforage.setItem(key, payload)
+  // return localforage.setItem(key, payload)
 }
 
 function refreshCache () {

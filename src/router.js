@@ -5,6 +5,7 @@ import Main from '@/main.vue'
 import TestOverview from '@/testOverview.vue'
 import QuestionsPager from '@/questionsPager.vue'
 import SignIn from '@/signIn.vue'
+import SignUp from '@/signUp.vue'
 import Bookmarks from '@/bookmarks.vue'
 import About from '@/about.vue'
 
@@ -34,11 +35,12 @@ export default new VueRouter({
 
   mode: 'history',
   routes: [
-    { name: 'main', path: '/', component: Main },
-    { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview },
-    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager },
-    { name: 'signIn', path: '/signin', component: SignIn },
-    { name: 'bookmarks', path: '/bookmarks', component: Bookmarks },
-    { name: 'about', path: '/about', component: About }
+    { name: 'signIn', path: '/signin', component: SignIn, auth: false },
+    { name: 'signUp', path: '/signup', component: SignUp, auth: false },
+    { name: 'about', path: '/about', component: About },
+    { name: 'main', path: '/', component: Main, auth: true },
+    { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview, auth: true },
+    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager, auth: true },
+    { name: 'bookmarks', path: '/bookmarks', component: Bookmarks, auth: true },
   ]
 })
