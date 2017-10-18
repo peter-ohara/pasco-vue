@@ -34,7 +34,7 @@ Vue.use(require('@websanova/vue-auth'), {
   forbiddenRedirect: {path: '/403'},
   notFoundRedirect: {path: '/404'},
   registerData: {url: 'auth/register', method: 'POST', redirect: '/signin'},
-  loginData: {url: 'auth/login', method: 'POST', redirect: '/', fetchUser: true},
+  loginData: {url: 'auth/login', method: 'POST', redirect: '/', fetchUser: false},
   logoutData: {url: 'auth/logout', method: 'POST', redirect: '/', makeRequest: false},
   oauth1Data: {url: 'auth/login', method: 'POST'},
   fetchData: {url: 'auth/user', method: 'GET', enabled: true},
@@ -43,12 +43,13 @@ Vue.use(require('@websanova/vue-auth'), {
 
 const API_ROOT = 'https://pasco-api-staging.herokuapp.com/'
 const QuizResource = Vue.resource('quizzes{/id}?include=questions')
+const UserResource = Vue.resource('auth/user')
 
 export default {
   userTests: function () {
-    return QuizResource.get()
+    return UserResource.get()
       .then(function (data) {
-        return data.body.quizzes
+        return data.body.user.quizzes
       })
   }
 }
