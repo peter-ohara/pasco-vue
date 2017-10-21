@@ -81,7 +81,7 @@
   .single-question
     min-height 300px
     max-width 600px
-    margin 16px auto 82px
+    margin 16px auto 32px
     .header-container
       padding-left 8px
       padding-right 8px

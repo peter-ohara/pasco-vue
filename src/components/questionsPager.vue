@@ -1,5 +1,6 @@
 <template>
   <div class="main questions">
+
     <div class="bookmark-area">
       <q-btn
         class="bookmark-btn"
@@ -11,7 +12,12 @@
         Bookmark
       </q-btn>
     </div>
+
     <question :question="currentQuestion"></question>
+
+    <comments class="comments-container"
+              shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="currentQuestionUrl" >
+    </comments>
 
     <div class="footer">
       <router-link v-bind:to="previousQuestionUrl" replace>
@@ -27,6 +33,7 @@
 
 <script>
   import Question from '@/question.vue'
+  import Comments from '@/comments.vue'
 
   import {
     QBtn,
@@ -36,6 +43,7 @@
   let pageData = {
     components: {
       Question,
+      Comments,
       QBtn
     },
     computed: {
@@ -44,6 +52,9 @@
       },
       currentQuiz () {
         return this.$store.state.currentQuiz
+      },
+      currentQuestionUrl () {
+        return 'https://app.pascoapp.com/' + this.$route.path
       },
       currentQuestion () {
         return this.$store.state.currentQuestion
@@ -56,7 +67,7 @@
       }
     },
     data () {
-      return{
+      return {
         isBookmarked: false
       }
     },
@@ -64,12 +75,12 @@
       editBookmark () {
         this.isBookmarked = !this.isBookmarked
 
-        //If bookmark removed
-        if(!this.isBookmarked){
+        // If bookmark removed
+        if (!this.isBookmarked) {
           this.$store.dispatch('removeBookmark', this.currentQuestion.id)
-        } else{
-          //console.log("Bookmark pay load before dispatch", this.currentQuestion);
-          const question = this.currentQuestion;
+        } else {
+          // console.log("Bookmark pay load before dispatch", this.currentQuestion);
+          const question = this.currentQuestion
           question.quiz_name = this.currentQuiz.name
           this.$store.dispatch('addBookmark', this.currentQuestion)
         }
@@ -78,17 +89,21 @@
         this.isBookmarked = this.currentQuestion.id in this.$store.state.bookmarks
       },
       checkTimer () {
-        if (this.$store.state.isTimerOn && this.$store.state.timer === "00:00:00") {
-          //start timer
-          let date = new Date(this.$store.state.currentQuiz.duration*60*60*1000)
+        if (this.$store.state.isTimerOn && this.$store.state.timer === '00:00:00') {
+          // start timer
+          let date = new Date(this.$store.state.currentQuiz.duration * 60 * 60 * 1000)
           this.$store.dispatch('startTimer', setInterval(() => {
-            if(!(date.getHours() + date.getMinutes() + date.getSeconds())){
-              //time is up
-              this.timeUpDialog ()
-              this.clearTimer ()
+            if (!(date.getHours() + date.getMinutes() + date.getSeconds())) {
+              // time is up
+              this.timeUpDialog()
+              this.clearTimer()
             }
-            this.$store.dispatch("setTimer", ('0'+date.getHours()).slice(-2) + " : "+ ('0'+date.getMinutes()).slice(-2) + " : "+ ('0'+date.getSeconds()).slice(-2))
-            date.setSeconds(date.getSeconds() - 1);
+            this.$store.dispatch('setTimer',
+              ('0' + date.getHours()).slice(-2) + ' : ' +
+              ('0' + date.getMinutes()).slice(-2) + ' : ' +
+              ('0' + date.getSeconds()).slice(-2)
+            )
+            date.setSeconds(date.getSeconds() - 1)
           }, 1000))
         }
       },
@@ -116,8 +131,8 @@
           questionId: parseInt(this.$route.params.questionId)
         })
 
-        //check if question is bookmarked
-        this.checkBookmark ()
+        // check if question is bookmarked
+        this.checkBookmark()
       }
     },
     mounted () {
@@ -132,8 +147,7 @@
       // be navigated away from.
       // has access to `this` component instance.
 
-
-      if (!to.fullPath.startsWith("/bookmark") && this.$store.state.isTimerOn) {
+      if (!to.fullPath.startsWith('/bookmark') && this.$store.state.isTimerOn) {
         const answer = window.confirm('You are in the middle of a timed quiz. if you leave, the timer will be reset. Do you still want to leave?')
 
         if (answer) {
@@ -187,4 +201,10 @@
   .primary
     background-color $primary
     color white
+
+  .comments-container
+    max-width 600px
+    margin 16px auto 82px
+    padding-left: 8px
+    padding-right: 8px
 </style>
