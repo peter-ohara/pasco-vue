@@ -14,6 +14,7 @@
         type="radio"
         v-model="answer"
         :options="choices"
+        @change="checkAnswer(answer)"
       />
     </div>
 
@@ -26,19 +27,28 @@
   import {
     QInnerLoading,
     QTransition,
-    QOptionGroup
+    QOptionGroup,
+    Alert
   } from 'quasar'
+
+  // Don't forget to import the animations you are using
+  // Examples:
+  import 'quasar-extras/animate/bounceInLeft.css'
+  import 'quasar-extras/animate/bounceOutLeft.css'
 
   let pageData = {
     components: {
       QInnerLoading,
       QTransition,
-      QOptionGroup
+      QOptionGroup,
+      Alert
     },
     props: ['question'],
     data () {
       return {
-        answer: ''
+        answer: '',
+        correctAnswerAlert: false,
+        wrongAnswerAlert: false
       }
     },
     computed: {
@@ -81,6 +91,37 @@
       resetChoices: function () {
         console.log('Resetting choices')
         this.answer = ''
+        this.dismissAlerts()
+      },
+      dismissAlerts () {
+        if (this.correctAnswerAlert) this.correctAnswerAlert.dismiss()
+        if (this.wrongAnswerAlert) this.wrongAnswerAlert.dismiss()
+      },
+      checkAnswer: function () {
+        this.dismissAlerts()
+        if (this.answer === this.question.answer) {
+          this.correctAnswerAlert = Alert.create(
+            {
+              color: 'positive',
+              html: 'Correct!  :D The answer is indeed ' + this.question.answer,
+              icon: 'thumb_up',
+              enter: 'bounceInLeft',
+              leave: 'bounceOutLeft',
+              position: 'left'
+            }
+          )
+        } else {
+          this.wrongAnswerAlert = Alert.create(
+            {
+              color: 'amber',
+              html: 'Sorry, ' + this.answer + ' is not the correct answer. Try again :)',
+              icon: 'replay',
+              enter: 'bounceInLeft',
+              leave: 'bounceOutLeft',
+              position: 'left'
+            }
+          )
+        }
       },
       getChoiceLetter: function (index) {
         return String.fromCharCode(97 + index)
