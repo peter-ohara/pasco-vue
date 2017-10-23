@@ -108,7 +108,7 @@
           this.noAnswerAlert = Alert.create(
             {
               color: 'tertiary',
-              html: 'Sorry! <br> The answer for this question is not ready yet. <br> We\'ll notify you when it is uploaded',
+              html: 'Sorry! <br> We don\'t have the answer for this question yet. <br> If you have the answer, help us by posting it in the discussion section below',
               icon: 'sentiment_dissatisfied',
               enter: 'bounceInLeft',
               leave: 'bounceOutLeft',
