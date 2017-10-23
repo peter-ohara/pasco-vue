@@ -48,7 +48,8 @@
       return {
         answer: '',
         correctAnswerAlert: false,
-        wrongAnswerAlert: false
+        wrongAnswerAlert: false,
+        noAnswerAlert: false
       }
     },
     computed: {
@@ -75,6 +76,9 @@
     mounted () {
       this.renderMath()
     },
+    beforeDestroy () {
+      this.dismissAlerts()
+    },
     watch: {
       question: function () {
         this.renderMath()
@@ -96,29 +100,41 @@
       dismissAlerts () {
         if (this.correctAnswerAlert) this.correctAnswerAlert.dismiss()
         if (this.wrongAnswerAlert) this.wrongAnswerAlert.dismiss()
+        if (this.noAnswerAlert) this.noAnswerAlert.dismiss()
       },
       checkAnswer: function () {
         this.dismissAlerts()
-        if (this.answer === this.question.answer) {
+        if (this.question.answer === '') {
+          this.noAnswerAlert = Alert.create(
+            {
+              color: 'tertiary',
+              html: 'Sorry! <br> We don\'t have the answer for this question yet. <br> If you have the answer, help us by posting it in the discussion section below',
+              icon: 'sentiment_dissatisfied',
+              enter: 'bounceInLeft',
+              leave: 'bounceOutLeft',
+              position: 'bottom'
+            }
+          )
+        } else if (this.answer === this.question.answer) {
           this.correctAnswerAlert = Alert.create(
             {
               color: 'positive',
-              html: 'Correct!  :D The answer is indeed ' + this.question.answer,
-              icon: 'thumb_up',
+              html: 'Correct! <br> The answer is indeed "' + this.question.answer.toUpperCase() + '"',
+              icon: 'sentiment_very_satisfied',
               enter: 'bounceInLeft',
               leave: 'bounceOutLeft',
-              position: 'left'
+              position: 'bottom'
             }
           )
         } else {
           this.wrongAnswerAlert = Alert.create(
             {
               color: 'amber',
-              html: 'Sorry, ' + this.answer + ' is not the correct answer. Try again :)',
-              icon: 'replay',
+              html: 'Incorrect: <br> "' + this.answer.toUpperCase() + '" is not the correct answer. <br> No hassle, just try again. <i class="material-icons">mood</i>',
+              icon: 'clear',
               enter: 'bounceInLeft',
               leave: 'bounceOutLeft',
-              position: 'left'
+              position: 'bottom'
             }
           )
         }
@@ -141,6 +157,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
   @import '~variables'
+
+  .q-alert-container
+    bottom: 50px !important
 
   .single-question
     min-height 300px
