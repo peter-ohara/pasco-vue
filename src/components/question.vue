@@ -112,7 +112,7 @@
               icon: 'sentiment_dissatisfied',
               enter: 'bounceInLeft',
               leave: 'bounceOutLeft',
-              position: 'left'
+              position: 'bottom'
             }
           )
         } else if (this.answer === this.question.answer) {
@@ -123,7 +123,7 @@
               icon: 'sentiment_very_satisfied',
               enter: 'bounceInLeft',
               leave: 'bounceOutLeft',
-              position: 'left'
+              position: 'bottom'
             }
           )
         } else {
@@ -134,7 +134,7 @@
               icon: 'clear',
               enter: 'bounceInLeft',
               leave: 'bounceOutLeft',
-              position: 'left'
+              position: 'bottom'
             }
           )
         }
@@ -157,6 +157,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus">
   @import '~variables'
+
+  .q-alert-container
+    bottom: 50px !important
 
   .single-question
     min-height 300px
