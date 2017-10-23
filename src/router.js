@@ -9,7 +9,7 @@ import SignUp from '@/signUp.vue'
 import Bookmarks from '@/bookmarks.vue'
 import About from '@/about.vue'
 
-Vue.use (VueRouter)
+Vue.use(VueRouter)
 
 /*
  * Uncomment this section and use "load()" if you want
@@ -35,12 +35,26 @@ export default new VueRouter({
 
   mode: 'history',
   routes: [
-    { name: 'signIn', path: '/signin', component: SignIn, auth: false },
-    { name: 'signUp', path: '/signup', component: SignUp, auth: false },
-    { name: 'about', path: '/about', component: About },
-    { name: 'main', path: '/', component: Main, auth: true },
-    { name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview, auth: true },
-    { name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager, auth: true },
-    { name: 'bookmarks', path: '/bookmarks', component: Bookmarks, auth: true },
+    {
+      name: 'signIn', path: '/signin', component: SignIn, meta: { auth: false }
+    },
+    {
+      name: 'signUp', path: '/signup', component: SignUp, meta: { auth: false }
+    },
+    {
+      name: 'about', path: '/about', component: About
+    },
+    {
+      name: 'main', path: '/', component: Main, meta: { auth: true }
+    },
+    {
+      name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview, meta: { auth: true }
+    },
+    {
+      name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager, meta: { auth: true }
+    },
+    {
+      name: 'bookmarks', path: '/bookmarks', component: Bookmarks, meta: { auth: true }
+    }
   ]
 })
