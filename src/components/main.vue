@@ -56,13 +56,15 @@ let pageData = {
     }
   },
   created () {
-    if (this.$store.state.usersTests.length === 0) {
-      this.$store.dispatch('getUsersTests')
+    if (this.$store.state.quiz.usersTests.length === 0) {
+      this.$store.dispatch('getQuizzesForUser').catch(function (error) {
+        console.error('There was an error running action getQuizzesForUser', error)
+      })
     }
   },
   computed: {
     tests () {
-      return this.$store.state.usersTests
+      return this.$store.state.quiz.usersTests
     },
     filterQuizzes () {
       let self = this

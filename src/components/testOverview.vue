@@ -63,24 +63,38 @@
       QItemSideRight,
       QItemSide
     },
-    data() {
+    data () {
       return {
         isTimerOn: false
       }
     },
     computed: {
       isPageLoading () {
-        return this.$store.state.loadingUsersTests
+        return this.$store.state.quiz.loadingUsersQuizzes
       },
       test () {
-        return this.$store.state.currentQuiz
+        return this.$store.state.quiz.currentQuiz
       },
       questionUrl () {
-        if (this.$store.state.currentQuiz.questions.length > 0) {
-          return '/quiz/' + this.$store.state.currentQuiz.id +
-            '/question/' + this.$store.state.currentQuestion.id
-        } else {
+        let quizId = this.$store.state.quiz.currentQuiz.id
+
+        if (quizId === 0) {
+          // Quiz hasn't been loaded yet
           return ''
+        } else if (this.$store.state.quiz.currentQuiz.questions.length < 1) {
+          // Quiz has no questions
+          return ''
+        } else {
+          // Quiz is loaded and has questions create a url for it
+          let questionId
+
+          if (this.$store.state.question.currentQuestion.id === 0) {
+            questionId = this.$store.state.quiz.currentQuiz.questions[0].id
+          } else {
+            questionId = this.$store.state.question.currentQuestion.id
+          }
+          return '/quiz/' + quizId +
+            '/question/' + questionId
         }
       }
     },
@@ -109,15 +123,14 @@
       }
     },
     created () {
-      this.$store.dispatch('getTestDetails', {
+      let payload = {
         quizId: parseInt(this.$route.params.quizId)
-      })
+      }
+      this.$store.dispatch('loadQuiz', payload)
     },
     watch: {
       isTimerOn: function () {
         this.$store.dispatch('setTimerVisibility', this.isTimerOn)
-
-        //!this.isTimerOn ? this.$store.dispatch('setTimer', "00:00:00") : 0
       }
     }
   }

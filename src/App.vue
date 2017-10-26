@@ -130,16 +130,16 @@
     },
     computed: {
       currentQuiz () {
-        return this.$store.state.currentQuiz
+        return this.$store.state.quiz.currentQuiz
       },
       shareUrl () {
         return location.href
       },
       isTimerOn () {
-        return this.$store.state.isTimerOn
+        return this.$store.state.timer.isTimerOn
       },
       currentTime () {
-        return this.$store.state.timer
+        return this.$store.state.timer.timer
       }
     },
     methods: {

@@ -54,33 +54,27 @@
     },
     computed: {
       bookmarks () {
-        //console.log(this.$store.state.bookmarks)
-        if (this.$store.state.isTimerOn) {
-          //If timer is on, get bookmarks that are in the current quiz
-          let bookmarks = {};
-          const allBookmarks = this.$store.state.bookmarks
+        if (this.$store.state.timer.isTimerOn) {
+          // If timer is on, get bookmarks that are in the current quiz
+          let bookmarks = {}
+          const allBookmarks = this.$store.state.bookmarks.bookmarks
           Object.keys(allBookmarks).map((key) => {
-            if (allBookmarks[key].quiz_id === this.$store.state.currentQuiz.id) {
+            if (allBookmarks[key].quiz_id === this.$store.state.quiz.currentQuiz.id) {
               bookmarks[key] = allBookmarks[key]
             }
           })
 
-          console.log("FILTERED", bookmarks)
+          console.log('FILTERED', bookmarks)
           this.renderMath()
           return bookmarks
         } else {
           this.renderMath()
-          return this.$store.state.bookmarks
+          return this.$store.state.bookmarks.bookmarks
         }
       }
     },
-//    data () {
-//      return {
-//        bookmarks: this.$store.state.bookmarks
-//      }
-//    },
     methods: {
-      splitCourseCode: function (courseCode = "") {
+      splitCourseCode: function (courseCode = '') {
         return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
       },
       renderMath: function () {
@@ -99,8 +93,7 @@
       // be navigated away from.
       // has access to `this` component instance.
 
-
-      if (!to.fullPath.includes("/question") && this.$store.state.isTimerOn) {
+      if (!to.fullPath.includes('/question') && this.$store.state.timer.isTimerOn) {
         const answer = window.confirm('You are in the middle of a timed quiz. if you leave, the timer will be reset. Do you still want to leave?')
 
         if (answer) {

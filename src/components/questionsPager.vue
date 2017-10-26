@@ -6,9 +6,9 @@
         class="bookmark-btn"
         v-bind:class="{tertiary: !isBookmarked, primary: isBookmarked}"
         icon="star"
-        @click="editBookmark()"
+        @click="toggleBookmark()"
         small
-        >
+      >
         Bookmark
       </q-btn>
     </div>
@@ -16,7 +16,7 @@
     <question :question="currentQuestion"></question>
 
     <comments class="comments-container"
-              shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="currentQuestionUrl" >
+              shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="currentQuestionUrl">
     </comments>
 
     <div class="footer">
@@ -48,50 +48,81 @@
     },
     computed: {
       isPageLoading () {
-        return this.$store.state.loadingUsersTests
+        return this.$store.state.quiz.loadingUsersQuizzes
       },
       currentQuiz () {
-        return this.$store.state.currentQuiz
+        return this.$store.state.quiz.currentQuiz
       },
       currentQuestionUrl () {
         return 'https://app.pascoapp.com/' + this.$route.path
       },
       currentQuestion () {
-        return this.$store.state.currentQuestion
+        return this.$store.state.question.currentQuestion
       },
       previousQuestionUrl () {
-        return this.$store.state.previousQuestionUrl
+        if (this.$store.state.quiz.currentQuiz.id === 0) {
+          return ''
+        } else {
+          let currentQuestionIndex = this.$store.state.quiz.currentQuiz.questions
+            .findIndex(question => question.id === parseInt(this.$route.params.questionId))
+
+          let previousQuestionIndex
+
+          if (currentQuestionIndex === -1) {
+            // no question
+            console.log('Question with id' + currentQuestionIndex + ' doesn\'t exist in this quiz')
+          } else if (currentQuestionIndex === 0) {
+            // first question
+            previousQuestionIndex = currentQuestionIndex
+          } else {
+            previousQuestionIndex = currentQuestionIndex - 1
+          }
+
+          return '/quiz/' + this.$store.state.quiz.currentQuiz.id + '/question/' +
+            this.$store.state.quiz.currentQuiz.questions[previousQuestionIndex].id
+        }
       },
       nextQuestionUrl () {
-        return this.$store.state.nextQuestionUrl
-      }
-    },
-    data () {
-      return {
-        isBookmarked: false
+        if (this.$store.state.quiz.currentQuiz.id === 0) {
+          // currentQuiz hasn'y been loaded yet
+          return ''
+        } else {
+          let currentQuestionIndex = this.$store.state.quiz.currentQuiz.questions
+            .findIndex(question => question.id === parseInt(this.$route.params.questionId))
+
+          let nextQuestionIndex
+
+          if (currentQuestionIndex === -1) {
+            // no question
+            console.log('Question with id' + currentQuestionIndex + ' doesn\'t exist in this quiz')
+          } else if (currentQuestionIndex === this.$store.state.quiz.currentQuiz.questions.length - 1) {
+            // last question
+            nextQuestionIndex = currentQuestionIndex
+          } else {
+            nextQuestionIndex = currentQuestionIndex + 1
+          }
+
+          return '/quiz/' + this.$store.state.quiz.currentQuiz.id + '/question/' +
+            this.$store.state.quiz.currentQuiz.questions[nextQuestionIndex].id
+        }
+      },
+      isBookmarked () {
+        return this.$store.state.bookmarks.bookmarks
+          .hasOwnProperty(this.currentQuestion.id)
       }
     },
     methods: {
-      editBookmark () {
-        this.isBookmarked = !this.isBookmarked
-
-        // If bookmark removed
-        if (!this.isBookmarked) {
+      toggleBookmark () {
+        if (this.isBookmarked) {
           this.$store.dispatch('removeBookmark', this.currentQuestion.id)
         } else {
-          // console.log("Bookmark pay load before dispatch", this.currentQuestion);
-          const question = this.currentQuestion
-          question.quiz_name = this.currentQuiz.name
           this.$store.dispatch('addBookmark', this.currentQuestion)
         }
       },
-      checkBookmark () {
-        this.isBookmarked = this.currentQuestion.id in this.$store.state.bookmarks
-      },
       checkTimer () {
-        if (this.$store.state.isTimerOn && this.$store.state.timer === '00:00:00') {
+        if (this.$store.state.timer.isTimerOn && this.$store.state.timer.timer === '00:00:00') {
           // start timer
-          let date = new Date(this.$store.state.currentQuiz.duration * 60 * 60 * 1000)
+          let date = new Date(this.$store.state.quiz.currentQuiz.duration * 60 * 60 * 1000)
           this.$store.dispatch('startTimer', setInterval(() => {
             if (!(date.getHours() + date.getMinutes() + date.getSeconds())) {
               // time is up
@@ -118,27 +149,27 @@
       }
     },
     created () {
-      this.$store.dispatch('getQuestion', {
+      let payload = {
         quizId: parseInt(this.$route.params.quizId),
         questionId: parseInt(this.$route.params.questionId)
-      })
+      }
+      this.$store.dispatch('loadQuestion', payload)
     },
     watch: {
       '$route' (to, from) {
         // react to route changes...
-        this.$store.dispatch('getQuestion', {
+        let payload = {
           quizId: parseInt(this.$route.params.quizId),
           questionId: parseInt(this.$route.params.questionId)
-        })
-
-        // check if question is bookmarked
-        this.checkBookmark()
+        }
+        this.$store.dispatch('loadQuestion', payload)
       }
     },
     mounted () {
-      const self = this
-      this.$store.dispatch('getBookmarks').then(function () {
-        self.checkBookmark()
+      this.$store.dispatch('getBookmarks').then(function (bookmarks) {
+        console.log('Something wicked this way comes', bookmarks)
+      }).catch(error => {
+        console.error(error)
       })
       this.checkTimer()
     },
@@ -147,7 +178,7 @@
       // be navigated away from.
       // has access to `this` component instance.
 
-      if (!to.fullPath.startsWith('/bookmark') && this.$store.state.isTimerOn) {
+      if (!to.fullPath.startsWith('/bookmark') && this.$store.state.timer.isTimerOn) {
         const answer = window.confirm('You are in the middle of a timed quiz. if you leave, the timer will be reset. Do you still want to leave?')
 
         if (answer) {

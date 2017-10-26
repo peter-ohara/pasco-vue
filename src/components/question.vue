@@ -54,7 +54,7 @@
     },
     computed: {
       isPageLoading () {
-        return this.$store.state.loadingUsersTests
+        return this.$store.state.quiz.loadingUsersQuizzes
       },
       choices () {
         if (this.question.question_type === 'mcq') {
