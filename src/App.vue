@@ -8,6 +8,7 @@
         <img src="~assets/logo3.png" class="logo" alt="">
       </q-btn>
       <q-toolbar-title>
+        {{ pageTitle }}
       </q-toolbar-title>
       <q-btn flat v-if="isTimerOn">
         {{currentTime}}
@@ -129,6 +130,16 @@
       GoBack
     },
     computed: {
+      pageTitle () {
+        switch (this.$route.name) {
+          case 'course':
+            let course = this.$store.state.entities.courses
+              .byId[this.$route.params.courseId]
+            return course.code + ' ' + course.name
+          default:
+            return ''
+        }
+      },
       currentQuiz () {
         return this.$store.state.quiz.currentQuiz
       },
