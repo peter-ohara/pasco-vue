@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Main from '@/main.vue'
+import Course from '@/course.vue'
 import TestOverview from '@/testOverview.vue'
 import QuestionsPager from '@/questionsPager.vue'
 import SignIn from '@/signIn.vue'
@@ -46,6 +47,9 @@ export default new VueRouter({
     },
     {
       name: 'main', path: '/', component: Main, meta: { auth: true }
+    },
+    {
+      name: 'course', path: '/course/:courseId', component: Course, meta: { auth: true }
     },
     {
       name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview, meta: { auth: true }
