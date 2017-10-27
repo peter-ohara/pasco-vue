@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Main from '@/main.vue'
-import Course from '@/course.vue'
+import Course from '@/course/course.vue'
 import TestOverview from '@/testOverview.vue'
 import QuestionsPager from '@/questionsPager.vue'
 import SignIn from '@/signIn.vue'

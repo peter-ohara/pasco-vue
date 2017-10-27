@@ -135,7 +135,11 @@
           case 'course':
             let course = this.$store.state.entities.courses
               .byId[this.$route.params.courseId]
-            return course.code + ' ' + course.name
+            if (course) {
+              return course.code + ' ' + course.name
+            } else {
+              return ''
+            }
           default:
             return ''
         }

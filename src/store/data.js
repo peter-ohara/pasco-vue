@@ -5,9 +5,9 @@ import api from '../api'
 
 Vue.use(Vuex)
 
-const FETCH_USER_DATA_REQUEST = 'fetchUserRequest'
-const FETCH_USER_DATA_SUCCESS = 'fetchUserSuccess'
-const FETCH_USER_DATA_FAILURE = 'fetchUserFailure'
+const FETCH_USER_DATA_REQUEST = 'fetchUserDataRequest'
+const FETCH_USER_DATA_SUCCESS = 'fetchUserDataSuccess'
+const FETCH_USER_DATA_FAILURE = 'fetchUserDataFailure'
 const SET_CURRENT_COURSE = 'setCurrentCourse'
 
 const USER_DATA_KEY = 'pascoUser'
@@ -26,8 +26,8 @@ export default {
       byId: {},
       allIds: []
     },
-    loadingUser: false,
-    loadingUserError: {}
+    loadingUserData: false,
+    loadingUserDataError: {}
   },
   getters: {
     courses: state => {
@@ -38,10 +38,10 @@ export default {
     // we can use the ES2015 computed property name feature
     // to use a constant as the function name
     [FETCH_USER_DATA_REQUEST] (state) {
-      state.loadingUser = true
+      state.loadingUserData = true
     },
     [FETCH_USER_DATA_SUCCESS] (state, payload) {
-      state.loadingUser = false
+      state.loadingUserData = false
 
       // Clear courses
       state.courses.allIds = []
@@ -58,20 +58,29 @@ export default {
         state.courses.allIds.push(course.id)
         Vue.set(state.courses.byId, course.id, course)
 
+        let quizIds = []
         course.quizzes.forEach(function (quiz) {
           state.quizzes.allIds.push(quiz.id)
           Vue.set(state.quizzes.byId, quiz.id, quiz)
 
+          let questionIds = []
           quiz.questions.forEach(function (question) {
             state.questions.allIds.push(question.id)
             Vue.set(state.questions.byId, question.id, question)
+
+            questionIds.push(question.id)
           })
+          quiz.questions = questionIds
+
+          quizIds.push(quiz.id)
         })
+        course.quizzes = quizIds
+
       })
     },
     [FETCH_USER_DATA_FAILURE] (state, payload) {
-      state.loadingUser = false
-      state.loadingUserError = payload.error
+      state.loadingUserData = false
+      state.loadingUserDataError = payload.error
     },
     [SET_CURRENT_COURSE] (state, payload) {
       state.currentQuiz = state.usersTests.find(quiz => quiz.id === payload.quizId)
