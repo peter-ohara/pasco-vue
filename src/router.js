@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import Main from '@/main.vue'
 import Course from '@/course/course.vue'
-import TestOverview from '@/testOverview.vue'
+import Quiz from '@/quiz.vue'
 import QuestionsPager from '@/questionsPager.vue'
 import SignIn from '@/signIn.vue'
 import SignUp from '@/signUp.vue'
@@ -52,10 +52,10 @@ export default new VueRouter({
       name: 'course', path: '/course/:courseId', component: Course, meta: { auth: true }
     },
     {
-      name: 'quizOverview', path: '/quiz/:quizId', component: TestOverview, meta: { auth: true }
+      name: 'quiz', path: '/quiz/:quizId', component: Quiz, meta: { auth: true }
     },
     {
-      name: 'questionsPager', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager, meta: { auth: true }
+      name: 'question', path: '/question/:questionId', component: QuestionsPager, meta: { auth: true }
     },
     {
       name: 'bookmarks', path: '/bookmarks', component: Bookmarks, meta: { auth: true }

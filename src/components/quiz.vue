@@ -1,66 +1,63 @@
 <template>
   <div class="main test">
-    <div class="main-details">
-      <div class="icon"></div>
-      <div class="test-details">
-        <p class="name">{{ test.course_code }}</p>
-        <p class="type-duration">
-          {{ test.course_name }}
-          <br>
-          {{ test.year }} {{ getType(test.quiz_type) }}
-          <br>
-          {{ test.duration }} {{ test.duration | pluralize('hr') }}
-        </p>
+    <template v-if="quiz">
+      <div class="main-details">
+        <div class="icon"></div>
+        <div class="test-details">
+          <p class="name">{{ quiz.code }}</p>
+          <p class="type-duration">
+            {{ quiz.course_name }}
+            <br>
+            {{ quiz.year }} {{ getType(quiz.quiz_type) }}
+            <br>
+            {{ quiz.duration }} {{ quiz.duration | pluralize('hr') }}
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="secondary-details">
-      <div class="section timer">
-        <q-item tag="label">
-          <q-item-main>
-            <q-item-tile label>Timer</q-item-tile>
-          </q-item-main>
-          <q-item-side right>
-            <q-toggle v-model="isTimerOn" />
-          </q-item-side>
-        </q-item>
+      <div class="secondary-details">
+        <div class="section timer">
+          <q-item tag="label">
+            <q-item-main>
+              <q-item-tile label>Timer</q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-toggle v-model="isTimerOn" />
+            </q-item-side>
+          </q-item>
+        </div>
+        <div class="section">
+          <h2 class="section-title">Instructions</h2>
+          <p class="section-content">{{quiz.instructions}}</p>
+        </div>
       </div>
-      <div class="section">
-        <h2 class="section-title">Instructions</h2>
-        <p class="section-content">{{test.instructions}}</p>
-      </div>
-    </div>
-    <img src="~assets/load.svg" class="loading-icon" v-if="isPageLoading" alt="">
-    <router-link v-bind:to="questionUrl">
-      <div class="footer">
-        <q-btn class="button">Start</q-btn>
-      </div>
-    </router-link>
+      <router-link :to="{ name: 'question', params: { questionId: questionId }}">
+        <div class="footer">
+          <q-btn class="button">Start</q-btn>
+        </div>
+      </router-link>
+    </template>
   </div>
 </template>
 
 <script>
   import {
-    QInput,
     QCard,
     QBtn,
     QToggle,
     QItem,
     QItemMain,
     QItemTile,
-    QItemSideRight,
     QItemSide
   } from 'quasar'
 
   let pageData = {
     components: {
-      QInput,
       QCard,
       QBtn,
       QToggle,
       QItem,
       QItemMain,
       QItemTile,
-      QItemSideRight,
       QItemSide
     },
     data () {
@@ -72,30 +69,12 @@
       isPageLoading () {
         return this.$store.state.quiz.loadingUsersQuizzes
       },
-      test () {
-        return this.$store.state.quiz.currentQuiz
+      quiz () {
+        return this.$store.state.entities.quizzes
+          .byId[this.$route.params.quizId]
       },
-      questionUrl () {
-        let quizId = this.$store.state.quiz.currentQuiz.id
-
-        if (quizId === 0) {
-          // Quiz hasn't been loaded yet
-          return ''
-        } else if (this.$store.state.quiz.currentQuiz.questions.length < 1) {
-          // Quiz has no questions
-          return ''
-        } else {
-          // Quiz is loaded and has questions create a url for it
-          let questionId
-
-          if (this.$store.state.question.currentQuestion.id === 0) {
-            questionId = this.$store.state.quiz.currentQuiz.questions[0].id
-          } else {
-            questionId = this.$store.state.question.currentQuestion.id
-          }
-          return '/quiz/' + quizId +
-            '/question/' + questionId
-        }
+      questionId () {
+        return this.quiz.questions[0]
       }
     },
     methods: {
@@ -123,10 +102,9 @@
       }
     },
     created () {
-      let payload = {
-        quizId: parseInt(this.$route.params.quizId)
-      }
-      this.$store.dispatch('loadQuiz', payload)
+      this.$store.dispatch('fetchUserData').catch(function (error) {
+        console.error('There was an error running action fetchUserData', error)
+      })
     },
     watch: {
       isTimerOn: function () {

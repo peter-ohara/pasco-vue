@@ -1,5 +1,5 @@
 <template>
-  <router-link v-bind:to="'quiz/'+ quiz.id">
+  <router-link :to="{ name: 'quiz', params: { quizId: quiz.id }}">
     <q-card class="card">
       <div class="card-side">
         <div v-bind:class="{ blue: quiz.quiz_type === 'end_of_sem', green: quiz.quiz_type === 'mid_sem', orange: quiz.quiz_type === 'assignment'  }"
