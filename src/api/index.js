@@ -20,8 +20,8 @@ Vue.http.interceptors.push(function (request, next) {
   })
 })
 
-// Vue.http.options.root = 'https://pasco-api-development.herokuapp.com/'
-Vue.http.options.root = 'http://localhost:3000'
+Vue.http.options.root = 'https://pasco-api-development.herokuapp.com/'
+// Vue.http.options.root = 'http://localhost:3000'
 const QuizResource = Vue.resource('quizzes{/id}?include=questions')
 const UserResource = Vue.resource('auth/user')
 
