@@ -1,12 +1,20 @@
 <template>
  <div class="main">
-    <div class="trial-period">
-    </div>
-    <div class="content">
-      <template v-if="course">
-        <quiz-item  v-for="quizId in course.quizzes" :quiz-id="quizId">
-        </quiz-item>
-      </template>
+    <div class="content" v-if="course">
+
+      <q-tabs slot="navigation">
+        <!-- Tabs - notice slot="title" -->
+        <q-tab default slot="title" name="tests" label="Tests" />
+        <q-tab disable slot="title" name="topics" label="Topics" />
+        <!-- Targets -->
+        <q-tab-pane name="tests">
+          <quiz-item  v-for="quizId in course.quizzes" :quiz-id="quizId"></quiz-item>
+        </q-tab-pane>
+        <q-tab-pane name="topics">
+          Topics
+        </q-tab-pane>
+      </q-tabs>
+
     </div>
   </div>
 </template>
@@ -14,7 +22,10 @@
 <script>
 import {
   QSearch,
-  QCard
+  QCard,
+  QTabs,
+  QTab,
+  QTabPane
 } from 'quasar'
 
 import quizItem from './quizItem.vue'
@@ -23,6 +34,9 @@ let pageData = {
   components: {
     QSearch,
     QCard,
+    QTabs,
+    QTab,
+    QTabPane,
     quizItem
   },
   data () {
@@ -80,12 +94,10 @@ export default pageData
       input:-moz-placeholder  /* Firefox 18- */
         color $tertiary !important
 
-.trial-period p
-  text-align center
-  color orange
-
-.content, .trial-period
+.content
   max-width 600px
   margin 0px auto 10px
 
+.q-tab-pane
+  padding: 0 !important
 </style>
