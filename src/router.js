@@ -55,7 +55,7 @@ export default new VueRouter({
       name: 'quiz', path: '/quiz/:quizId', component: Quiz, meta: { auth: true }
     },
     {
-      name: 'question', path: '/question/:questionId', component: QuestionsPager, meta: { auth: true }
+      name: 'question', path: '/quiz/:quizId/question/:questionId', component: QuestionsPager, meta: { auth: true }
     },
     {
       name: 'bookmarks', path: '/bookmarks', component: Bookmarks, meta: { auth: true }

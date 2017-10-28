@@ -70,12 +70,14 @@
     </q-toolbar>
 
     <!-- Navigation -->
-    <q-tabs slot="navigation" v-if="this.$route.name === 'questionsPager'" inverted>
-      <q-route-tab slot="title"
-                   v-bind:to="getTabUrl(question)" replace
-                   :label="getTabLabel(question)"
-                   v-for="(question, index) in currentQuiz.questions"/>
-    </q-tabs>
+    <template v-if="this.$route.name === 'question' && quiz">
+      <q-tabs slot="navigation" inverted>
+        <q-route-tab slot="title"
+                     v-bind:to="getTabUrl(questionId)" replace
+                     :label="getTabLabel(questionId)"
+                     v-for="questionId in quiz.questions"/>
+      </q-tabs>
+    </template>
 
     <div v-if="$auth.ready()">
       <router-view></router-view>
@@ -144,8 +146,9 @@
             return ''
         }
       },
-      currentQuiz () {
-        return this.$store.state.quiz.currentQuiz
+      quiz () {
+        return this.$store.state.entities.quizzes
+          .byId[this.$route.params.quizId]
       },
       shareUrl () {
         return location.href
@@ -158,17 +161,22 @@
       }
     },
     methods: {
+      question (questionId) {
+        return this.$store.state.entities.questions
+          .byId[questionId]
+      },
+      getTabUrl (questionId) {
+        return '/quiz/' + this.$route.params.quizId + '/question/' + questionId
+      },
+      getTabLabel (questionId) {
+        let question = this.question(questionId)
+        return question.question_type === 'header' ? question.title : question.number
+      },
       onCopy (e) {
         Toast.create(e.text + ' copied!')
       },
       onError (e) {
         Toast.create('Failed to copy link')
-      },
-      getTabUrl (question) {
-        return '/quiz/' + this.currentQuiz.id + '/question/' + question.id
-      },
-      getTabLabel (question) {
-        return question.question_type === 'header' ? question.title : question.number
       },
       clearTimer () {
         this.$store.dispatch('clearTimer')
