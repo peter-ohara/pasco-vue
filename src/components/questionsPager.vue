@@ -126,9 +126,9 @@
       },
       toggleBookmark () {
         if (this.isBookmarked) {
-          this.$store.dispatch('removeBookmark', this.currentQuestion.id)
+          this.$store.dispatch('removeBookmark', this.$route.params.questionId)
         } else {
-          this.$store.dispatch('addBookmark', this.currentQuestion)
+          this.$store.dispatch('addBookmark', this.question(this.$route.params.questionId))
         }
       },
       checkTimer () {
