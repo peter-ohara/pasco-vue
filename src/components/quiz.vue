@@ -21,7 +21,7 @@
               <q-item-tile label>Timer</q-item-tile>
             </q-item-main>
             <q-item-side right>
-              <q-toggle v-model="isTimerOn" />
+              <q-toggle v-model="isTimerOn"/>
             </q-item-side>
           </q-item>
         </div>
@@ -30,7 +30,7 @@
           <p class="section-content">{{quiz.instructions}}</p>
         </div>
       </div>
-      <router-link :to="{ name: 'question', params: { questionId: questionId }}">
+      <router-link :to="questionUrl">
         <div class="footer">
           <q-btn class="button">Start</q-btn>
         </div>
@@ -73,8 +73,14 @@
         return this.$store.state.entities.quizzes
           .byId[this.$route.params.quizId]
       },
-      questionId () {
-        return this.quiz.questions[0]
+      questionUrl () {
+        return {
+          name: 'question',
+          params: {
+            quizId: this.$route.params.quizId,
+            questionId: this.quiz.questions[0]
+          }
+        }
       }
     },
     methods: {
