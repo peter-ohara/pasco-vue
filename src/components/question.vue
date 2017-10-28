@@ -18,8 +18,6 @@
       />
     </div>
 
-    <q-inner-loading :visible="isPageLoading"></q-inner-loading>
-
   </div>
 </template>
 
@@ -53,9 +51,6 @@
       }
     },
     computed: {
-      isPageLoading () {
-        return this.$store.state.quiz.loadingUsersQuizzes
-      },
       choices () {
         if (this.question.question_type === 'mcq') {
           if (this.question.choices && this.question.choices.length > 0) {
