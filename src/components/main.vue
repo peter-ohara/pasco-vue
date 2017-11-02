@@ -127,37 +127,8 @@
     text-align center
     color orange
 
-  .content
-    max-width 600px
-    margin 0 auto 82px
-
   .trial-period
     margin 0 auto 10px
-
-  .card
-    background white
-    display flex
-    padding 5px 10px
-
-  .card-side
-    width 20%
-    max-width 200px
-    min-width 80px
-    margin-top 5px
-
-  .card-icon
-    background-color $info
-    border-radius 50px
-    height 60px
-    width 60px
-    margin-top 5px
-    padding-bottom 15px
-    padding-top 15px
-    text-align center
-    p
-      line-height 1.2em
-      color white
-      font-size 0.8em
 
   .text
     text-align left
