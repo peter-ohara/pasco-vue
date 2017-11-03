@@ -10,6 +10,7 @@ import SignUp from '@/signUp.vue'
 import Bookmarks from '@/bookmarks.vue'
 import About from '@/about.vue'
 import Store from '@/store.vue'
+import BuyCourse from '@/buycourse.vue'
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,9 @@ export default new VueRouter({
     },
     {
       name: 'store', path: '/store', component: Store, meta: { auth: true }
+    },
+    {
+      name: 'buyCourse', path: '/store/course/:courseId', component: BuyCourse, meta: { auth: true }
     }
   ]
 })

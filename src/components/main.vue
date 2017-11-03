@@ -156,15 +156,5 @@
   .green
     background-color $green
 
-  .footer
-    position fixed
-    bottom 0
-    width 100%
-    height 50px
-    background-color teal
-    .button
-      color white
-      width 100%
-      height 50px
-      margin-top 0
+
 </style>

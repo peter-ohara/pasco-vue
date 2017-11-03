@@ -65,10 +65,9 @@
     },
     methods: {
       generateColor () {
+        //function not in use at the moment
         return '#' + (Math.random().toString(16) + "000000").substring(2,8)
       }
-    },
-    filters: {
     },
     created () {
       this.$store.dispatch('fetchUserData').catch(function (error) {
@@ -81,7 +80,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" >
+<style lang="stylus" scoped>
   @import '~variables'
 
   .card-container
@@ -118,7 +117,7 @@
 
   .q-card-title
     padding 15px 10px
-    margin -25px -25px 0px -25px
+    margin -31px -26px 0px -26px
     height 60px
     background #0888d8
     color white
@@ -129,12 +128,7 @@
   .q-card-actions
     margin -10px -10px
 
-  .buy-btn
-    background $primary
-    color white
 
-  .price
-    color gold
   //Had to repeat the .search-area css because the one on the main
   //screen was not being applied to this screen
   .search-area
