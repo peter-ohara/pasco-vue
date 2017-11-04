@@ -9,6 +9,9 @@
          <p class="course-name">
            {{ course.name }}
          </p>
+         <p v-if="isBoughtAlready">
+           You have purchased this course
+         </p>
        </div>
      </div>
      <div class="content">
@@ -34,9 +37,11 @@
          </q-card>
        </div>
      </div>
-     <div class="footer" @click="this.window.alert('You have purchased this course already')" v-if="isBoughtAlready">
-       <q-btn flat class="buy-btn">You own this course</q-btn>
-     </div>
+     <router-link v-bind:to="{ name: 'course', params: {courseId: course.id} }" v-if="isBoughtAlready">
+       <div class="footer">
+         <q-btn flat class="buy-btn">View Course</q-btn>
+       </div>
+     </router-link>
      <div class="footer" @click="buyCourse(course)" v-else="isBoughtAlready">
        <q-btn flat class="buy-btn">
          Buy for &nbsp;
@@ -101,7 +106,7 @@ let pageData = {
 
       let message = 'You are about to purchase ' +
         this.course.code + ' ' + this.course.name +
-        '. This will cost you ' + this.course.price + ' pasco gold!'
+        '. \nThis will cost you ' + this.course.price + ' pasco gold!'
       let confirmation = confirm(message)
       if (confirmation !== true) {
         return
@@ -113,10 +118,14 @@ let pageData = {
         alert('You have successfully purchased this course. Go to the main screen to see it.')
       }).catch(function (error) {
         console.log(error)
-        alert('There was an error purchasing this course.')
-        // TODO: Handle not enough pascoGold
+        if (error.status === 422 &&
+          error.body.user[0] === 'does not have enough pasco gold to purchase this course') {
+          alert('You do not have enough pasco gold to purchase this course')
+        } else {
+          alert('There was an error purchasing this course for you')
+        }
         // TODO: Handle network error
-        // TODO: Handle not sighned in
+        // TODO: Handle not signed in
       })
     },
     generateColor () {
