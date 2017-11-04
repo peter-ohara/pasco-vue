@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Main from '@/main.vue'
+import PascoStore from '@/pasco_store/pascoStore.vue'
+import StoreCourse from '@/pasco_store/storeCourse.vue'
 import Course from '@/course/course.vue'
 import Quiz from '@/quiz.vue'
 import QuestionsPager from '@/questionsPager.vue'
@@ -47,6 +49,12 @@ export default new VueRouter({
     },
     {
       name: 'main', path: '/', component: Main, meta: { auth: true }
+    },
+    {
+      name: 'pascoStore', path: '/store', component: PascoStore, meta: { auth: true }
+    },
+    {
+      name: 'storeCourse', path: '/store/course/:courseId', component: StoreCourse, meta: { auth: true }
     },
     {
       name: 'course', path: '/course/:courseId', component: Course, meta: { auth: true }

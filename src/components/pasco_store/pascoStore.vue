@@ -1,0 +1,192 @@
+<template>
+  <div class="main">
+    <div class="search-area">
+      <q-search
+        class="search-input"
+        color="white"
+        :inverted="true"
+        :debounce="300"
+        v-model="keyword"
+        placeholder="Find a course"/>
+    </div>
+    <div class="trial-period">
+      <p>Pasco is currently in the trial period till October 31st</p>
+    </div>
+    <div class="content">
+      <router-link v-for="course in courses" v-bind:to="{name: 'storeCourse', params: { courseId: course.id }}">
+        <q-card class="card">
+          <div class="card-side">
+            <div class="card-icon blue">
+              <p>
+                {{ splitCourseCode(course.code)[1] }}
+                <br>
+                {{ splitCourseCode(course.code)[2] }}
+              </p>
+            </div>
+          </div>
+          <div class="card-main">
+            <p class="text card-title">
+              {{course.name}}
+            </p>
+            <p class="text question-count">{{course.quiz_count}} tests</p>
+          </div>
+        </q-card>
+      </router-link>
+    </div>
+
+    <router-link v-bind:to="'/store'">
+      <div class="footer">
+        <q-btn class="button" icon="shop">Buy a course</q-btn>
+      </div>
+    </router-link>
+  </div>
+</template>
+
+<script>
+  import {
+    QSearch,
+    QCard,
+    QBtn
+  } from 'quasar'
+
+  let pageData = {
+    components: {
+      QSearch,
+      QCard,
+      QBtn
+    },
+    data () {
+      return {
+        loading: true,
+        keyword: '',
+        courses: []
+      }
+    },
+    created () {
+      let self = this
+      self.$store.dispatch('fetchUserData').then(function (userData) {
+        return self.$http.get('courses')
+      }).then(function (data) {
+        self.courses = data.body.courses
+      }).catch(function (error) {
+        console.log(error)
+      })
+    },
+    methods: {
+      splitCourseCode: function (courseCode) {
+        return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
+      }
+    }
+  }
+
+  export default pageData
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="stylus">
+  @import '~variables'
+
+  .search-area
+    max-width 600px
+    margin 0 auto 20px
+    padding-left 8px
+    padding-right 8px
+
+    .search-input
+      padding 10px
+      width 100%
+
+      .q-if-control
+        color: $tertiary !important;
+      .q-if-inner
+        input
+          color: black !important;
+
+        input:
+        :-webkit-input-placeholder /* Chrome/Opera/Safari */
+          color $tertiary !important
+
+        input:
+        :-moz-placeholder /* Firefox 19+ */
+          color $tertiary !important
+
+        input:-ms-input-placeholder /* IE 10+ */
+          color $tertiary !important
+
+        input:-moz-placeholder /* Firefox 18- */
+          color $tertiary !important
+
+  .trial-period p
+    text-align center
+    color orange
+
+  .content
+    max-width 600px
+    margin 0 auto 82px
+
+  .trial-period
+    margin 0 auto 10px
+
+  .card
+    background white
+    display flex
+    padding 5px 10px
+
+  .card-side
+    width 20%
+    max-width 200px
+    min-width 80px
+    margin-top 5px
+
+  .card-icon
+    background-color $info
+    border-radius 50px
+    height 60px
+    width 60px
+    margin-top 5px
+    padding-bottom 15px
+    padding-top 15px
+    text-align center
+    p
+      line-height 1.2em
+      color white
+      font-size 0.8em
+
+  .text
+    text-align left
+    margin-bottom 0px
+
+  .question-count
+    color $blue
+    font-size 12px
+
+  .duration
+    color $mid-gray
+
+  .card-title
+    color $dark-gray
+    font-size 18px
+    font-weight 300
+    margin-top 5px
+
+  .blue
+    background-color $blue
+
+  .orange
+    background-color $orange
+
+  .green
+    background-color $green
+
+  .footer
+    position fixed
+    bottom 0
+    width 100%
+    height 50px
+    background-color teal
+    .button
+      color white
+      width 100%
+      height 50px
+      margin-top 0
+</style>
