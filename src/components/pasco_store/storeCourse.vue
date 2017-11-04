@@ -1,49 +1,82 @@
 <template>
  <div class="main">
-    <div class="content" v-if="course">
-      <div class="main-details">
-        <div class="icon"></div>
-        <div class="test-details">
-          <p class="name">{{ course.code }}</p>
-          <p class="type-duration">
-            {{ course.name }}
-          </p>
-        </div>
-      </div>
-
-      <quiz-item  v-for="quiz in course.quizzes" :quiz="quiz"></quiz-item>
-
-      <div class="footer" @click="this.window.alert('You have purchased this course already')" v-if="isBoughtAlready">
-        <q-btn class="button" icon="shop">You own this course</q-btn>
-      </div>
-      <div class="footer" @click="buyCourse(course)" v-else="isBoughtAlready">
-        <q-btn class="button" icon="shop">Buy for 10 Pasco Gold</q-btn>
-      </div>
-    </div>
+   <div class="main store-course">
+     <div class="main-details">
+       <div class="test-details">
+         <p class="course-code">
+           {{ course.code }}
+         </p>
+         <p class="course-name">
+           {{ course.name }}
+         </p>
+       </div>
+     </div>
+     <div class="content">
+       <div class="test-breakdown">
+         <div class="total-tests"><span class="test-count">{{ course.total_quiz_count }}</span> {{ course.total_quiz_count | pluralize('test') }}</div>
+         <ul class="total-breakdown">
+           <li><span class="test-count">{{ course.mid_sem_count }}</span> {{ course.total_quiz_count | pluralize('midsem') }}</li>
+           <li><span class="test-count">{{ course.end_of_sem_count }}</span> {{ course.total_quiz_count | pluralize('end of sem') }}</li>
+           <li><span class="test-count">{{ course.assignment_count }}</span> {{ course.total_quiz_count | pluralize('assignment') }}</li>
+           <li><span class="test-count">{{ course.class_test_count }}</span> {{ course.total_quiz_count | pluralize('class test') }}</li>
+         </ul>
+       </div>
+       <div class="test-list">
+         <p class="list-title">Tests</p>
+         <q-card class="card" v-for="quiz in course.quizzes">
+           <div class="card-main">
+             <p class="text card-title">
+               {{quiz.name}}
+             </p>
+             <p class="text duration">{{quiz.duration}}  {{ quiz.duration | pluralize('hr') }}</p>
+             <p class="text question-count">{{quiz.question_count}} Q</p>
+           </div>
+         </q-card>
+       </div>
+     </div>
+     <div class="footer" @click="this.window.alert('You have purchased this course already')" v-if="isBoughtAlready">
+       <q-btn flat class="buy-btn">You own this course</q-btn>
+     </div>
+     <div class="footer" @click="buyCourse(course)" v-else="isBoughtAlready">
+       <q-btn flat class="buy-btn">
+         Buy for &nbsp;
+         <span class="price">
+            <span class="figure">{{course.price}}</span>
+            PG
+          </span>
+       </q-btn>
+     </div>
+   </div>
   </div>
 </template>
 
 <script>
 import {
-  QSearch,
   QCard,
-  QBtn
+  QBtn,
+  QSearch,
+  QCardTitle,
+  QCardMain,
+  QIcon,
+  QCardActions
 } from 'quasar'
-
-import quizItem from './quizItem.vue'
 
 let pageData = {
   components: {
-    QSearch,
     QCard,
     QBtn,
-    quizItem
+    QSearch,
+    QCardTitle,
+    QCardMain,
+    QIcon,
+    QCardActions
   },
   data () {
     return {
       loading: true,
       keyword: '',
-      course: {}
+      course: {},
+      courseId: this.$route.params.courseId
     }
   },
   computed: {
@@ -66,6 +99,14 @@ let pageData = {
     buyCourse (course) {
       let self = this
 
+      let message = 'You are about to purchase ' +
+        this.course.code + ' ' + this.course.name +
+        '. This will cost you ' + this.course.price + ' pasco gold!'
+      let confirmation = confirm(message)
+      if (confirmation !== true) {
+        return
+      }
+
       return this.$http.post('purchases', {course_id: course.id}).then(function (data) {
         return self.$store.dispatch('fetchUserData')
       }).then(function (userData) {
@@ -77,6 +118,19 @@ let pageData = {
         // TODO: Handle network error
         // TODO: Handle not sighned in
       })
+    },
+    generateColor () {
+      // function not in use at the moment
+      return '#' + (Math.random().toString(16) + '000000').substring(2, 8)
+    }
+  },
+  filters: {
+    pluralize: function (number, word) {
+      if (number === 1) {
+        return word
+      } else {
+        return word + 's'
+      }
     }
   }
 }
@@ -85,75 +139,62 @@ export default pageData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus">
-@import '~variables'
+<style lang="stylus" >
+  @import '~variables'
 
-.search-area
-  max-width 600px
-  margin 0 auto 20px
-  padding-left 8px
-  padding-right 8px
-
-  .search-input
+  .test-breakdown
     padding 10px
-    width 100%
+    margin-top 15px
 
-    .q-if-control
-      color: $tertiary !important;
-    .q-if-inner
-      input
-        color: black !important;
+  .test-count
+    color $mid-gray
 
-      input::-webkit-input-placeholder /* Chrome/Opera/Safari */
-        color $tertiary !important
+  .total-tests
+    font-size: 20px
+    .test-count
+      font-size: 30px
 
-      input::-moz-placeholder  /* Firefox 19+ */
-        color $tertiary !important
-
-      input:-ms-input-placeholder  /* IE 10+ */
-        color $tertiary !important
-
-      input:-moz-placeholder  /* Firefox 18- */
-        color $tertiary !important
-
-.content
-  max-width 600px
-  margin 0px auto 10px
+  .total-breakdown
+    overflow: auto
+    padding-left 0px
+    li
+      display: block
+      float: left
+      width 33.33%
 
   .main-details
-    text-align center
-    height 150px
-    background teal
-    p
-      color white
+    height 165px
+    background $primary
+    overflow: auto
 
-  .test-details
-    overflow auto
+  .test-list
+    margin-top 20px
 
-  .name
-    font-size 30px
-    font-weight 100
-    margin-top 30px
-
-  .type-duration
-    text-align center
-
-  .vertical-bar
-    background-color white
-    width 2px
-    height 20px
-    display inline-block
-    margin 5px 10px -4px
-
-.footer
-  position fixed
-  bottom 0
-  width 100%
-  height 50px
-  background-color teal
-  .button
+  .test-details p
     color white
-    width 100%
-    height 50px
-    margin-top 0
+    text-align: center
+
+  .list-title
+    font-size 20px
+    padding 10px
+
+  .course
+    &-code
+      font-size: 40px
+      font-weight: 200
+      line-height: 40px
+      margin-top: 40px
+
+  .store-course
+    .buy-btn
+      margin: 0px auto
+      display: block
+      margin-top 7px
+    .price
+      background: white
+      padding 7px 5px
+      border-radius 4px
+    .figure
+      color $primary
+
 </style>

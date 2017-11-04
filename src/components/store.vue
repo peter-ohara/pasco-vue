@@ -19,9 +19,9 @@
             </q-card-title>
             <q-card-main class="card-bottom">
               <p class="card-title p-card-title">{{course.name}}</p>
-              <p class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</p>
+              <p class="test-no">{{course.test_count}} 20 tests</p>
               <q-card-actions align="end" >
-                <q-btn class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
+                <q-btn class="buy-btn">{{course.price}} <span class="price">2 PG </span>&nbsp; BUY</q-btn>
               </q-card-actions>
             </q-card-main>
           </q-card>
@@ -54,40 +54,26 @@
     },
     data () {
       return {
-        loading: true,
         isTimerOn: false,
-        keyword: '',
-        courses: []
+        keyword: ''
+      }
+    },
+    computed: {
+      courses () {
+        return this.$store.getters.courses
       }
     },
     methods: {
-      splitCourseCode: function (courseCode) {
-        return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
-      },
       generateColor () {
-        // function not in use at the moment
-        return '#' + (Math.random().toString(16) + '000000').substring(2, 8)
+        //function not in use at the moment
+        return '#' + (Math.random().toString(16) + "000000").substring(2,8)
       }
     },
     created () {
-      let self = this
-      self.$store.dispatch('fetchUserData').then(function (userData) {
-        return self.$http.get('courses')
-      }).then(function (data) {
-        self.courses = data.body.courses
-      }).catch(function (error) {
-        console.log(error)
+      this.$store.dispatch('fetchUserData').catch(function (error) {
+        console.error('There was an error running action fetchUserData', error)
       })
-    },
-    filters: {
-      pluralize: function (number, word) {
-        if (number === 1) {
-          return word
-        } else {
-          return word + 's'
-        }
-      }
-    },
+    }
   }
 
   export default pageData
