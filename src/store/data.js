@@ -26,6 +26,12 @@ export default {
       byId: {},
       allIds: []
     },
+    user: {
+      name: '',
+      email: '',
+      programme: '',
+      pasco_gold: ''
+    },
     loadingUserData: false,
     loadingUserDataError: {}
   },
@@ -52,6 +58,11 @@ export default {
 
       state.questions.allIds = []
       state.questions.byId = {}
+
+      state.user.name = payload.userData.name
+      state.user.email = payload.userData.email
+      state.user.programme = payload.userData.programme
+      state.user.pasco_gold = payload.userData.pasco_gold
 
       // Add new courses
       payload.userData.courses.forEach(function (course) {

@@ -18,6 +18,9 @@
           </q-item>
         </q-popover>
       </q-btn>
+      <q-btn flat v-if="isStore">
+        {{ user.pasco_gold }} pg
+      </q-btn>
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
@@ -50,11 +53,7 @@
             <q-item to="/about">
               About
             </q-item>
-<!--
-            <q-item @click="$refs.popover.close()">
-              Share
-            </q-item>
--->
+
             <q-item v-if="$auth.check()" @click="logOut()">
               Logout
             </q-item>
@@ -146,6 +145,9 @@
             return ''
         }
       },
+      user () {
+        return this.$store.state.entities.user
+      },
       quiz () {
         return this.$store.state.entities.quizzes
           .byId[this.$route.params.quizId]
@@ -158,6 +160,9 @@
       },
       currentTime () {
         return this.$store.state.timer.timer
+      },
+      isStore () {
+        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse'
       }
     },
     methods: {
