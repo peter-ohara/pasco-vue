@@ -1,63 +1,195 @@
 <template>
   <div class="main questions">
 
-    <question :question="currentQuestion"></question>
+    <template v-if="quiz">
 
-    <div class="footer">
-      <router-link v-bind:to="previousQuestionUrl" replace>
-        <q-btn class="button prev">Prev</q-btn>
-      </router-link>
-      <router-link v-bind:to="nextQuestionUrl" replace>
-        <q-btn class="button next">Next</q-btn>
-      </router-link>
-    </div>
+      <div class="bookmark-area">
+        <q-btn
+          class="bookmark-btn"
+          v-bind:class="{tertiary: !isBookmarked, primary: isBookmarked}"
+          icon="star"
+          @click="toggleBookmark()"
+          small
+        >
+          Bookmark
+        </q-btn>
+      </div>
+
+      <question :question="question($route.params.questionId)"></question>
+
+      <comments class="comments-container"
+                shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="canonicalUrlForQuestion">
+      </comments>
+
+      <div class="footer">
+        <router-link v-bind:to="previousQuestionUrl" replace>
+          <q-btn class="button prev">Prev</q-btn>
+        </router-link>
+        <router-link v-bind:to="nextQuestionUrl" replace>
+          <q-btn class="button next">Next</q-btn>
+        </router-link>
+      </div>
+
+    </template>
 
   </div>
 </template>
 
 <script>
   import Question from '@/question.vue'
+  import Comments from '@/comments.vue'
 
   import {
-    QBtn
+    QBtn,
+    Dialog
   } from 'quasar'
 
   let pageData = {
     components: {
       Question,
+      Comments,
       QBtn
     },
     computed: {
-      isPageLoading () {
-        return this.$store.state.loadingUsersTests
+      quiz () {
+        return this.$store.state.entities.quizzes
+          .byId[this.$route.params.quizId]
       },
-      currentQuiz () {
-        return this.$store.state.currentQuiz
-      },
-      currentQuestion () {
-        return this.$store.state.currentQuestion
+      canonicalUrlForQuestion () {
+        return 'https://app.pascoapp.com/quiz/' + this.$route.params.quizId +
+          '/question/' + this.$route.params.questionId
       },
       previousQuestionUrl () {
-        return this.$store.state.previousQuestionUrl
+        let currentQuestionIndex = this.quiz.questions
+          .findIndex(questionId => questionId === parseInt(this.$route.params.questionId))
+
+        let previousQuestionIndex
+
+        if (currentQuestionIndex === -1) {
+          // no question
+          console.log('Question with id' + currentQuestionIndex + ' doesn\'t exist in this quiz')
+        } else if (currentQuestionIndex === 0) {
+          // first question
+          previousQuestionIndex = currentQuestionIndex
+        } else {
+          previousQuestionIndex = currentQuestionIndex - 1
+        }
+
+        return {
+          name: 'question',
+          params: {
+            quizId: this.$route.params.quizId,
+            questionId: this.quiz.questions[previousQuestionIndex]
+          }
+        }
       },
       nextQuestionUrl () {
-        return this.$store.state.nextQuestionUrl
+        let currentQuestionIndex = this.quiz.questions
+          .findIndex(questionId => questionId === parseInt(this.$route.params.questionId))
+
+        let nextQuestionIndex
+
+        if (currentQuestionIndex === -1) {
+          // no question
+          console.log('Question with id' + currentQuestionIndex + ' doesn\'t exist in this quiz')
+        } else if (currentQuestionIndex === this.quiz.questions.length - 1) {
+          // last question
+          nextQuestionIndex = currentQuestionIndex
+        } else {
+          nextQuestionIndex = currentQuestionIndex + 1
+        }
+
+        return {
+          name: 'question',
+          params: {
+            quizId: this.$route.params.quizId,
+            questionId: this.quiz.questions[nextQuestionIndex]
+          }
+        }
+      },
+      isBookmarked () {
+        return this.$store.state.bookmarks.bookmarks
+          .hasOwnProperty(this.$route.params.questionId)
       }
     },
-    methods: { },
+    methods: {
+      question (questionId) {
+        return this.$store.state.entities.questions
+          .byId[this.$route.params.questionId]
+      },
+      getTabUrl (questionId) {
+        return '/quiz/' + this.$route.params.quizId + '/question/' + questionId
+      },
+      getTabLabel (questionId) {
+        let question = this.question(questionId)
+        return question.question_type === 'header' ? question.title : question.number
+      },
+      toggleBookmark () {
+        if (this.isBookmarked) {
+          this.$store.dispatch('removeBookmark', this.$route.params.questionId)
+        } else {
+          this.$store.dispatch('addBookmark', this.question(this.$route.params.questionId))
+        }
+      },
+      checkTimer () {
+        if (this.$store.state.timer.isTimerOn && this.$store.state.timer.timer === '00:00:00') {
+          // start timer
+          let date = new Date(this.quiz.duration * 60 * 60 * 1000)
+          this.$store.dispatch('startTimer', setInterval(() => {
+            if (!(date.getHours() + date.getMinutes() + date.getSeconds())) {
+              // time is up
+              this.timeUpDialog()
+              this.clearTimer()
+            }
+            this.$store.dispatch('setTimer',
+              ('0' + date.getHours()).slice(-2) + ' : ' +
+              ('0' + date.getMinutes()).slice(-2) + ' : ' +
+              ('0' + date.getSeconds()).slice(-2)
+            )
+            date.setSeconds(date.getSeconds() - 1)
+          }, 1000))
+        }
+      },
+      timeUpDialog () {
+        Dialog.create({
+          title: 'Alert',
+          message: 'Your time is up'
+        })
+      },
+      clearTimer () {
+        this.$store.dispatch('clearTimer')
+      }
+    },
     created () {
-      this.$store.dispatch('getQuestion', {
-        quizId: parseInt(this.$route.params.quizId),
-        questionId: parseInt(this.$route.params.questionId)
+      console.log('this.$route.params', this.$route.params)
+      this.$store.dispatch('fetchUserData').catch(function (error) {
+        console.error('There was an error running action fetchUserData', error)
       })
     },
-    watch: {
-      '$route' (to, from) {
-        // react to route changes...
-        this.$store.dispatch('getQuestion', {
-          quizId: parseInt(this.$route.params.quizId),
-          questionId: parseInt(this.$route.params.questionId)
-        })
+    mounted () {
+      this.$store.dispatch('getBookmarks').then(function (bookmarks) {
+        console.log('Something wicked this way comes', bookmarks)
+      }).catch(error => {
+        console.error(error)
+      })
+      this.checkTimer()
+    },
+    beforeRouteLeave (to, from, next) {
+      // called when the route that renders this component is about to
+      // be navigated away from.
+      // has access to `this` component instance.
+
+      if (!to.fullPath.startsWith('/bookmark') && this.$store.state.timer.isTimerOn) {
+        const answer = window.confirm('You are in the middle of a timed quiz. if you leave, the timer will be reset. Do you still want to leave?')
+
+        if (answer) {
+          this.clearTimer()
+          next()
+        } else {
+          next(false)
+        }
+      } else {
+        next()
       }
     }
   }
@@ -87,4 +219,24 @@
         float left
       .next
         float right
+
+  .bookmark-area
+    margin 10px
+    overflow auto
+
+  .bookmark-btn
+    float right
+
+  .tertiary
+    background-color $neutral
+
+  .primary
+    background-color $primary
+    color white
+
+  .comments-container
+    max-width 600px
+    margin 16px auto 82px
+    padding-left: 8px
+    padding-right: 8px
 </style>
