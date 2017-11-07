@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Main from '@/main.vue'
+import PascoStore from '@/pasco_store/pascoStore.vue'
+import StoreCourse from '@/pasco_store/storeCourse.vue'
 import Course from '@/course/course.vue'
 import Quiz from '@/quiz.vue'
 import QuestionsPager from '@/questionsPager.vue'
@@ -9,8 +11,6 @@ import SignIn from '@/signIn.vue'
 import SignUp from '@/signUp.vue'
 import Bookmarks from '@/bookmarks.vue'
 import About from '@/about.vue'
-import Store from '@/store.vue'
-import BuyCourse from '@/buycourse.vue'
 
 Vue.use(VueRouter)
 
@@ -51,6 +51,12 @@ export default new VueRouter({
       name: 'main', path: '/', component: Main, meta: { auth: true }
     },
     {
+      name: 'pascoStore', path: '/store', component: PascoStore, meta: { auth: true }
+    },
+    {
+      name: 'storeCourse', path: '/store/course/:courseId', component: StoreCourse, meta: { auth: true }
+    },
+    {
       name: 'course', path: '/course/:courseId', component: Course, meta: { auth: true }
     },
     {
@@ -61,12 +67,6 @@ export default new VueRouter({
     },
     {
       name: 'bookmarks', path: '/bookmarks', component: Bookmarks, meta: { auth: true }
-    },
-    {
-      name: 'store', path: '/store', component: Store, meta: { auth: true }
-    },
-    {
-      name: 'buyCourse', path: '/store/course/:courseId', component: BuyCourse, meta: { auth: true }
     }
   ]
 })
