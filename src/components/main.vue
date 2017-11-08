@@ -9,9 +9,11 @@
         v-model="keyword"
         placeholder="Find a course"/>
     </div>
+    <!--
     <div class="trial-period">
       <p>Pasco is currently in the trial period till October 31st</p>
     </div>
+    -->
     <div class="content">
       <router-link v-for="course in courses" v-bind:to="'course/'+ course.id">
         <q-card class="card">
@@ -43,6 +45,7 @@
 </template>
 
 <script>
+$crisp.push(['do', 'chat:hide']);
   import {
     QSearch,
     QCard,

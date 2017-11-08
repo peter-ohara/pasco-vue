@@ -18,6 +18,7 @@ import store from './store/index'
 import VueClipboard from 'vue-clipboard2'
 import Vuelidate from 'vuelidate'
 
+
 Vue.config.productionTip = false
 Vue.use(Quasar) // Install Quasar Framework
 Vue.use(VueResource) // Install Vue Resource Framework

@@ -11,6 +11,7 @@ import SignIn from '@/signIn.vue'
 import SignUp from '@/signUp.vue'
 import Bookmarks from '@/bookmarks.vue'
 import About from '@/about.vue'
+import Support from '@/support.vue'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,9 @@ export default new VueRouter({
     },
     {
       name: 'bookmarks', path: '/bookmarks', component: Bookmarks, meta: { auth: true }
+    },
+    {
+      name: 'support', path: '/support', component: Support, meta: { auth: true }
     }
   ]
 })
