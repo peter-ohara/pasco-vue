@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Main from '@/main.vue'
 import PascoStore from '@/pasco_store/pascoStore.vue'
 import StoreCourse from '@/pasco_store/storeCourse.vue'
+import BuyPG from '@/pasco_store/buyPG.vue'
 import Course from '@/course/course.vue'
 import Quiz from '@/quiz.vue'
 import QuestionsPager from '@/questionsPager.vue'
@@ -67,6 +68,9 @@ export default new VueRouter({
     },
     {
       name: 'bookmarks', path: '/bookmarks', component: Bookmarks, meta: { auth: true }
+    },
+    {
+      name: 'buyPG', path: '/buy_pasco_gold', component: BuyPG, meta: { auth: true }
     }
   ]
 })
