@@ -5,16 +5,11 @@
     </div>
     <div class="content">
       <div class="slider-container">
-        <p class="selected-amount">
-          GHS 25 for <span class="currency">50 PG</span>
-        </p>
-        <q-slider
+        <q-select
           v-model="payload.amount"
-          :min="0"
-          :max="50"
-          :step="10"
-          label
-          snap/>
+          float-label="Amount"
+          :options="paymentOptions"
+        />
       </div>
       <form class="payload-form" action="">
         <div class="form-group">
@@ -43,25 +38,22 @@
 import {
   QBtn,
   QSelect,
-  QInput,
-  QSlider
+  QInput
 } from 'quasar'
 
 let pageData = {
   components: {
     QBtn,
     QSelect,
-    QInput,
-    QSlider
+    QInput
   },
   data () {
     return {
       payload: {
-        amount: 0,
+        amount: null,
         network: "",
         number: ""
       },
-      amount: 0,
       networks: [{
           label: 'MTN',
           value: 'MTN'
@@ -75,7 +67,23 @@ let pageData = {
           label: 'Airtel',
           value: 'Airtel'
         }
-      ]
+      ],
+      paymentOptions: [{
+        label: 'GHS 1.9 for <span class="currency">25 PG</span>',
+        value: 1.9
+      }, {
+        label: 'GHS 4.9 for <span class="currency">80 PG</span>',
+        value: 4.9
+      }, {
+        label: 'GHS 9.9 for <span class="currency">190 PG</span>',
+        value: 9.9
+      }, {
+        label: 'GHS 19.9 for <span class="currency">500 PG</span>',
+        value: 19.9
+      }, {
+        label: 'GHS 49.9 for <span class="currency">2500 PG</span>',
+        value: 49.9
+      }]
     }
   }
 }
@@ -105,6 +113,11 @@ export default pageData
   .submit-btn
     margin-top 20px
     float right
-    background #d40cd4
+    background $secondary
     color white
+
+  .content
+    margin auto
+    padding-right 10px
+    padding-left 10px
 </style>
