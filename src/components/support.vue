@@ -29,7 +29,6 @@
 
 
 <script>
-$crisp.push(['do', 'chat:show']);
   import {
     QCard,
     QIcon
@@ -47,6 +46,14 @@ $crisp.push(['do', 'chat:show']);
         keyword: '',
         courses: []
       }
+    },
+    mounted () {
+      //console.log($crisp)
+      $crisp.push(['do', 'chat:show'])
+    },
+    beforeRouteLeave (to, from, next) {
+      $crisp.push(['do', 'chat:hide']);
+      next()
     }
   }
 
@@ -63,7 +70,6 @@ $crisp.push(['do', 'chat:show']);
   .support-div
     padding 15px 10px
     text-align center
-   
     
   .support-text
       font-size 18px !important
