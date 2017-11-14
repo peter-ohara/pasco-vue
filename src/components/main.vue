@@ -45,7 +45,6 @@
 </template>
 
 <script>
-$crisp.push(['do', 'chat:hide']);
   import {
     QSearch,
     QCard,

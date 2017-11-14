@@ -4,8 +4,8 @@
       <p>Support</p>
     </div>
     <div class="content">
-    <a href="tel:0501359999">
-      <q-card class="card">
+      <a href="tel:0501359999">
+        <q-card class="card">
           <div class="card-side">
             <div class="card-icon blue">
               <q-icon name="call" style="font-size: 2rem;" color="white" />
@@ -18,11 +18,10 @@
             <p class="text question-count">Call our support team</p>
           </div>
         </q-card>
-        </a>
-        <div class="support-div">
+      </a>
+      <div class="support-div">
         <p class="support-text"> Or chat with us live below</p>
-        </div>
-
+      </div>
     </div>
   </div>
 </template>
@@ -46,14 +45,6 @@
         keyword: '',
         courses: []
       }
-    },
-    mounted () {
-      //console.log($crisp)
-      $crisp.push(['do', 'chat:show'])
-    },
-    beforeRouteLeave (to, from, next) {
-      $crisp.push(['do', 'chat:hide']);
-      next()
     }
   }
 

@@ -24,7 +24,7 @@ function load (component) {
 }
 */
 
-export default new VueRouter({
+const router = new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
    * it is only to be used only for websites.
@@ -74,3 +74,11 @@ export default new VueRouter({
     }
   ]
 })
+
+router.afterEach((to, from, next) => {
+  console.log(to.name, to.name === "support")
+  to.name === "support" ? $crisp.push(['do', 'chat:show']) : $crisp.push(['do', 'chat:hide']);
+  //next();
+})
+
+export default router;
