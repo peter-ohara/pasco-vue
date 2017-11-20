@@ -16,9 +16,13 @@
       </div>
 
       <question :question="question($route.params.questionId)"></question>
-
-      <comments class="comments-container"
-                shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="canonicalUrlForQuestion">
+      <explanation
+        class="exp-component"
+        :question="question()">
+      </explanation>
+      <comments
+        class="comments-container"
+        shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="canonicalUrlForQuestion">
       </comments>
 
       <div class="footer">
@@ -31,13 +35,13 @@
       </div>
 
     </template>
-
   </div>
 </template>
 
 <script>
   import Question from '@/question.vue'
   import Comments from '@/comments.vue'
+  import Explanation from '@/explanation.vue'
 
   import {
     QBtn,
@@ -48,6 +52,7 @@
     components: {
       Question,
       Comments,
+      Explanation,
       QBtn
     },
     computed: {
@@ -234,9 +239,12 @@
     background-color $primary
     color white
 
-  .comments-container
+  .comments-container, .exp-component
     max-width 600px
     margin 16px auto 82px
     padding-left: 8px
     padding-right: 8px
+
+  .exp-component
+    margin-bottom 10px
 </style>
