@@ -45,11 +45,9 @@
                 Give Feedback
               </q-item>
             </a>
-            <a :href="'http://bit.ly/PascoSupport'">
-              <q-item>
+            <q-item to="/support">
                 Contact Support
-              </q-item>
-            </a>
+            </q-item>
             <q-item to="/about">
               About
             </q-item>
