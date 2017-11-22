@@ -1,15 +1,25 @@
 <template>
   <div class="signin">
     <form v-on:submit.prevent="signUp()">
+      {{ form.error }}
       <div class="form-group name">
-        {{ form.error }}
         <q-input
           type="text"
-          id="email"
+          id="name"
           v-model="form.name"
           @blur="$v.form.name.$touch"
           :error="$v.form.name.$error"
           placeholder="Name"
+        />
+      </div>
+      <div class="form-group programme">
+        <q-input
+          type="text"
+          id="programme"
+          v-model="form.programme"
+          @blur="$v.form.programme.$touch"
+          :error="$v.form.programme.$error"
+          placeholder="Programme"
         />
       </div>
       <div class="form-group email">
@@ -68,6 +78,7 @@
     validations: {
       form: {
         name: {required},
+        programme: {required},
         email: {required, email}
       }
     },
@@ -75,6 +86,7 @@
       return {
         form: {
           name: '',
+          programme: '',
           email: '',
           password: ''
         }
@@ -86,6 +98,7 @@
           body: {
             user: {
               name: this.form.name,
+              programme: this.form.programme,
               email: this.form.email,
               password: this.form.password
             }
