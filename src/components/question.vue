@@ -150,7 +150,8 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" scoped>
+<!-- Intentionally unscoped due to selecting .q-* classes that are only available after compilation -->
+<style lang="stylus">
   @import '~variables'
 
   .q-alert-container
