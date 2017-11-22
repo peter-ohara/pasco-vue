@@ -55,16 +55,13 @@
 <style lang="stylus" scoped>
   @import '~variables'
 
-  .content
-    padding 15px
-    
   .support-div
     padding 15px 10px
     text-align center
-    
+
   .support-text
       font-size 18px !important
-      
+
   .support-title
     padding-top 7px
 

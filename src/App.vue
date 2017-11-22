@@ -18,11 +18,12 @@
           </q-item>
         </q-popover>
       </q-btn>
-      <router-link to="/buy_pasco_gold">
-        <q-btn class="pg-balance" flat v-if="isStore">
-          {{ user.pasco_gold }} <span class="currency">PG</span>
-        </q-btn>
-      </router-link>
+      <q-btn flat v-if="!isStore" @click="$router.push('bookmarks')">
+        <q-icon name="collections_bookmark"/>
+      </q-btn>
+      <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push('buyPG')">
+        {{ user.pasco_gold }} <span class="currency">PG</span>
+      </q-btn>
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
@@ -32,25 +33,13 @@
             in this case a list:
           -->
           <q-list item-separator link>
-
-            <q-item to="/bookmarks">
-              Bookmarks
-            </q-item>
-            <q-item to="/support">
-                Contact Support
-            </q-item>
-            <q-item to="/about">
-              About
-            </q-item>
-            <q-item v-if="$auth.check()" @click="logOut()">
+            <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
 
-      <!--<q-btn flat-->
-             <!--v-clipboard:copy="shareUrl"-->
-             <!--v-clipboard:success="onCopy"-->
-             <!--v-clipboard:error="onError">-->
-        <!--<q-icon name="link"/>-->
+            <q-item to="/support">
+              Help & feedback
+            </q-item>
           </q-list>
         </q-popover>
       </q-btn>
@@ -150,7 +139,7 @@
         return this.$store.state.timer.timer
       },
       isStore () {
-        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse' || this.$route.name === 'main'
+        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse'
       }
     },
     methods: {
