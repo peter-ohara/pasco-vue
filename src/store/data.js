@@ -107,6 +107,14 @@ export default {
         .then(function (userData) {
           console.log('Successfully fetched userData', userData)
           console.log('Saving userData to localForage cache...')
+
+          FS.identify(userData.id, {
+            displayName: userData.name,
+            email: userData.email
+            // TODO: Add your own custom user variables here, details at
+            // http://help.fullstory.com/develop-js/setuservars.
+          })
+
           return localforage.setItem(USER_DATA_KEY, userData).then(function (userData) {
             commit(FETCH_USER_DATA_SUCCESS, {userData: userData})
             return userData
