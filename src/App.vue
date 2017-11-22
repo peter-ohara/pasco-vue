@@ -21,7 +21,7 @@
       <q-btn flat v-if="!isStore" @click="$router.push('bookmarks')">
         <q-icon name="collections_bookmark"/>
       </q-btn>
-      <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push('buyPG')">
+      <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push('buy_pasco_gold')">
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
       <q-btn ref="target" flat>
