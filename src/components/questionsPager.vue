@@ -16,14 +16,26 @@
       </div>
 
       <question :question="question($route.params.questionId)"></question>
-      <explanation
-        class="exp-component"
-        :question="question()">
-      </explanation>
-      <comments
-        class="comments-container"
-        shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="canonicalUrlForQuestion">
-      </comments>
+
+
+      <div class="comments-container">
+        <q-list>
+          <q-collapsible icon="list" label="Explanation">
+            <explanation
+              class="exp-component"
+              :question="question()">
+            </explanation>
+          </q-collapsible>
+          <q-collapsible icon="chat" label="Discussion">
+            <comments shortname="pascoapp"
+                      :identifier="'question-' + $route.params.questionId"
+                      :url="canonicalUrlForQuestion">
+            </comments>
+          </q-collapsible>
+        </q-list>
+      </div>
+
+
 
       <div class="footer">
         <router-link v-bind:to="previousQuestionUrl" replace>
@@ -45,7 +57,9 @@
 
   import {
     QBtn,
-    Dialog
+    Dialog,
+    QList,
+    QCollapsible
   } from 'quasar'
 
   let pageData = {
@@ -53,7 +67,9 @@
       Question,
       Comments,
       Explanation,
-      QBtn
+      QBtn,
+      QList,
+      QCollapsible
     },
     computed: {
       quiz () {
@@ -239,12 +255,10 @@
     background-color $primary
     color white
 
-  .comments-container, .exp-component
+  .comments-container
     max-width 600px
     margin 16px auto 82px
     padding-left: 8px
     padding-right: 8px
 
-  .exp-component
-    margin-bottom 10px
 </style>
