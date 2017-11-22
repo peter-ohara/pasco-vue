@@ -6,30 +6,21 @@
     <div class="content">
       <div class="slider-container">
         <q-select
-          v-model="payload.amount"
+          v-model="price"
           float-label="Amount"
           :options="paymentOptions"
         />
       </div>
-      <form class="payload-form" action="">
-        <div class="form-group">
-          <q-select
-            v-model="payload.network"
-            float-label="Select a network"
-            radio
-            :options="networks"
-          />
-          <q-input
-            v-model="payload.number"
-            float-label="Phone Number"
-            placeholder="Phone Number" />
-        </div>
-        <q-btn class="submit-btn">
+      <div class="payload-form">
+        <q-btn class="submit-btn mtn" :disable="!price" @click="payWithMTNMobileMoney()">
           <img src="/assets/mazzuma-icon.jpg" alt="">
-          Pay with Mazzuma
+          Pay with MTN Mobile Money
         </q-btn>
-
-      </form>
+        <q-btn class="submit-btn vodafone" :disable="!price" @click="payWithVodafoneCash()">
+          <img src="/assets/mazzuma-icon.jpg" alt="">
+          Pay with Vodafone Cash
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +29,8 @@
 import {
   QBtn,
   QSelect,
-  QInput
+  QInput,
+  Alert
 } from 'quasar'
 
 let pageData = {
@@ -49,25 +41,8 @@ let pageData = {
   },
   data () {
     return {
-      payload: {
-        amount: null,
-        network: "",
-        number: ""
-      },
-      networks: [{
-          label: 'MTN',
-          value: 'MTN'
-        }, {
-          label: 'Vodafone',
-          value: 'Vodafone'
-        }, {
-          label: 'Tigo',
-          value: 'Tigo'
-        }, {
-          label: 'Airtel',
-          value: 'Airtel'
-        }
-      ],
+      buyAlert: false,
+      price: null,
       paymentOptions: [{
         label: 'GHS 1.9 for <span class="currency">25 PG</span>',
         value: 1.9
@@ -85,6 +60,58 @@ let pageData = {
         value: 49.9
       }]
     }
+  },
+  methods: {
+    payWithMTNMobileMoney () {
+      return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'mtn' } }).then(function (response) {
+        this.buyAlert = Alert.create(
+          {
+            color: 'primary',
+            html: 'Your request has been saved. <br>Send <span class="orange"> GHS ' + this.price +
+            '</span> to <span class="orange">0545283528</span> to complete the transaction. ' +
+            '<br> Please make sure to enter <br><span class="orange">' + this.$store.state.entities.user.email +
+            '</span><br> as the reference (Ref) for the payment.',
+            icon: 'sentiment_satisfied',
+            enter: 'bounceInLeft',
+            leave: 'bounceOutLeft',
+            position: 'top-center'
+          }
+        )
+      }).catch(function (error) {
+        console.log(error)
+        alert('Network Error')
+        // TODO: Handle network error
+      })
+    },
+    payWithVodafoneCash () {
+      return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'vodafone' } }).then(function (response) {
+        this.buyAlert = Alert.create(
+          {
+            color: 'primary',
+            html: 'Your request has been saved. <br>Send <span class="orange"> GHS ' + this.price +
+            '</span> to <span class="orange">0503064768</span> to complete the transaction. ' +
+            '<br> Please make sure to enter <br><span class="orange">' + this.$store.state.entities.user.email +
+            '</span><br> as the reference (Ref) for the payment.',
+            icon: 'sentiment_satisfied',
+            enter: 'bounceInLeft',
+            leave: 'bounceOutLeft',
+            position: 'top-center'
+          }
+        )
+      }).catch(function (error) {
+        console.log(error)
+        alert('Network Error')
+        // TODO: Handle network error
+      })
+    }
+  },
+  created () {
+    let self = this
+    self.$store.dispatch('fetchUserData').then(function (response) {
+      console.log(response)
+    }).catch(function (error) {
+      console.log(error)
+    })
   }
 }
 
@@ -92,7 +119,7 @@ export default pageData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" >
+<style lang="stylus">
   @import '~variables'
 
   .buyPG
@@ -101,6 +128,7 @@ export default pageData
 
   .slider-container
     margin-top 40px
+    margin-bottom 40px
 
   .form-group
     margin-top 50px
@@ -112,12 +140,22 @@ export default pageData
 
   .submit-btn
     margin-top 20px
+    width: 100%
     float right
-    background $secondary
     color white
+
+  .submit-btn.mtn
+    background $orange
+
+  .submit-btn.vodafone
+      background $red
+
 
   .content
     margin auto
     padding-right 10px
     padding-left 10px
+
+  .orange
+    color: $orange
 </style>
