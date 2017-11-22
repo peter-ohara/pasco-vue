@@ -36,17 +36,6 @@
             <q-item to="/bookmarks">
               Bookmarks
             </q-item>
-
-            <a :href="'http://bit.ly/PascoReportIssue'">
-              <q-item>
-                Report an Issue
-              </q-item>
-            </a>
-             <a :href="'http://bit.ly/PascoFeedback2'">
-              <q-item>
-                Give Feedback
-              </q-item>
-            </a>
             <q-item to="/support">
                 Contact Support
             </q-item>
