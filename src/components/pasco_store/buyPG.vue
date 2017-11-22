@@ -29,7 +29,9 @@
               Pay with Vodafone Cash
             </q-btn>
           </div>
+          <div class="support-info"><a href="support">Contact our Support Team </a>if you have any inquiries or issues.</div>
         </div>
+
       </div>
     </template>
   </div>
@@ -218,8 +220,12 @@ export default pageData
   .orange
     color: $orange
 
-  .pg-summary
-    padding-top 30px
+  .support-info a
+    font-weight bold
+
+  .support-info
+    padding-top 150px
+
 
   .colored-bg
     z-index -100

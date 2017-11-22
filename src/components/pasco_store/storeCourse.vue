@@ -2,16 +2,26 @@
  <div class="main">
    <div class="main store-course">
      <div class="main-details">
+
        <div class="test-details">
-         <p class="course-code">
-           {{ course.code }}
-         </p>
-         <p class="course-name">
-           {{ course.name }}
-         </p>
-         <p v-if="isBoughtAlready">
-           You have purchased this course
-         </p>
+         <div class="row">
+           <div class="col-xs-4">
+             <img class="school-logo shadow-5" src="../../assets/logo-knust.png" width="80px" height="80px">
+           </div>
+           <div class="col-xs-8 course-info">
+             <p class="course-code">
+               {{ course.code }}
+             </p>
+             <p class="course-name">
+               {{ course.name }}
+             </p>
+         </div>
+         </div>
+        <div class="row">
+          <p class="col-xs-12 is-bought-already" v-if="isBoughtAlready">
+            You have purchased this course
+          </p>
+        </div>
        </div>
      </div>
      <div class="content">
@@ -178,10 +188,17 @@ export default pageData
 
   .test-list
     margin-top 20px
+    margin 0 auto
+
+  .test-details
+    max-width 600px !important
+    padding 30px
+    margin 0 auto
 
   .test-details p
     color white
-    text-align: center
+    text-align: left
+    margin 0 auto
 
   .list-title
     font-size 20px
@@ -191,8 +208,9 @@ export default pageData
     &-code
       font-size: 40px
       font-weight: 200
-      line-height: 40px
+      line-height: 50px
       margin-top: 40px
+      vertical-align middle
 
   .store-course
     .buy-btn
@@ -205,5 +223,20 @@ export default pageData
       border-radius 4px
     .figure
       color $primary
+
+  .school-logo
+    float right
+    margin-right 20px
+    border-radius 2px
+
+  .is-bought-already
+    text-align center !important
+    padding 10px 0px !important
+
+  .course-info
+    padding-left 10px
+
+  .card-main
+    padding-left 10px
 
 </style>
