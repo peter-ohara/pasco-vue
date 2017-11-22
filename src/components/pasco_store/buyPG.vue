@@ -92,7 +92,7 @@ let pageData = {
           {
             color: 'orange',
             html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been started. <br>Send <strong class="orange"> GHS ' + this.price +
-            '</strong> to <strong class="orange">0545283528</strong> to complete the transaction. ' +
+            '</strong> to <strong class="orange">0548780946</strong> to complete the transaction. ' +
             '<br> Please make sure to enter <br><strong class="orange">' + this.$store.state.entities.user.email +
             '</strong><br> as the reference (Ref) for the payment.',
             icon: 'payment',
