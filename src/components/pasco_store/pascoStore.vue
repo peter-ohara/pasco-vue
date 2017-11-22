@@ -116,20 +116,27 @@
     padding-right 0px
 
   .book-icon
-    font-size 30px
+    font-size 25px
     padding-right 10px
 
   .card
     width 100%
     margin 0px 0px 8px
-    height 190px
+    //height 190px
+
 
   .p-card-title
-    white-space nowrap
+    display: inline-block
+    width 100%
+    height:100%
+    //white-space nowrap
     overflow hidden
-    text-overflow ellipsis
+    //word-wrap break-word
+    //text-overflow ellipsis
     font-size 15px
     margin-bottom 5px
+
+
 
   .q-card-title
     padding 15px 10px
