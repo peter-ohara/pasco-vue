@@ -1,20 +1,10 @@
 <template>
   <div class="comments">
-    <q-list>
-      <q-collapsible icon="chat" label="Discussion">
-        <div id="disqus_thread"></div>
-      </q-collapsible>
-    </q-list>
+    <div id="disqus_thread"></div>
   </div>
 </template>
 
 <script>
-  import {
-    QBtn,
-    QList,
-    QCollapsible
-  } from 'quasar'
-
   export default {
     props: {
       shortname: {
@@ -45,11 +35,6 @@
         type: Object,
         required: false
       }
-    },
-    components: {
-      QBtn,
-      QList,
-      QCollapsible
     },
     mounted () {
       this.loadComments()

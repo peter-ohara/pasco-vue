@@ -154,6 +154,8 @@
 
 
 
+/*
+
   //Had to repeat the .search-area css because the one on the main
   //screen was not being applied to this screen
   .search-area
@@ -173,17 +175,18 @@
           color: black !important;
 
         input:
-        :-webkit-input-placeholder /* Chrome/Opera/Safari */
+        :-webkit-input-placeholder
           color $tertiary !important
 
         input:
-        :-moz-placeholder /* Firefox 19+ */
+        :-moz-placeholder
           color $tertiary !important
 
-        input:-ms-input-placeholder /* IE 10+ */
+        input:-ms-input-placeholder
           color $tertiary !important
 
-        input:-moz-placeholder /* Firefox 18- */
+        input:-moz-placeholder
           color $tertiary !important
 
+*/
 </style>

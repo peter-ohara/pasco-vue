@@ -96,36 +96,6 @@
 <style lang="stylus" scoped>
   @import '~variables'
 
-  .search-area
-    max-width 600px
-    margin 0 auto 20px
-    padding-left 8px
-    padding-right 8px
-
-    .search-input
-      padding 10px
-      width 100%
-
-      .q-if-control
-        color: $tertiary !important;
-      .q-if-inner
-        input
-          color: black !important;
-
-        input:
-        :-webkit-input-placeholder /* Chrome/Opera/Safari */
-          color $tertiary !important
-
-        input:
-        :-moz-placeholder /* Firefox 19+ */
-          color $tertiary !important
-
-        input:-ms-input-placeholder /* IE 10+ */
-          color $tertiary !important
-
-        input:-moz-placeholder /* Firefox 18- */
-          color $tertiary !important
-
   .trial-period p
     text-align center
     color orange
@@ -158,6 +128,4 @@
 
   .green
     background-color $green
-
-
 </style>

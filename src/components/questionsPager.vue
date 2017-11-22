@@ -3,27 +3,27 @@
 
     <template v-if="quiz">
 
-      <div class="bookmark-area">
-        <q-btn
-          class="bookmark-btn"
-          v-bind:class="{tertiary: !isBookmarked, primary: isBookmarked}"
-          icon="star"
-          @click="toggleBookmark()"
-          small
-        >
-          Bookmark
-        </q-btn>
+      <question :question="question($route.params.questionId)"></question>
+
+
+      <div class="comments-container">
+        <q-list>
+          <q-collapsible icon="list" label="Explanation">
+            <explanation
+              class="exp-component"
+              :question="question()">
+            </explanation>
+          </q-collapsible>
+          <q-collapsible icon="chat" label="Discussion">
+            <comments shortname="pascoapp"
+                      :identifier="'question-' + $route.params.questionId"
+                      :url="canonicalUrlForQuestion">
+            </comments>
+          </q-collapsible>
+        </q-list>
       </div>
 
-      <question :question="question($route.params.questionId)"></question>
-      <explanation
-        class="exp-component"
-        :question="question()">
-      </explanation>
-      <comments
-        class="comments-container"
-        shortname="pascoapp" :identifier="'question-' + $route.params.questionId" :url="canonicalUrlForQuestion">
-      </comments>
+
 
       <div class="footer">
         <router-link v-bind:to="previousQuestionUrl" replace>
@@ -45,7 +45,9 @@
 
   import {
     QBtn,
-    Dialog
+    Dialog,
+    QList,
+    QCollapsible
   } from 'quasar'
 
   let pageData = {
@@ -53,7 +55,9 @@
       Question,
       Comments,
       Explanation,
-      QBtn
+      QBtn,
+      QList,
+      QCollapsible
     },
     computed: {
       quiz () {
@@ -111,10 +115,6 @@
             questionId: this.quiz.questions[nextQuestionIndex]
           }
         }
-      },
-      isBookmarked () {
-        return this.$store.state.bookmarks.bookmarks
-          .hasOwnProperty(this.$route.params.questionId)
       }
     },
     methods: {
@@ -128,13 +128,6 @@
       getTabLabel (questionId) {
         let question = this.question(questionId)
         return question.question_type === 'header' ? question.title : question.number
-      },
-      toggleBookmark () {
-        if (this.isBookmarked) {
-          this.$store.dispatch('removeBookmark', this.$route.params.questionId)
-        } else {
-          this.$store.dispatch('addBookmark', this.question(this.$route.params.questionId))
-        }
       },
       checkTimer () {
         if (this.$store.state.timer.isTimerOn && this.$store.state.timer.timer === '00:00:00') {
@@ -225,13 +218,6 @@
       .next
         float right
 
-  .bookmark-area
-    margin 10px
-    overflow auto
-
-  .bookmark-btn
-    float right
-
   .tertiary
     background-color $neutral
 
@@ -239,12 +225,10 @@
     background-color $primary
     color white
 
-  .comments-container, .exp-component
+  .comments-container
     max-width 600px
     margin 16px auto 82px
     padding-left: 8px
     padding-right: 8px
 
-  .exp-component
-    margin-bottom 10px
 </style>

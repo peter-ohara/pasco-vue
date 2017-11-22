@@ -18,10 +18,11 @@
           </q-item>
         </q-popover>
       </q-btn>
-      <q-btn flat v-if="!isStore" @click="$router.push('bookmarks')">
-        <q-icon name="collections_bookmark"/>
+      <q-btn flat v-if="this.$route.name === 'question'" @click="toggleBookmark()">
+        <q-icon name="bookmark" v-if="isBookmarked"/>
+        <q-icon name="bookmark_border" v-else/>
       </q-btn>
-      <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push('buy_pasco_gold')">
+      <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push({ name: 'buyPG'})">
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
       <q-btn ref="target" flat>
@@ -33,6 +34,11 @@
             in this case a list:
           -->
           <q-list item-separator link>
+
+            <q-item to="/bookmarks">
+              Bookmarks
+            </q-item>
+
             <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
@@ -140,9 +146,20 @@
       },
       isStore () {
         return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse'
+      },
+      isBookmarked () {
+        return this.$store.state.bookmarks.bookmarks
+          .hasOwnProperty(this.$route.params.questionId)
       }
     },
     methods: {
+      toggleBookmark () {
+        if (this.isBookmarked) {
+          this.$store.dispatch('removeBookmark', this.$route.params.questionId)
+        } else {
+          this.$store.dispatch('addBookmark', this.question(this.$route.params.questionId))
+        }
+      },
       question (questionId) {
         return this.$store.state.entities.questions
           .byId[questionId]
@@ -181,7 +198,7 @@
   }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   @import '~variables'
 
   .q-tabs
@@ -208,3 +225,38 @@
     margin-left 3px
 
 </style>
+
+<style lang="stylus">
+  @import '~variables'
+
+  .search-area
+    max-width 600px
+    margin 0 auto 20px
+    padding-left 8px
+    padding-right 8px
+
+    .search-input
+      padding 10px
+      width 100%
+
+      .q-if-control
+        color: $tertiary !important;
+      .q-if-inner
+        input
+          color: black !important;
+
+        input:
+        :-webkit-input-placeholder /* Chrome/Opera/Safari */
+          color $tertiary !important
+
+        input:
+        :-moz-placeholder /* Firefox 19+ */
+          color $tertiary !important
+
+        input:-ms-input-placeholder /* IE 10+ */
+          color $tertiary !important
+
+        input:-moz-placeholder /* Firefox 18- */
+          color $tertiary !important
+</style>
+
