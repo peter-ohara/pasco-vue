@@ -14,7 +14,7 @@
         <router-link v-for="course in courses" v-bind:to="'store/course/'+ course.id">
           <q-card inline class="card">
             <q-card-title class="text card-title">
-              <q-icon name="book"></q-icon>
+              <q-icon class="book-icon" name="library_books"></q-icon>
               {{course.code}}
             </q-card-title>
             <q-card-main class="card-bottom">
@@ -115,12 +115,14 @@
   a:nth-child(even)
     padding-right 0px
 
+  .book-icon
+    font-size 30px
+    padding-right 10px
 
   .card
     width 100%
     margin 0px 0px 8px
     height 190px
-
 
   .p-card-title
     white-space nowrap
@@ -141,6 +143,8 @@
 
   .q-card-actions
     margin -10px -10px
+
+
 
 
   //Had to repeat the .search-area css because the one on the main

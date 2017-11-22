@@ -4,6 +4,7 @@
       <p>Buy Pasco Gold</p>
     </div>
     <div class="content">
+      <p class="pg-summary">With Pasco Gold you can buy courses and other content from the Pasco Store. <a href="support">Contact our Support team</a> if you have any inquiries.</p>
       <div class="slider-container">
         <q-select
           v-model="price"
@@ -158,4 +159,7 @@ export default pageData
 
   .orange
     color: $orange
+
+  .pg-summary
+    padding-top 30px
 </style>
