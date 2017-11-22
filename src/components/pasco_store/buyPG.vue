@@ -1,28 +1,37 @@
 <template>
   <div class="main buyPG">
-    <div class="screen-header">
-      <p>Buy Pasco Gold</p>
-    </div>
-    <div class="content">
-      <p class="pg-summary">With Pasco Gold you can buy courses and other content from the Pasco Store. <a href="support">Contact our Support team</a> if you have any inquiries.</p>
-      <div class="slider-container">
-        <q-select
-          v-model="price"
-          float-label="Amount"
-          :options="paymentOptions"
-        />
+    <template v-if="this.$store.state.entities.user">
+      <div class="main-details">
+        <div class="icon"></div>
+        <div class="test-details">
+          <p class="name">You have {{ this.$store.state.entities.user.pasco_gold }} <span class="orange colored-bg">PG</span></p>
+          <p class="type-duration">
+            Buy more Pasco Gold below in order to buy courses and other content from the Pasco store.
+          </p>
+        </div>
       </div>
-      <div class="payload-form">
-        <q-btn class="submit-btn mtn" :disable="!price" @click="payWithMTNMobileMoney()">
-          <img src="/assets/mazzuma-icon.jpg" alt="">
-          Pay with MTN Mobile Money
-        </q-btn>
-        <q-btn class="submit-btn vodafone" :disable="!price" @click="payWithVodafoneCash()">
-          <img src="/assets/mazzuma-icon.jpg" alt="">
-          Pay with Vodafone Cash
-        </q-btn>
+      <div class="secondary-details">
+        <div class="content">
+          <div class="slider-container">
+            <q-select
+              v-model="price"
+              float-label="Amount"
+              :options="paymentOptions"
+            />
+          </div>
+          <div class="payload-form">
+            <q-btn class="submit-btn mtn" :disable="!price" @click="payWithMTNMobileMoney()">
+              <img src="/assets/mazzuma-icon.jpg" alt="">
+              Pay with MTN Mobile Money
+            </q-btn>
+            <q-btn class="submit-btn vodafone" :disable="!price" @click="payWithVodafoneCash()">
+              <img src="/assets/mazzuma-icon.jpg" alt="">
+              Pay with Vodafone Cash
+            </q-btn>
+          </div>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -63,19 +72,33 @@ let pageData = {
     }
   },
   methods: {
+    getAmount (price) {
+      switch (price) {
+        case 1.9:
+          return 25
+        case 4.9:
+          return 80
+        case 9.9:
+          return 190
+        case 19.9:
+          return 500
+        case 49.9:
+          return 2500
+      }
+    },
     payWithMTNMobileMoney () {
       return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'mtn' } }).then(function (response) {
         this.buyAlert = Alert.create(
           {
-            color: 'primary',
-            html: 'Your request has been saved. <br>Send <span class="orange"> GHS ' + this.price +
-            '</span> to <span class="orange">0545283528</span> to complete the transaction. ' +
-            '<br> Please make sure to enter <br><span class="orange">' + this.$store.state.entities.user.email +
-            '</span><br> as the reference (Ref) for the payment.',
-            icon: 'sentiment_satisfied',
+            color: 'orange',
+            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been started. <br>Send <strong class="orange"> GHS ' + this.price +
+            '</strong> to <strong class="orange">0545283528</strong> to complete the transaction. ' +
+            '<br> Please make sure to enter <br><strong class="orange">' + this.$store.state.entities.user.email +
+            '</strong><br> as the reference (Ref) for the payment.',
+            icon: 'payment',
             enter: 'bounceInLeft',
             leave: 'bounceOutLeft',
-            position: 'top-center'
+            position: 'left'
           }
         )
       }).catch(function (error) {
@@ -88,15 +111,15 @@ let pageData = {
       return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'vodafone' } }).then(function (response) {
         this.buyAlert = Alert.create(
           {
-            color: 'primary',
-            html: 'Your request has been saved. <br>Send <span class="orange"> GHS ' + this.price +
-            '</span> to <span class="orange">0503064768</span> to complete the transaction. ' +
-            '<br> Please make sure to enter <br><span class="orange">' + this.$store.state.entities.user.email +
-            '</span><br> as the reference (Ref) for the payment.',
-            icon: 'sentiment_satisfied',
+            color: 'red',
+            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been started. <br>Send <strong class="orange"> GHS ' + this.price +
+            '</strong> to <strong class="orange">0503064768</strong> to complete the transaction. ' +
+            '<br> Please make sure to enter <br><strong class="orange">' + this.$store.state.entities.user.email +
+            '</strong><br> as the reference (Ref) for the payment.',
+            icon: 'payment',
             enter: 'bounceInLeft',
             leave: 'bounceOutLeft',
-            position: 'top-center'
+            position: 'left'
           }
         )
       }).catch(function (error) {
@@ -120,16 +143,51 @@ export default pageData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus">
+<style lang="stylus" scoped>
   @import '~variables'
-
   .buyPG
-    .currency
-      font-weight bold
+    .main-details
+      text-align center
+      height 150px
+      background teal
+      p
+        color white
+
+    .test-details
+      overflow auto
+
+    .name
+      font-size 30px
+      font-weight 100
+      margin-top 30px
+
+    .type-duration
+      text-align center
+
+
+    .secondary-details
+      margin: 0 10px
+
+    .section-title
+      font-size 30px
+      text-align left
+    .section-title::after
+      content ""
+      display block
+      width 30px
+      height 2px
+      background-color $blue
+      margin-top 20px
+
+    .section-content
+      text-align left
+
+    .section
+      padding 0px 10px
 
   .slider-container
     margin-top 40px
-    margin-bottom 40px
+    margin-bottom 20px
 
   .form-group
     margin-top 50px
@@ -162,4 +220,7 @@ export default pageData
 
   .pg-summary
     padding-top 30px
+
+  .colored-bg
+    z-index -100
 </style>

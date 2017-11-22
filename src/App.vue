@@ -18,7 +18,10 @@
           </q-item>
         </q-popover>
       </q-btn>
-      <q-btn class="pg-balance" flat v-if="isStore">
+      <q-btn flat v-if="!isStore" @click="$router.push('bookmarks')">
+        <q-icon name="collections_bookmark"/>
+      </q-btn>
+      <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push('buy_pasco_gold')">
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
       <q-btn ref="target" flat>
@@ -30,39 +33,13 @@
             in this case a list:
           -->
           <q-list item-separator link>
-
-            <q-item to="/bookmarks">
-              Bookmarks
-            </q-item>
-
-            <a :href="'http://bit.ly/PascoReportIssue'">
-              <q-item>
-                Report an Issue
-              </q-item>
-            </a>
-             <a :href="'http://bit.ly/PascoFeedback2'">
-              <q-item>
-                Give Feedback
-              </q-item>
-            </a>
-            <q-item to="/support">
-                Contact Support
-            </q-item>
-            <q-item to="/about">
-              About
-            </q-item>
-            <q-item to="/buy_pasco_gold">
-              Buy Pasco Gold
-            </q-item>
-            <q-item v-if="$auth.check()" @click="logOut()">
+            <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
 
-      <!--<q-btn flat-->
-             <!--v-clipboard:copy="shareUrl"-->
-             <!--v-clipboard:success="onCopy"-->
-             <!--v-clipboard:error="onError">-->
-        <!--<q-icon name="link"/>-->
+            <q-item to="/support">
+              Help & feedback
+            </q-item>
           </q-list>
         </q-popover>
       </q-btn>
@@ -162,7 +139,7 @@
         return this.$store.state.timer.timer
       },
       isStore () {
-        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse' || this.$route.name === 'buyPG'
+        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse'
       }
     },
     methods: {
@@ -221,9 +198,11 @@
 
   .pg-balance
     font-size 20px
+    text-decoration none
+    color white
 
   .currency
-    color gold
+    color $orange
     font-size 15px
     margin-top 3px
     margin-left 3px
