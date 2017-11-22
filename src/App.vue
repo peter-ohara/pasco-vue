@@ -18,9 +18,11 @@
           </q-item>
         </q-popover>
       </q-btn>
-      <q-btn class="pg-balance" flat v-if="isStore">
-        {{ user.pasco_gold }} <span class="currency">PG</span>
-      </q-btn>
+      <router-link to="/buy_pasco_gold">
+        <q-btn class="pg-balance" flat v-if="isStore">
+          {{ user.pasco_gold }} <span class="currency">PG</span>
+        </q-btn>
+      </router-link>
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
@@ -50,9 +52,6 @@
             </q-item>
             <q-item to="/about">
               About
-            </q-item>
-            <q-item to="/buy_pasco_gold">
-              Buy Pasco Gold
             </q-item>
             <q-item v-if="$auth.check()" @click="logOut()">
               Logout
@@ -162,7 +161,7 @@
         return this.$store.state.timer.timer
       },
       isStore () {
-        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse' || this.$route.name === 'buyPG'
+        return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse' || this.$route.name === 'main'
       }
     },
     methods: {
@@ -221,9 +220,11 @@
 
   .pg-balance
     font-size 20px
+    text-decoration none
+    color white
 
   .currency
-    color gold
+    color $orange
     font-size 15px
     margin-top 3px
     margin-left 3px
