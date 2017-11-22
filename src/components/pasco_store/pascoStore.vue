@@ -94,7 +94,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" scoped>
+<style lang="stylus">
   @import '~variables'
 
   .card-container
