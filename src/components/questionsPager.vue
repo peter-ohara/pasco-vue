@@ -3,18 +3,6 @@
 
     <template v-if="quiz">
 
-      <div class="bookmark-area">
-        <q-btn
-          class="bookmark-btn"
-          v-bind:class="{tertiary: !isBookmarked, primary: isBookmarked}"
-          icon="star"
-          @click="toggleBookmark()"
-          small
-        >
-          Bookmark
-        </q-btn>
-      </div>
-
       <question :question="question($route.params.questionId)"></question>
 
 
@@ -127,10 +115,6 @@
             questionId: this.quiz.questions[nextQuestionIndex]
           }
         }
-      },
-      isBookmarked () {
-        return this.$store.state.bookmarks.bookmarks
-          .hasOwnProperty(this.$route.params.questionId)
       }
     },
     methods: {
@@ -144,13 +128,6 @@
       getTabLabel (questionId) {
         let question = this.question(questionId)
         return question.question_type === 'header' ? question.title : question.number
-      },
-      toggleBookmark () {
-        if (this.isBookmarked) {
-          this.$store.dispatch('removeBookmark', this.$route.params.questionId)
-        } else {
-          this.$store.dispatch('addBookmark', this.question(this.$route.params.questionId))
-        }
       },
       checkTimer () {
         if (this.$store.state.timer.isTimerOn && this.$store.state.timer.timer === '00:00:00') {
@@ -240,13 +217,6 @@
         float left
       .next
         float right
-
-  .bookmark-area
-    margin 10px
-    overflow auto
-
-  .bookmark-btn
-    float right
 
   .tertiary
     background-color $neutral

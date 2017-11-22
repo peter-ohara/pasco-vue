@@ -18,8 +18,9 @@
           </q-item>
         </q-popover>
       </q-btn>
-      <q-btn flat v-if="!isStore" @click="$router.push({ name: 'bookmarks'})">
-        <q-icon name="collections_bookmark"/>
+      <q-btn flat v-if="this.$route.name === 'question'" @click="toggleBookmark()">
+        <q-icon name="bookmark" v-if="isBookmarked"/>
+        <q-icon name="bookmark_border" v-else/>
       </q-btn>
       <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push({ name: 'buyPG'})">
         {{ user.pasco_gold }} <span class="currency">PG</span>
@@ -33,6 +34,11 @@
             in this case a list:
           -->
           <q-list item-separator link>
+
+            <q-item to="/bookmarks">
+              Bookmarks
+            </q-item>
+
             <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
@@ -140,9 +146,20 @@
       },
       isStore () {
         return this.$route.name === 'pascoStore' || this.$route.name === 'storeCourse'
+      },
+      isBookmarked () {
+        return this.$store.state.bookmarks.bookmarks
+          .hasOwnProperty(this.$route.params.questionId)
       }
     },
     methods: {
+      toggleBookmark () {
+        if (this.isBookmarked) {
+          this.$store.dispatch('removeBookmark', this.$route.params.questionId)
+        } else {
+          this.$store.dispatch('addBookmark', this.question(this.$route.params.questionId))
+        }
+      },
       question (questionId) {
         return this.$store.state.entities.questions
           .byId[questionId]
