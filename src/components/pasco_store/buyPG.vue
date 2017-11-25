@@ -4,9 +4,9 @@
       <div class="main-details">
         <div class="icon"></div>
         <div class="test-details">
-          <p class="name">You have {{ this.$store.state.entities.user.pasco_gold }} <span class="orange">PG</span></p>
+          <p class="name">You have {{ this.$store.state.entities.user.pasco_gold }} <span class="orange colored-bg">PG</span></p>
           <p class="type-duration">
-            Buy more Pasco Gold below
+            Buy more Pasco Gold below in order to buy courses and other content from the Pasco store.
           </p>
         </div>
       </div>
@@ -29,7 +29,9 @@
               Pay with Vodafone Cash
             </q-btn>
           </div>
+          <div class="support-info"><a href="support">Contact our Support Team </a>if you have any inquiries or issues.</div>
         </div>
+
       </div>
     </template>
   </div>
@@ -217,4 +219,14 @@ export default pageData
 
   .orange
     color: $orange
+
+  .support-info a
+    font-weight bold
+
+  .support-info
+    padding-top 150px
+
+
+  .colored-bg
+    z-index -100
 </style>

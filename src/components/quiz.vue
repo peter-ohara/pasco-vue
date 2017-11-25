@@ -154,6 +154,8 @@
 
     .secondary-details
       margin: 0 10px
+      max-width 600px !important
+      margin 0 auto
 
     .section-title
       font-size 30px

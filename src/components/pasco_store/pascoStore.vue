@@ -14,7 +14,7 @@
         <router-link v-for="course in courses" v-bind:to="'store/course/'+ course.id">
           <q-card inline class="card">
             <q-card-title class="text card-title">
-              <q-icon name="book"></q-icon>
+              <q-icon class="book-icon" name="library_books"></q-icon>
               {{course.code}}
             </q-card-title>
             <q-card-main class="card-bottom">
@@ -115,19 +115,28 @@
   a:nth-child(even)
     padding-right 0px
 
+  .book-icon
+    font-size 25px
+    padding-right 10px
 
   .card
     width 100%
     margin 0px 0px 8px
-    height 190px
+    //height 190px
 
 
   .p-card-title
-    white-space nowrap
+    display: inline-block
+    width 100%
+    height:100%
+    //white-space nowrap
     overflow hidden
-    text-overflow ellipsis
+    //word-wrap break-word
+    //text-overflow ellipsis
     font-size 15px
     margin-bottom 5px
+
+
 
   .q-card-title
     padding 15px 10px
@@ -141,4 +150,43 @@
 
   .q-card-actions
     margin -10px -10px
+
+
+
+
+/*
+
+  //Had to repeat the .search-area css because the one on the main
+  //screen was not being applied to this screen
+  .search-area
+    max-width 600px
+    margin 0 auto 20px
+    padding-left 8px
+    padding-right 8px
+
+    .search-input
+      padding 10px
+      width 100%
+
+      .q-if-control
+        color: $tertiary !important;
+      .q-if-inner
+        input
+          color: black !important;
+
+        input:
+        :-webkit-input-placeholder
+          color $tertiary !important
+
+        input:
+        :-moz-placeholder
+          color $tertiary !important
+
+        input:-ms-input-placeholder
+          color $tertiary !important
+
+        input:-moz-placeholder
+          color $tertiary !important
+
+*/
 </style>

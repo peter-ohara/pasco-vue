@@ -30,7 +30,8 @@
             <p class="text card-title">
               {{course.name}}
             </p>
-            <p class="text question-count">{{course.quiz_count}} tests</p>
+            <p class="text question-count">{{course.total_quiz_count}} tests</p>
+
           </div>
         </q-card>
       </router-link>
