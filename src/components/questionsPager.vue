@@ -1,5 +1,5 @@
 <template>
-  <div class="main questions">
+  <div class="main questions" v-touch-swipe.horizontal="swipeHandler">
 
     <template v-if="quiz">
 
@@ -47,7 +47,8 @@
     QBtn,
     Dialog,
     QList,
-    QCollapsible
+    QCollapsible,
+    TouchSwipe
   } from 'quasar'
 
   let pageData = {
@@ -58,6 +59,9 @@
       QBtn,
       QList,
       QCollapsible
+    },
+    directives: {
+      TouchSwipe
     },
     computed: {
       quiz () {
@@ -118,6 +122,16 @@
       }
     },
     methods: {
+      swipeHandler (obj) {
+        // console.log(obj.direction) // "right"
+        // console.log(obj.duration) // 78
+        // console.log(obj.distance.x) // 273
+        if (obj.direction === 'right') {
+          this.$router.push(this.previousQuestionUrl)
+        } else if (obj.direction === 'left') {
+          this.$router.push(this.nextQuestionUrl)
+        }
+      },
       question (questionId) {
         return this.$store.state.entities.questions
           .byId[this.$route.params.questionId]
