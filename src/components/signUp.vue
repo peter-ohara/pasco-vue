@@ -10,7 +10,6 @@
 
         </div>
         <div class="form-group name">
-          <p class="error-message">{{ form.error }}</p>
           <q-input
             type="text"
             id="name"
@@ -43,6 +42,7 @@
         </div>
 
         <div class="form-group email">
+          <p class="error-message">{{ form.error }}</p>
           <q-input
             type="email"
             id="email"
@@ -71,7 +71,7 @@
           />
         </div>
         <div class="form-group">
-          <q-btn class="submit-btn">
+          <q-btn type="submit" class="submit-btn">
             Sign Up
           </q-btn>
           <router-link v-bind:to="'/signin'">

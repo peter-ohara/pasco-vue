@@ -39,7 +39,7 @@
           />
         </div>
         <div class="form-group">
-          <q-btn class="submit-btn">
+          <q-btn type="submit" class="submit-btn">
             Sign In
           </q-btn>
           <router-link v-bind:to="'/signup'">
