@@ -104,10 +104,13 @@ let pageData = {
   created () {
     let self = this
     self.$store.dispatch('fetchUserData').then(function (userData) {
+      Loading.show()
       return self.$http.get('courses/' + self.$route.params.courseId + '?include=quizzes')
     }).then(function (data) {
+      Loading.hide()
       self.course = data.body.course
     }).catch(function (error) {
+      Loading.hide()
       console.log(error)
     })
   },
