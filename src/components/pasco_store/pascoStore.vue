@@ -19,10 +19,7 @@
             </q-card-title>
             <q-card-main class="card-bottom">
               <p class="card-title p-card-title">{{course.name}}</p>
-              <p class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</p>
-              <q-card-actions align="end" >
-                <q-btn class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
-              </q-card-actions>
+              <div class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</div>
             </q-card-main>
           </q-card>
         </router-link>
@@ -39,7 +36,8 @@
     QCardTitle,
     QCardMain,
     QIcon,
-    QCardActions
+    QCardActions,
+    Loading
   } from 'quasar'
 
   let pageData = {
@@ -71,11 +69,15 @@
     },
     created () {
       let self = this
+      this.$store.state.entities.isStale = true
       self.$store.dispatch('fetchUserData').then(function (userData) {
+        Loading.show()
         return self.$http.get('courses')
       }).then(function (data) {
+        Loading.hide()
         self.courses = data.body.courses
       }).catch(function (error) {
+        Loading.hide()
         console.log(error)
       })
     },
@@ -87,7 +89,7 @@
           return word + 's'
         }
       }
-    },
+    }
   }
 
   export default pageData

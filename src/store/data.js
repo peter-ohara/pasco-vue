@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import localforage from 'localforage'
 import api from '../api'
+import {
+  Loading
+} from 'quasar'
 
 Vue.use(Vuex)
 
@@ -32,6 +35,7 @@ export default {
       programme: '',
       pasco_gold: ''
     },
+    isStale: true,
     loadingUserData: false,
     loadingUserDataError: {}
   },
@@ -45,9 +49,12 @@ export default {
     // to use a constant as the function name
     [FETCH_USER_DATA_REQUEST] (state) {
       state.loadingUserData = true
+      Loading.show()
     },
     [FETCH_USER_DATA_SUCCESS] (state, payload) {
       state.loadingUserData = false
+      Loading.hide()
+      state.isStale = false
 
       // Clear courses
       state.courses.allIds = []
@@ -86,11 +93,11 @@ export default {
           quizIds.push(quiz.id)
         })
         course.quizzes = quizIds
-
       })
     },
     [FETCH_USER_DATA_FAILURE] (state, payload) {
       state.loadingUserData = false
+      Loading.hide()
       state.loadingUserDataError = payload.error
     },
     [SET_CURRENT_COURSE] (state, payload) {
@@ -98,28 +105,33 @@ export default {
     }
   },
   actions: {
-    fetchUserData ({commit, state, rootState}) {
-      console.log('Fetching userData...')
+    fetchUserData ({commit, state}) {
+      if (state.isStale) {
+        console.log('Fetching userData...')
 
-      commit(FETCH_USER_DATA_REQUEST)
+        commit(FETCH_USER_DATA_REQUEST)
 
-      return api.userData()
-        .then(function (userData) {
-          console.log('Successfully fetched userData', userData)
-          console.log('Saving userData to localForage cache...')
+        return api.userData()
+          .then(function (userData) {
+            console.log('Successfully fetched userData', userData)
+            console.log('Saving userData to localForage cache...')
 
-          FS.identify(userData.id, {
-            displayName: userData.name,
-            email: userData.email
-            // TODO: Add your own custom user variables here, details at
-            // http://help.fullstory.com/develop-js/setuservars.
+            FS.identify(userData.id, {
+              displayName: userData.name,
+              email: userData.email
+              // TODO: Add your own custom user variables here, details at
+              // http://help.fullstory.com/develop-js/setuservars.
+            })
+
+            return localforage.setItem(USER_DATA_KEY, userData).then(function (userData) {
+              commit(FETCH_USER_DATA_SUCCESS, {userData: userData})
+              return userData
+            })
           })
-
-          return localforage.setItem(USER_DATA_KEY, userData).then(function (userData) {
-            commit(FETCH_USER_DATA_SUCCESS, {userData: userData})
-            return userData
-          })
-        })
+      } else {
+        console.log('Using userData from memory...')
+        return state.user
+      }
     }
   }
 }

@@ -87,7 +87,6 @@
 <template>
   <div class="signin">
     <form v-on:submit.prevent="signUp()">
-      {{ form.error }}
       <div class="form-group name">
         <q-input
           type="text"
@@ -189,7 +188,24 @@
               password: this.form.password
             }
           },
+          success: function (response) {
+            this.signIn()
+          },
+          error: function (error) {
+            // TODO: Handle email already taken error
+          }
+        })
+      },
+      signIn () {
+        this.$auth.login({
+          body: {
+            auth: {
+              email: this.form.email,
+              password: this.form.password
+            }
+          },
           error: function () {
+            // TODO: Handle errors
             this.form.error = 'This email already exists. If you own this account, please sign in'
           }
         })
