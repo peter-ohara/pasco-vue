@@ -42,7 +42,8 @@ import {
   QBtn,
   QSelect,
   QInput,
-  Alert
+  Alert,
+  Loading
 } from 'quasar'
 
 let pageData = {
@@ -89,7 +90,9 @@ let pageData = {
       }
     },
     payWithMTNMobileMoney () {
+      Loading.show()
       return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'mtn' } }).then(function (response) {
+        Loading.hide()
         this.buyAlert = Alert.create(
           {
             color: 'orange',
@@ -104,13 +107,16 @@ let pageData = {
           }
         )
       }).catch(function (error) {
+        Loading.hide()
         console.log(error)
         alert('Network Error')
         // TODO: Handle network error
       })
     },
     payWithVodafoneCash () {
+      Loading.show()
       return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'vodafone' } }).then(function (response) {
+        Loading.hide()
         this.buyAlert = Alert.create(
           {
             color: 'red',
@@ -125,6 +131,7 @@ let pageData = {
           }
         )
       }).catch(function (error) {
+        Loading.hide()
         console.log(error)
         alert('Network Error')
         // TODO: Handle network error
