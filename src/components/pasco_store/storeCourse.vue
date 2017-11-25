@@ -73,7 +73,8 @@ import {
   QCardTitle,
   QCardMain,
   QIcon,
-  QCardActions
+  QCardActions,
+  Loading
 } from 'quasar'
 
 let pageData = {
@@ -122,11 +123,14 @@ let pageData = {
         return
       }
 
+      Loading.show()
       return this.$http.post('purchases', {course_id: course.id}).then(function (data) {
         return self.$store.dispatch('fetchUserData')
       }).then(function (userData) {
+        Loading.hide()
         alert('You have successfully purchased this course. Go to the main screen to see it.')
       }).catch(function (error) {
+        Loading.hide()
         console.log(error)
         if (error.status === 422 &&
           error.body.user[0] === 'does not have enough pasco gold to purchase this course') {
