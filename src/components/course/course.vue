@@ -1,21 +1,21 @@
 <template>
  <div class="main">
-    <div class="content" v-if="course">
 
-      <q-tabs slot="navigation">
-        <!-- Tabs - notice slot="title" -->
-        <q-tab default slot="title" name="tests" label="Tests" />
-        <q-tab disable slot="title" name="topics" label="Topics" />
-        <!-- Targets -->
-        <q-tab-pane name="tests">
-          <quiz-item  v-for="quizId in course.quizzes" :quiz-id="quizId"></quiz-item>
-        </q-tab-pane>
-        <q-tab-pane name="topics">
-          Topics
-        </q-tab-pane>
-      </q-tabs>
+   <q-tabs slot="navigation" align="justify" v-if="course">
+     <!-- Tabs - notice slot="title" -->
+     <q-tab default slot="title" name="tests" label="Tests" />
+     <q-tab disable slot="title" name="topics" label="Topics" />
+     <!-- Targets -->
+     <q-tab-pane name="tests">
+       <div class="content">
+         <quiz-item  v-for="quizId in course.quizzes" :quiz-id="quizId"></quiz-item>
+       </div>
+     </q-tab-pane>
+     <q-tab-pane name="topics">
+       Topics
+     </q-tab-pane>
+   </q-tabs>
 
-    </div>
   </div>
 </template>
 
