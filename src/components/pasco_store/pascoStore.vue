@@ -72,6 +72,7 @@
     },
     created () {
       let self = this
+      this.$store.state.entities.isStale = true
       self.$store.dispatch('fetchUserData').then(function (userData) {
         Loading.show()
         return self.$http.get('courses')
@@ -91,7 +92,7 @@
           return word + 's'
         }
       }
-    },
+    }
   }
 
   export default pageData

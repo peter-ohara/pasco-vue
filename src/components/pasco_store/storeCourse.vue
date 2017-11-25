@@ -52,7 +52,7 @@
          <q-btn flat class="buy-btn">View Course</q-btn>
        </div>
      </router-link>
-     <div class="footer" @click="buyCourse(course)" v-else="isBoughtAlready">
+     <div class="footer" @click="buyCourseConfirmation(course)" v-else="isBoughtAlready">
        <q-btn flat class="buy-btn">
          Buy for &nbsp;
          <span class="price">
@@ -74,7 +74,9 @@ import {
   QCardMain,
   QIcon,
   QCardActions,
-  Loading
+  Loading,
+  Toast,
+  Alert
 } from 'quasar'
 
 let pageData = {
@@ -103,6 +105,7 @@ let pageData = {
   },
   created () {
     let self = this
+    this.$store.state.entities.isStale = true
     self.$store.dispatch('fetchUserData').then(function (userData) {
       Loading.show()
       return self.$http.get('courses/' + self.$route.params.courseId + '?include=quizzes')
@@ -115,31 +118,68 @@ let pageData = {
     })
   },
   methods: {
+    buyCourseConfirmation (course) {
+      let self = this
+      Alert.create({
+        html: 'You are about to purchase <br><strong>' + this.course.code + ' ' + this.course.name +
+        '</strong>. <br>This will cost you <strong>' + this.course.price + ' Pasco Gold. </strong>',
+        color: 'warning',
+        actions: [
+          {
+            label: 'Cancel',
+            handler () {
+            }
+          },
+          {
+            label: 'Buy Course',
+            handler () {
+              self.buyCourse(course)
+            }
+          }
+        ]
+      })
+    },
     buyCourse (course) {
       let self = this
 
-      let message = 'You are about to purchase ' +
-        this.course.code + ' ' + this.course.name +
-        '. \nThis will cost you ' + this.course.price + ' pasco gold!'
-      let confirmation = confirm(message)
-      if (confirmation !== true) {
-        return
-      }
-
       Loading.show()
       return this.$http.post('purchases', {course_id: course.id}).then(function (data) {
+        this.$store.state.entities.isStale = true
         return self.$store.dispatch('fetchUserData')
       }).then(function (userData) {
         Loading.hide()
-        alert('You have successfully purchased this course. Go to the main screen to see it.')
+        Toast.create({
+          html: 'Purchase successful',
+          button: {
+            label: 'View Course',
+            handler () {
+              self.$router.push({ name: 'course', params: {courseId: course.id} })
+            }
+          }
+        })
       }).catch(function (error) {
         Loading.hide()
         console.log(error)
         if (error.status === 422 &&
           error.body.user[0] === 'does not have enough pasco gold to purchase this course') {
-          alert('You do not have enough pasco gold to purchase this course')
+          Alert.create({
+            html: 'Not enough Pasco Gold to purchase this course',
+            actions: [
+              {
+                label: 'Cancel',
+                handler () {
+                }
+              },
+              {
+                label: 'Buy Pasco Gold',
+                handler () {
+                  self.$router.push({ name: 'buyPG' })
+                }
+              }
+            ]
+          })
         } else {
-          alert('There was an error purchasing this course for you')
+          Toast.create('There was an error purchasing this course')
         }
         // TODO: Handle network error
         // TODO: Handle not signed in

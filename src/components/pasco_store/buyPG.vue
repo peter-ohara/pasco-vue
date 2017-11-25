@@ -140,6 +140,7 @@ let pageData = {
   },
   created () {
     let self = this
+    this.$store.state.entities.isStale = true
     self.$store.dispatch('fetchUserData').then(function (response) {
       console.log(response)
     }).catch(function (error) {
