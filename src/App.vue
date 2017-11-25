@@ -69,8 +69,6 @@
       Loading ...
     </div>
 
-    <q-ajax-bar color="orange" :delay="500"/>
-
   </q-layout>
 </template>
 
@@ -87,7 +85,6 @@
     QBtn,
     QIcon,
     Toast,
-    QAjaxBar,
     GoBack,
     QList,
     QItem,
@@ -104,7 +101,6 @@
       QTabs,
       QBtn,
       QIcon,
-      QAjaxBar,
       QList,
       QItem,
       openURL,
