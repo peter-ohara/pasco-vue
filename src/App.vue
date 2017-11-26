@@ -39,7 +39,7 @@
               Bookmarks
             </q-item>
 
-            <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="$refs.popover2.close(); logOut()">
+            <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
 

@@ -21,7 +21,7 @@
             :before="[
               {
                 icon: 'email'
-            }
+              }
             ]"
           />
         </div>
@@ -112,7 +112,7 @@
   @import '~variables'
   .signin-page
     padding 80px 0px 50px!important
-    height 100vh
+    height calc(100vh - 50px)
     background #2b8a7f
     background -moz-linear-gradient(45deg, #2b8a7f 1%, #1f7d73 22%, #197c71 37%, #2fc3ab 55%, #308d9a 77%, #326a8b 100%)
     background -webkit-linear-gradient(45deg, #2b8a7f 1%,#1f7d73 22%,#197c71 37%,#2fc3ab 55%,#308d9a 77%,#326a8b 100%)
