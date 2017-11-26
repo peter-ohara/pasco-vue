@@ -28,22 +28,22 @@
       <q-btn ref="target" flat>
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
-        <q-popover ref="popover">
+        <q-popover ref="popover2">
           <!--
             The DOM element(s) that make up the popup,
             in this case a list:
           -->
           <q-list item-separator link>
 
-            <q-item to="/bookmarks">
+            <q-item @click="$refs.popover2.close(); $router.push('/bookmarks')">
               Bookmarks
             </q-item>
 
-            <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
+            <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="$refs.popover2.close(); logOut()">
               Logout
             </q-item>
 
-            <q-item to="/support">
+            <q-item @click="$refs.popover2.close(); $router.push('/support')">
               Help & feedback
             </q-item>
           </q-list>
