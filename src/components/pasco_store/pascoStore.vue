@@ -13,7 +13,7 @@
       <div class="card-container" >
         <router-link v-for="course in courses" v-bind:to="'store/course/'+ course.id">
           <q-card inline class="card">
-            <q-card-title class="text card-title">
+            <q-card-title v-bind:style="{backgroundColor: generateColor()}" class="text card-title course-code">
               <q-icon class="book-icon" name="library_books"></q-icon>
               {{course.code}}
             </q-card-title>
@@ -64,7 +64,7 @@
       },
       generateColor () {
         // function not in use at the moment
-        return '#' + (Math.random().toString(16) + '000000').substring(2, 8)
+        return '#' + (Math.random().toString(10) + '000000').substring(2, 8)
       }
     },
     created () {
@@ -124,6 +124,7 @@
   .card
     width 100%
     margin 0px 0px 8px
+    min-height: 150px
     //height 190px
 
 
@@ -138,13 +139,15 @@
     font-size 15px
     margin-bottom 5px
 
-
+  .course-code
+    margin -10px -10px 0px
+    height 60px
 
   .q-card-title
-    padding 15px 10px
-    margin -31px -26px 0px -26px
+    padding 0px 5px
+    //margin -31px -26px 0px -26px
     height 60px
-    background #0888d8
+    //background #0888d8
     color white
 
   .q-card-main
