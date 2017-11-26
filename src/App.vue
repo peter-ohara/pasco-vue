@@ -53,7 +53,7 @@
 
     <!-- Navigation -->
     <template v-if="this.$route.name === 'question' && quiz">
-      <q-tabs slot="navigation" inverted>
+      <q-tabs slot="navigation" class="question-numbers" inverted>
         <q-route-tab slot="title"
                      v-bind:to="getTabUrl(questionId)" replace
                      :label="getTabLabel(questionId)"
@@ -218,6 +218,8 @@
 
   .q-tabs
     font-family 'Montserrat'
+    background-color $neutral
+    margin-top: -1px
 
   img.logo
     height 24px
