@@ -19,7 +19,10 @@
             </q-card-title>
             <q-card-main class="card-bottom">
               <p class="card-title p-card-title">{{course.name}}</p>
-              <div class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</div>
+              <p class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</p>
+              <q-card-actions align="end" >
+                <q-btn class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
+              </q-card-actions>
             </q-card-main>
           </q-card>
         </router-link>
@@ -153,42 +156,6 @@
   .q-card-actions
     margin -10px -10px
 
-
-
-
-/*
-
-  //Had to repeat the .search-area css because the one on the main
-  //screen was not being applied to this screen
-  .search-area
-    max-width 600px
-    margin 0 auto 20px
-    padding-left 8px
-    padding-right 8px
-
-    .search-input
-      padding 10px
-      width 100%
-
-      .q-if-control
-        color: $tertiary !important;
-      .q-if-inner
-        input
-          color: black !important;
-
-        input:
-        :-webkit-input-placeholder
-          color $tertiary !important
-
-        input:
-        :-moz-placeholder
-          color $tertiary !important
-
-        input:-ms-input-placeholder
-          color $tertiary !important
-
-        input:-moz-placeholder
-          color $tertiary !important
-
-*/
+  .course-price
+    color $orange
 </style>
