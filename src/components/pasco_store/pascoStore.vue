@@ -7,19 +7,23 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
+        @change="refreshCourses(keyword)"
         placeholder="Find a course"/>
     </div>
     <div class="content">
       <div class="card-container" >
-        <router-link v-for="course in courses" v-bind:to="'store/course/'+ course.id">
+        <router-link v-for="(course, index) in filteredCourses" v-bind:to="'store/course/'+ course.id">
           <q-card inline class="card">
-            <q-card-title v-bind:style="{backgroundColor: generateColor()}" class="text card-title course-code">
+            <q-card-title v-bind:style="{backgroundColor: colors[index]}" class="text card-title course-code">
               <q-icon class="book-icon" name="library_books"></q-icon>
               {{course.code}}
             </q-card-title>
             <q-card-main class="card-bottom">
-              <p class="card-title p-card-title">{{course.name}}</p>
+              <p class="card-title p-card-title course-name">{{course.name}}</p>
               <div class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</div>
+              <q-card-actions align="end" >
+                <q-btn class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
+              </q-card-actions>
             </q-card-main>
           </q-card>
         </router-link>
@@ -55,16 +59,26 @@
         loading: true,
         isTimerOn: false,
         keyword: '',
-        courses: []
+        courses: [],
+        filteredCourses: [],
+        colors: []
       }
     },
     methods: {
       splitCourseCode: function (courseCode) {
         return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
       },
-      generateColor () {
-        // function not in use at the moment
-        return '#' + (Math.random().toString(10) + '000000').substring(2, 8)
+//      generateColor () {
+//        return '#' + (Math.random().toString(10) + '000000').substring(2, 8)
+//      },
+      refreshCourses (keyword) {
+        console.log(this.keyword)
+        if(!keyword) this.filteredCourses = this.courses;
+
+        this.filteredCourses = this.courses.filter(course =>
+          course.code.toLowerCase().includes(keyword.toLowerCase()) ||
+          course.name.toLowerCase().includes(keyword.toLowerCase())
+        )
       }
     },
     created () {
@@ -75,19 +89,23 @@
         return self.$http.get('courses')
       }).then(function (data) {
         Loading.hide()
-        self.courses = data.body.courses
+        console.log(data.body.courses)
+        self.courses = data.body.courses;
+        self.refreshCourses (self.keyword)
       }).catch(function (error) {
         Loading.hide()
         console.log(error)
       })
+
+      //generate 10 colors
+      for(let count = 0; count < 10; count ++){
+        this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
+      }
+      console.log(this.colors)
     },
     filters: {
       pluralize: function (number, word) {
-        if (number === 1) {
-          return word
-        } else {
-          return word + 's'
-        }
+        return number === 1 ? word : word + 's'
       }
     }
   }
@@ -142,6 +160,9 @@
   .course-code
     margin -10px -10px 0px
     height 60px
+
+  .course-name
+    margin-top 10px
 
   .q-card-title
     padding 0px 5px
