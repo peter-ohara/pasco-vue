@@ -25,7 +25,7 @@
       <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push({ name: 'buyPG'})">
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
-      <q-btn ref="target" flat>
+      <q-btn ref="target" flat v-if="this.$route.name !== 'signIn'">
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
         <q-popover ref="popover2">

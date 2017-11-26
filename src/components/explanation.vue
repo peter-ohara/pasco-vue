@@ -10,16 +10,9 @@
   </div>
 </template>
 <script>
-  import {
-    QBtn
-  } from 'quasar'
-
   export default {
     props: {
       question: ''
-    },
-    components: {
-      QBtn
     }
   }
 </script>

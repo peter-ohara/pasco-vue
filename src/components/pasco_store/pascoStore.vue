@@ -72,7 +72,7 @@
 //        return '#' + (Math.random().toString(10) + '000000').substring(2, 8)
 //      },
       refreshCourses (keyword) {
-        console.log(this.keyword)
+        //console.log(this.keyword)
         if(!keyword) this.filteredCourses = this.courses;
 
         this.filteredCourses = this.courses.filter(course =>
