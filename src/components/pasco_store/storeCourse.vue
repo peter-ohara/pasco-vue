@@ -46,6 +46,9 @@
            </div>
          </q-card>
        </div>
+       <div class="answers-notice">
+         <p>Note: Not all of the tests have answers and explanations at the moment. We keep adding new tests and answers everyday and you will receive updates to tests automatically.</p>
+       </div>
      </div>
      <router-link v-bind:to="{ name: 'course', params: {courseId: course.id} }" v-if="isBoughtAlready">
        <div class="footer">
@@ -285,5 +288,10 @@ export default pageData
 
   .card-main
     padding-left 10px
+
+  .answers-notice
+    padding 10px
+    p
+      font-size 12px
 
 </style>

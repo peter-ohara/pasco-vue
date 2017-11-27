@@ -79,6 +79,9 @@
           </router-link>
         </div>
       </form>
+      <div class="terms">
+        <p>By signing up, you agree to our <a href="http://www.pascoapp.com/terms">terms and conditions.</a></p>
+      </div>
     </div>
   </div>
 </template>
@@ -312,5 +315,9 @@
       line-height 1.3em
       text-align center
 
+     .terms
+      padding 10px
+      p
+        font-size 12px
   //margin 10px
 </style>

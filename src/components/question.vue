@@ -48,6 +48,7 @@
         correctAnswerAlert: false,
         wrongAnswerAlert: false,
         noAnswerAlert: false
+        // correctAnswerSound: '../../../assets/ding.wav'
       }
     },
     computed: {
@@ -110,6 +111,8 @@
               position: 'bottom'
             }
           )
+          var audio = new Audio('../../../assets/ding.wav')
+          audio.play()
         } else if (this.answer === this.question.answer) {
           this.correctAnswerAlert = Alert.create(
             {
