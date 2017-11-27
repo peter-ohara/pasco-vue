@@ -29,7 +29,8 @@
               Pay with Vodafone Cash
             </q-btn>
           </div>
-          <div class="support-info"><a href="support">Contact our Support Team </a>if you have any inquiries or issues.</div>
+          <div class="support-info"><router-link v-bind:to="'/support'"> Contact our Support Team </router-link>if you have any inquiries or issues.
+          </div>
         </div>
 
       </div>
@@ -96,14 +97,27 @@ let pageData = {
         this.buyAlert = Alert.create(
           {
             color: 'orange',
-            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been started. <br>Send <strong class="orange"> GHS ' + this.price +
+            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been initiated. <br>Send <strong class="orange"> GHS ' + this.price +
             '</strong> to <strong class="orange">0548780946</strong> to complete the transaction. ' +
-            '<br> Please make sure to enter <br><strong class="orange">' + this.$store.state.entities.user.email +
-            '</strong><br> as the reference (Ref) for the payment.',
+            '<br> Please make sure to enter your email,  <br>(<strong class="orange">' + this.$store.state.entities.user.email +
+            '</strong>)<br> as the reference (Ref) for the payment. <br>We will credit your Pasco Gold account after a successful transaction. <br> NB: Name of MTN Mobile Money Account is <strong>Isaac Sesi</strong>',
             icon: 'payment',
             enter: 'bounceInLeft',
             leave: 'bounceOutLeft',
-            position: 'left'
+            position: 'left',
+            actions: [
+              {
+                label: 'Cancel',
+                handler () {
+                }
+              },
+              {
+                label: 'PAY NOW',
+                handler () {
+                  window.open('tel:*170%23')
+                }
+              }
+            ]
           }
         )
       }).catch(function (error) {
@@ -120,14 +134,27 @@ let pageData = {
         this.buyAlert = Alert.create(
           {
             color: 'red',
-            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been started. <br>Send <strong class="orange"> GHS ' + this.price +
+            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been initiated. <br>Send <strong class="orange"> GHS ' + this.price +
             '</strong> to <strong class="orange">0503064768</strong> to complete the transaction. ' +
-            '<br> Please make sure to enter <br><strong class="orange">' + this.$store.state.entities.user.email +
-            '</strong><br> as the reference (Ref) for the payment.',
+            '<br> Please make sure to enter your email <br>(<strong class="orange">' + this.$store.state.entities.user.email +
+            '</strong>)<br> as the reference (Ref) for the payment.<br>We will credit your Pasco Gold account after a successful transaction. <br> NB: Name of Vodafone Cash Account is <strong>Isaac Sesi</strong> ',
             icon: 'payment',
             enter: 'bounceInLeft',
             leave: 'bounceOutLeft',
-            position: 'left'
+            position: 'left',
+            actions: [
+              {
+                label: 'Cancel',
+                handler () {
+                }
+              },
+              {
+                label: 'PAY NOW',
+                handler () {
+                  window.open('tel:*110%23')
+                }
+              }
+            ]
           }
         )
       }).catch(function (error) {

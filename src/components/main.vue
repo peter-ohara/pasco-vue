@@ -72,7 +72,12 @@
     },
     computed: {
       courses () {
-        return this.$store.getters.courses
+        if(!this.keyword) return this.$store.getters.courses;
+
+        return this.$store.getters.courses.filter(course =>
+          course.code.toLowerCase().includes(this.keyword.toLowerCase()) ||
+          course.name.toLowerCase().includes(this.keyword.toLowerCase())
+        )
       }
 //    filteredQuizzes () {
 //      let self = this
