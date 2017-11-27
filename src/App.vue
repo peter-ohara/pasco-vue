@@ -25,17 +25,17 @@
       <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push({ name: 'buyPG'})">
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
-      <q-btn ref="target" flat>
+      <q-btn ref="target" flat v-if="this.$route.name !== 'signIn'">
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
-        <q-popover ref="popover">
+        <q-popover ref="popover2">
           <!--
             The DOM element(s) that make up the popup,
             in this case a list:
           -->
           <q-list item-separator link>
 
-            <q-item to="/bookmarks">
+            <q-item @click="$refs.popover2.close(); $router.push('/bookmarks')">
               Bookmarks
             </q-item>
 
@@ -43,7 +43,7 @@
               Logout
             </q-item>
 
-            <q-item to="/support">
+            <q-item @click="$refs.popover2.close(); $router.push('/support')">
               Help & feedback
             </q-item>
           </q-list>
@@ -53,7 +53,7 @@
 
     <!-- Navigation -->
     <template v-if="this.$route.name === 'question' && quiz">
-      <q-tabs slot="navigation" inverted>
+      <q-tabs slot="navigation" class="question-numbers" inverted>
         <q-route-tab slot="title"
                      v-bind:to="getTabUrl(questionId)" replace
                      :label="getTabLabel(questionId)"
@@ -218,6 +218,8 @@
 
   .q-tabs
     font-family 'Montserrat'
+    background-color $neutral
+    margin-top: -1px
 
   img.logo
     height 24px

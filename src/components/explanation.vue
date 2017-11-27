@@ -2,24 +2,17 @@
   <div class="explanation">
     <div id="explanation-container">
       <p class="no-exp" v-if="!question.explanation">
-        Sorry. But there is no explanation for this question. You can however view
-        explanations from other users in the discussion section below or add your own
+        We don't have an explanation to for this question at the moment.
+        However, you can see what other users are saying about this question in the comments section below
       </p>
       <p>{{question.explanation}}</p>
     </div>
   </div>
 </template>
 <script>
-  import {
-    QBtn
-  } from 'quasar'
-
   export default {
     props: {
       question: ''
-    },
-    components: {
-      QBtn
     }
   }
 </script>
