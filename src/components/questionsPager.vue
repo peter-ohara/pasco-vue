@@ -24,7 +24,6 @@
       </div>
 
 
-
       <div class="footer">
         <router-link v-bind:to="previousQuestionUrl" replace>
           <q-btn class="button prev">Prev</q-btn>
@@ -244,5 +243,6 @@
     margin 16px auto 82px
     padding-left: 8px
     padding-right: 8px
+
 
 </style>

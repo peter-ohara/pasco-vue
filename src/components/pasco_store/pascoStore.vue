@@ -20,10 +20,17 @@
             <q-card-main class="card-bottom">
               <p class="card-title p-card-title">{{course.name}}</p>
               <div class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</div>
+              <q-card-actions align="end" >
+                <q-btn class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
+              </q-card-actions>
             </q-card-main>
           </q-card>
         </router-link>
       </div>
+    </div>
+    <div class="course-bottom">
+      <div> Don't see any of your courses here? Request them so we can upload them ASAP.</div>
+        <q-btn color="primary" class="request-btn"><a href="http://bit.ly/2n6RjZv">Request A Course</a></q-btn>
     </div>
   </div>
 </template>
@@ -153,42 +160,54 @@
   .q-card-actions
     margin -10px -10px
 
-
-
-
-/*
-
-  //Had to repeat the .search-area css because the one on the main
-  //screen was not being applied to this screen
-  .search-area
+  .course-bottom
+    display block
+    padding 20px 10px
+    width 100%
     max-width 600px
-    margin 0 auto 20px
-    padding-left 8px
-    padding-right 8px
+    clear both
+    margin 0 auto
+    a
+      font-size 16px
+      width 100% !important
 
-    .search-input
-      padding 10px
-      width 100%
+  .request-btn
+    margin 8px 0px 50px
+    a
+      color white
 
-      .q-if-control
-        color: $tertiary !important;
-      .q-if-inner
-        input
-          color: black !important;
+  /*
+    //Had to repeat the .search-area css because the one on the main
+    //screen was not being applied to this screen
+    .search-area
+      max-width 600px
+      margin 0 auto 20px
+      padding-left 8px
+      padding-right 8px
 
-        input:
-        :-webkit-input-placeholder
-          color $tertiary !important
+      .search-input
+        padding 10px
+        width 100%
 
-        input:
-        :-moz-placeholder
-          color $tertiary !important
+        .q-if-control
+          color: $tertiary !important;
+        .q-if-inner
+          input
+            color: black !important;
 
-        input:-ms-input-placeholder
-          color $tertiary !important
+          input:
+          :-webkit-input-placeholder
+            color $tertiary !important
 
-        input:-moz-placeholder
-          color $tertiary !important
+          input:
+          :-moz-placeholder
+            color $tertiary !important
 
-*/
+          input:-ms-input-placeholder
+            color $tertiary !important
+
+          input:-moz-placeholder
+            color $tertiary !important
+
+  */
 </style>
