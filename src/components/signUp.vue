@@ -80,7 +80,7 @@
         </div>
       </form>
       <div class="terms">
-        <p>By signing up, you agree to our <a href="http://www.pascoapp.com/terms">terms and conditions</a></p>
+        <p>By signing up, you agree to our <a href="http://www.pascoapp.com/terms">terms and conditions.</a></p>
       </div>
     </div>
   </div>
