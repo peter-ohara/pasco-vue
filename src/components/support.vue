@@ -4,7 +4,7 @@
       <p>Support</p>
     </div>
     <div class="content">
-      <a href="tel:0501359999">
+      <a href="tel:0506459812">
         <q-card class="card">
           <div class="card-side">
             <div class="card-icon blue">

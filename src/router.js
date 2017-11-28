@@ -82,6 +82,7 @@ const router = new VueRouter({
 router.afterEach((to, from, next) => {
   console.log(to.name, to.name === "support")
   to.name === "support" ? $crisp.push(['do', 'chat:show']) : $crisp.push(['do', 'chat:hide']);
+  to.name === "buyPG" ? $crisp.push(['do', 'chat:show']) : $crisp.push(['do', 'chat:hide']);
   //next();
 })
 

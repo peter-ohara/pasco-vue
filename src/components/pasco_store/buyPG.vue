@@ -29,7 +29,9 @@
               Pay with Vodafone Cash
             </q-btn>
           </div>
-          <div class="support-info"><router-link v-bind:to="'/support'"> Contact our Support Team </router-link>if you have any inquiries or issues.
+          <div class="support-info">
+            <p>Need help or have questions?</p>
+            <q-btn color="primary" onclick="$crisp.push(['do', 'chat:open'])">Chat With Us Live</q-btn>
           </div>
         </div>
 
