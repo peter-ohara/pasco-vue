@@ -19,9 +19,22 @@
           </div>
         </q-card>
       </a>
-      <div class="support-div">
-        <p class="support-text"> Or chat with us live below</p>
-      </div>
+      <a onclick="$crisp.push(['do', 'chat:open'])" href="#">
+        <q-card class="card">
+          <div class="card-side">
+            <div class="card-icon blue">
+              <q-icon name="forum" style="font-size: 2rem;" color="white" />
+            </div>
+          </div>
+          <div class="card-main">
+            <p class="text card-title support-title">
+              Live Chat
+            </p>
+            <p class="text question-count">Chat with our support team Live!</p>
+          </div>
+        </q-card>
+      </a>
+
     </div>
   </div>
 </template>
@@ -30,13 +43,15 @@
 <script>
   import {
     QCard,
-    QIcon
+    QIcon,
+    QBtn
   } from 'quasar'
 
   let pageData = {
     components: {
       QCard,
-      QIcon
+      QIcon,
+      QBtn
     },
     data () {
       return {
@@ -55,14 +70,10 @@
 <style lang="stylus" scoped>
   @import '~variables'
 
-  .support-div
-    padding 15px 10px
-    text-align center
-
-  .support-text
-      font-size 18px !important
-
   .support-title
     padding-top 7px
+
+  .blue
+    background-color $blue
 
 </style>

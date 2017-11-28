@@ -111,7 +111,7 @@
               position: 'bottom'
             }
           )
-          var audio = new Audio('../../../assets/ding.wav')
+          var audio = new Audio('~assets/ding.wav')
           audio.play()
         } else if (this.answer === this.question.answer) {
           this.correctAnswerAlert = Alert.create(
@@ -159,6 +159,9 @@
 
   .q-alert-container
     bottom: 50px !important
+
+  .loading
+    background: rgba(255,255,255,1) url('~assets/loading.gif') no-repeat center;
 
   .single-question
     min-height 300px
