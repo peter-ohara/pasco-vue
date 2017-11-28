@@ -102,7 +102,7 @@
       })
 
       //generate 10 colors
-      for(let count = 0; count < 10; count ++){
+      for(let count = 0; count < 100; count ++){
         this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
       }
       console.log(this.colors)
