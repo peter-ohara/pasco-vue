@@ -70,8 +70,9 @@
       <router-view></router-view>
     </div>
 
-    <div v-if="!$auth.ready()">
-      Loading ...
+    <div class="preloader" v-if="!$auth.ready()">
+      <img src="~assets/loading-gif.gif">
+      <p>Loading...</p>
     </div>
 
   </q-layout>
@@ -250,6 +251,23 @@
 
 <style lang="stylus">
   @import '~variables'
+
+  .preloader
+    width 120px
+    height 120px
+    position absolute
+    left 50%
+    top 50%
+    margin -120px 0 0 -60px
+
+  .preloader
+    img
+      width 100px
+      height 84px
+    p
+      text-align center
+      font-size 16px
+
 
   .search-area
     max-width 600px
