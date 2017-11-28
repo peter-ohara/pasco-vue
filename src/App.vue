@@ -39,13 +39,18 @@
               Bookmarks
             </q-item>
 
+            <q-item @click="$refs.popover2.close(); $router.push('/support')">
+              Help & feedback
+            </q-item>
+
+            <q-item @click="$refs.popover2.close(); $router.push('/buy_pasco_gold')">
+              Buy Pasco Gold
+            </q-item>
+
             <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
 
-            <q-item @click="$refs.popover2.close(); $router.push('/support')">
-              Help & feedback
-            </q-item>
           </q-list>
         </q-popover>
       </q-btn>
