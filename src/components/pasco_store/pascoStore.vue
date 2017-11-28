@@ -132,6 +132,7 @@
     padding 5px
     display block
     float left
+    //clear both
 
   a:nth-child(odd)
     padding-left 0px

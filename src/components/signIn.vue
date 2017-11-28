@@ -119,6 +119,11 @@
     background linear-gradient(45deg, #2b8a7f 1%,#1f7d73 22%,#197c71 37%,#2fc3ab 55%,#308d9a 77%,#326a8b 100%)
     //filter progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b8a7f', endColorstr='#326a8b',GradientType=1 )
 
+  @media only screen and (max-width: 1023px)
+    .signin-page
+      min-height 100%
+      height 100%
+
   .top-content
     padding-top 20px
     width 100%

@@ -170,6 +170,7 @@
 
     .section-content
       text-align left
+      padding-bottom 50px
 
     .section
       padding 0px 10px
