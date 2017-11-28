@@ -40,7 +40,7 @@
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/support')">
-              Help & feedback
+              Help & Support
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/buy_pasco_gold')">
@@ -49,6 +49,10 @@
 
             <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
+            </q-item>
+
+            <q-item @click="$refs.popover2.close();">
+              <a href="http://bit.ly/PascoFeedback2">Give us Feedback</a>
             </q-item>
 
           </q-list>
