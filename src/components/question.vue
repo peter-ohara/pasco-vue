@@ -6,7 +6,7 @@
     </div>
 
     <div v-show="question.question_type !== 'header'" class="question-container">
-      <p v-html="replaceInputs(question.question)" class="question"></p>
+      <p v-html="replaceInputs(question.question)" id="questions" class="question"></p>
       <q-option-group
         v-show="question.choices && question.choices.length > 0"
         class="choices-container"
@@ -47,7 +47,7 @@
         answer: '',
         correctAnswerAlert: false,
         wrongAnswerAlert: false,
-        noAnswerAlert: false
+        noAnswerAlert: false,
         // correctAnswerSound: '../../../assets/ding.wav'
       }
     },
@@ -111,7 +111,7 @@
               position: 'bottom'
             }
           )
-          var audio = new Audio('../../../assets/ding.wav')
+          var audio = new Audio('~assets/ding.wav')
           audio.play()
         } else if (this.answer === this.question.answer) {
           this.correctAnswerAlert = Alert.create(
@@ -156,7 +156,12 @@
 <!-- Intentionally unscoped due to selecting .q-* classes that are only available after compilation -->
 <style lang="stylus">
   @import '~variables'
-
+/*
+  .loading
+    display block
+    background-image url('~assets/loading-gif.gif')
+    background-position center center
+*/
   .q-alert-container
     bottom: 50px !important
 
@@ -167,6 +172,7 @@
     .header-container
       padding-left 8px
       padding-right 8px
+      font-size 18px
 
     .question-container
       padding-left 8px

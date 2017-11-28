@@ -24,7 +24,7 @@
             ]"
           />
         </div>
-
+        <!--
         <div class="form-group programme">
           <q-input
             type="text"
@@ -40,6 +40,28 @@
             ]"
           />
         </div>
+         -->
+        <div class="form-group programme">
+          <q-select
+            filter
+            separator
+            autofocus-filter
+            v-model="form.programme"
+            :options="form.options"
+            id="programme"
+            @blur="$v.form.programme.$touch"
+            :error="$v.form.programme.$error"
+            placeholder="Your Programme"
+            float-label="Your Programme"
+            filter-placeholder="Search programmes"
+            :before="[
+              {
+                icon: 'school'
+            }
+            ]"
+          />
+        </div>
+
 
         <div class="form-group email">
           <p class="error-message">{{ form.error }}</p>
@@ -147,7 +169,9 @@
     QTransition,
     QOptionGroup,
     QInput,
-    QBtn
+    QBtn,
+    QField,
+    QSelect
   } from 'quasar'
 
   import {
@@ -161,7 +185,9 @@
       QTransition,
       QOptionGroup,
       QInput,
-      QBtn
+      QBtn,
+      QField,
+      QSelect
     },
     validations: {
       form: {
@@ -176,7 +202,301 @@
           name: '',
           programme: '',
           email: '',
-          password: ''
+          password: '',
+          options: [
+            {
+              label: 'BSc Agriculture',
+              value: 'BSc Agriculture'
+            },
+            {
+              label: 'BSc Natural Resources Management',
+              value: 'BSc Natural Resources Management'
+            },
+            {
+              label: 'BSc Post Harvest Technology',
+              value: 'BSc Post Harvest Technology'
+            },
+            {
+              label: 'BSc Dairy and Meat Science and Technology',
+              value: 'BSc Dairy and Meat Science and Technology'
+            },
+            {
+              label: 'BSc Landscape Design and Management',
+              value: 'BSc Landscape Design and Management'
+            },
+            {
+              label: 'BSc Agricultural Biotechnology',
+              value: 'BSc Agricultural Biotechnology'
+            },
+            {
+              label: 'BSc Agribusiness Management',
+              value: 'BSc Agribusiness Management'
+            },
+            {
+              label: 'BSc Forest Resources Technology',
+              value: 'BSc Forest Resources Technology'
+            },
+            {
+              label: 'BSc Aquaculture & Water Resources Management',
+              value: 'BSc Aquaculture & Water Resources Management'
+            },
+            {
+              label: 'BA Economics',
+              value: 'BA Economics'
+            },
+            {
+              label: 'BA Geography and Rural Development',
+              value: 'BA Geography and Rural Development'
+            },
+            {
+              label: 'BA Sociology',
+              value: 'BA Sociology'
+            },
+            {
+              label: 'BA Social Work',
+              value: 'BA Social Work'
+            },
+            {
+              label: 'BA Religious Studies',
+              value: 'BA Religious Studies'
+            },
+            {
+              label: 'BA History',
+              value: 'BA History'
+            },
+            {
+              label: 'BA Political Studies',
+              value: 'BA Political Studies'
+            },
+            {
+              label: 'BA French',
+              value: 'BA French'
+            },
+            {
+              label: 'BA Akan',
+              value: 'BA Akan'
+            },
+            {
+              label: 'BA Culture and Tourism',
+              value: 'BA Culture and Tourism'
+            },
+            {
+              label: 'BA English',
+              value: 'BA English'
+            },
+            {
+              label: 'BSc. Business Administration',
+              value: 'BSc. Business Administration'
+            },
+            {
+              label: 'LLB',
+              value: 'LLB'
+            },
+            {
+              label: 'BSc Agricultural Engineering',
+              value: 'BSc Agricultural Engineering'
+            },
+            {
+              label: 'BSc Chemical Engineering',
+              value: 'BSc Chemical Engineering'
+            },
+            {
+              label: 'BSc Civil Engineering',
+              value: 'BSc Civil Engineering'
+            },
+            {
+              label: 'BSc Geomatic Engineering',
+              value: 'BSc Geomatic Engineering'
+            },
+            {
+              label: 'BSc Materials Engineering',
+              value: 'BSc Materials Engineering'
+            },
+            {
+              label: 'BSc Mechanical Engineering',
+              value: 'BSc Mechanical Engineering'
+            },
+            {
+              label: 'BSc Electrical & Electronic Engineering',
+              value: 'BSc Electrical & Electronic Engineering'
+            },
+            {
+              label: 'BSc Computer Engineering',
+              value: 'BSc Computer Engineering'
+            },
+            {
+              label: 'BSc Aerospace Engineering',
+              value: 'BSc Aerospace Engineering'
+            },
+            {
+              label: 'BSc Petroleum Engineering',
+              value: 'BSc Petroleum Engineering'
+            },
+            {
+              label: 'BSc Telecommunication Engineering',
+              value: 'BSc Telecommunication Engineering'
+            },
+            {
+              label: 'BSc Geological Engineering',
+              value: 'BSc Geological Engineering'
+            },
+            {
+              label: 'BSc Biomedical Engineering',
+              value: 'BSc Biomedical Engineering'
+            },
+            {
+              label: 'BSc Petrochemical Engineering',
+              value: 'BSc Petrochemical Engineering'
+            },
+            {
+              label: 'BSc Metallurgical Engineering',
+              value: 'BSc Metallurgical Engineering'
+            },
+            {
+              label: 'BSc Architecture',
+              value: 'BSc Architecture'
+            },
+            {
+              label: 'BSc Construction Technology & Management',
+              value: 'BSc Construction Technology & Management'
+            },
+            {
+              label: 'BSc Quantity Surveying & Construction Economics',
+              value: 'BSc Quantity Surveying & Construction Economics'
+            },
+            {
+              label: 'BSc Development Planning',
+              value: 'BSc Development Planning'
+            },
+            {
+              label: 'BSc Human Settlement Planning',
+              value: 'BSc Human Settlement Planning'
+            },
+            {
+              label: 'BSc Land Economy',
+              value: 'BSc Land Economy'
+            },
+            {
+              label: 'BSc Real Estate',
+              value: 'BSc Real Estate'
+            },
+            {
+              label: 'BFA Painting and Sculpture',
+              value: 'BFA Painting and Sculpture'
+            },
+            {
+              label: 'BA Communication Design',
+              value: 'BA Communication Design'
+            },
+            {
+              label: 'BA Industrial Art',
+              value: 'BA Industrial Art'
+            },
+            {
+              label: 'BA Integrated Rural Art and Industry',
+              value: 'BA Integrated Rural Art and Industry'
+            },
+            {
+              label: 'BA Publishing Studies ',
+              value: 'BA Publishing Studies '
+            },
+            {
+              label: 'BSc Biochemistry',
+              value: 'BSc Biochemistry'
+            },
+            {
+              label: 'BSc Food Science and Technology',
+              value: 'BSc Food Science and Technology'
+            },
+            {
+              label: 'BSc Biological Sciences',
+              value: 'BSc Biological Sciences'
+            },
+            {
+              label: 'BSc Environmental Science',
+              value: 'BSc Environmental Science'
+            },
+            {
+              label: 'BSc Chemistry',
+              value: 'BSc Chemistry'
+            },
+            {
+              label: 'BSc Computer Science',
+              value: 'BSc Computer Science'
+            },
+            {
+              label: 'BSc Mathematics',
+              value: 'BSc Mathematics'
+            },
+            {
+              label: 'BSc Statistics',
+              value: 'BSc Statistics'
+            },
+            {
+              label: 'BSc Physics',
+              value: 'BSc Physics'
+            },
+            {
+              label: 'BSc Actuarial Science',
+              value: 'BSc Actuarial Science'
+            },
+            {
+              label: 'Doctor of Optometry',
+              value: 'Doctor of Optometry'
+            },
+            {
+              label: 'BSc Meteorology and Climate Science',
+              value: 'BSc Meteorology and Climate Science'
+            },
+            {
+              label: 'Doctor of Pharmacy',
+              value: 'Doctor of Pharmacy'
+            },
+            {
+              label: 'BSc Herbal Medicine',
+              value: 'BSc Herbal Medicine'
+            },
+            {
+              label: 'BSc Human Biology ',
+              value: 'BSc Human Biology '
+            },
+            {
+              label: 'BSc Medical Laboratory Technology',
+              value: 'BSc Medical Laboratory Technology'
+            },
+            {
+              label: 'BSc Sports and Exercise Science',
+              value: 'BSc Sports and Exercise Science'
+            },
+            {
+              label: 'BSc Nursing',
+              value: 'BSc Nursing'
+            },
+            {
+              label: 'BSc Midwifery',
+              value: 'BSc Midwifery'
+            },
+            {
+              label: 'BSc Emergency Nursing',
+              value: 'BSc Emergency Nursing'
+            },
+            {
+              label: 'BSc BDS Dental Surgery ',
+              value: 'BSc BDS Dental Surgery '
+            },
+            {
+              label: 'Doctor of Veterinary Medicine',
+              value: 'Doctor of Veterinary Medicine'
+            },
+            {
+              label: 'BSc Sonography',
+              value: 'BSc Sonography'
+            },
+            {
+              label: 'BSc Disability & Rehabilitation Studies',
+              value: 'BSc Disability & Rehabilitation Studies'
+            }
+          ]
         }
       }
     },
@@ -252,13 +572,18 @@
       width 100%
 */
   .signin-page
-    padding 80px 0px 50px!important
-    height 100vh
+    padding 50px 0px 20px!important
+    height calc(100vh - 50px)
     background #2b8a7f
     background -moz-linear-gradient(45deg, #2b8a7f 1%, #1f7d73 22%, #197c71 37%, #2fc3ab 55%, #308d9a 77%, #326a8b 100%)
     background -webkit-linear-gradient(45deg, #2b8a7f 1%,#1f7d73 22%,#197c71 37%,#2fc3ab 55%,#308d9a 77%,#326a8b 100%)
     background linear-gradient(45deg, #2b8a7f 1%,#1f7d73 22%,#197c71 37%,#2fc3ab 55%,#308d9a 77%,#326a8b 100%)
   //filter progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b8a7f', endColorstr='#326a8b',GradientType=1 )
+
+  @media only screen and (max-width: 1023px)
+    .signin-page
+      min-height 100%
+      height 100%
 
   .top-content
     padding-top 20px
@@ -315,9 +640,12 @@
       line-height 1.3em
       text-align center
 
+     .layout-page
+        min-height 100vh !important
      .terms
       padding 10px
       p
         font-size 12px
   //margin 10px
+
 </style>
