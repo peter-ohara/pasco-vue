@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="course-bottom">
-      <div> We keep adding new courses everyday. Don't see some any of your courses here? Request them so we can upload them ASAP.</div>
+      <p>We keep adding new courses everyday. If you don't see some of your courses here you can request them so we upload them ASAP.</p>
         <q-btn color="primary" class="request-btn"><a href="http://bit.ly/2n6RjZv">Request A Course</a></q-btn>
     </div>
   </div>
