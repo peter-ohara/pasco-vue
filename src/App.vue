@@ -35,6 +35,10 @@
           -->
           <q-list item-separator link>
 
+            <q-item @click="$refs.popover2.close(); $router.push('/')">
+              Your Library
+            </q-item>
+
             <q-item @click="$refs.popover2.close(); $router.push('/bookmarks')">
               Bookmarks
             </q-item>
