@@ -7,7 +7,7 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a course"/>
+        placeholder="Search your library"/>
     </div>
     <!--
     <div class="trial-period">
