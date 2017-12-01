@@ -4,7 +4,7 @@
       <div class="main-details">
         <div class="icon"></div>
         <div class="test-details">
-          <p class="name">{{ quiz.code }}</p>
+          <p class="name">{{ quiz.course_code }}</p>
           <p class="type-duration">
             {{ quiz.course_name }}
             <br>
@@ -170,6 +170,7 @@
 
     .section-content
       text-align left
+      padding-bottom 50px
 
     .section
       padding 0px 10px

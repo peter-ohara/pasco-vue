@@ -39,13 +39,22 @@
               Bookmarks
             </q-item>
 
+            <q-item @click="$refs.popover2.close(); $router.push('/support')">
+              Help & Support
+            </q-item>
+
+            <q-item @click="$refs.popover2.close(); $router.push('/buy_pasco_gold')">
+              Buy Pasco Gold
+            </q-item>
+
             <q-item v-if="$auth.check() && this.$route.name === 'main'" @click="logOut()">
               Logout
             </q-item>
 
-            <q-item @click="$refs.popover2.close(); $router.push('/support')">
-              Help & feedback
+            <q-item @click="$refs.popover2.close();">
+              <a href="http://bit.ly/PascoFeedback2">Give us Feedback</a>
             </q-item>
+
           </q-list>
         </q-popover>
       </q-btn>
@@ -65,8 +74,9 @@
       <router-view></router-view>
     </div>
 
-    <div v-if="!$auth.ready()">
-      Loading ...
+    <div class="preloader" v-if="!$auth.ready()">
+      <img src="~assets/loading-gif.gif">
+      <p>Loading...</p>
     </div>
 
   </q-layout>
@@ -245,6 +255,23 @@
 
 <style lang="stylus">
   @import '~variables'
+
+  .preloader
+    width 120px
+    height 120px
+    position absolute
+    left 50%
+    top 50%
+    margin -120px 0 0 -60px
+
+  .preloader
+    img
+      width 100px
+      height 84px
+    p
+      text-align center
+      font-size 16px
+
 
   .search-area
     max-width 600px

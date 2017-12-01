@@ -4,9 +4,9 @@
       <div class="main-details">
         <div class="icon"></div>
         <div class="test-details">
-          <p class="name">You have {{ this.$store.state.entities.user.pasco_gold }} <span class="orange colored-bg">PG</span></p>
+          <p class="name">You have {{ this.$store.state.entities.user.pasco_gold }} <span class="orange colored-bg">PG</span> left</p>
           <p class="type-duration">
-            Buy more Pasco Gold below in order to buy courses and other content from the Pasco store.
+            Top up your Pasco Gold to purchase more courses from the Pasco store.
           </p>
         </div>
       </div>
@@ -21,15 +21,17 @@
           </div>
           <div class="payload-form">
             <q-btn class="submit-btn mtn" :disable="!price" @click="payWithMTNMobileMoney()">
-              <img src="/assets/mazzuma-icon.jpg" alt="">
+              <img class="momo-icon" src="~assets/momo.png" alt="icon">
               Pay with MTN Mobile Money
             </q-btn>
             <q-btn class="submit-btn vodafone" :disable="!price" @click="payWithVodafoneCash()">
-              <img src="/assets/mazzuma-icon.jpg" alt="">
+              <img class="momo-icon" src="~assets/vcash2.png" alt="icon">
               Pay with Vodafone Cash
             </q-btn>
           </div>
-          <div class="support-info"><router-link v-bind:to="'/support'"> Contact our Support Team </router-link>if you have any inquiries or issues.
+          <div class="support-info">
+            <p>Need help or have questions?</p>
+            <q-btn color="primary" onclick="$crisp.push(['do', 'chat:open'])">Chat With Us Live</q-btn>
           </div>
         </div>
 
@@ -182,6 +184,12 @@ export default pageData
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" scoped>
   @import '~variables'
+
+  .momo-icon
+    display inline-block
+    margin 6px 10px 6px -10px
+    width 40px
+
   .buyPG
     .main-details
       text-align center
