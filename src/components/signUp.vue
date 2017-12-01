@@ -53,7 +53,6 @@
           <q-select
             filter
             separator
-            autofocus-filter
             v-model="form.programme"
             :options="form.options"
             id="programme"
@@ -61,7 +60,7 @@
             :error="$v.form.programme.$error"
             placeholder="Your Programme"
             float-label="Your Programme"
-            filter-placeholder="Search programmes"
+            filter-placeholder="Search for your programme"
             :before="[
               {
                 icon: 'school'
