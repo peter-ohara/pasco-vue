@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="course-bottom">
-      <div> Don't see any of your courses here? Request them so we can upload them ASAP.</div>
+      <div> We keep adding new courses everyday. Don't see some any of your courses here? Request them so we can upload them ASAP.</div>
         <q-btn color="primary" class="request-btn"><a href="http://bit.ly/2n6RjZv">Request A Course</a></q-btn>
     </div>
   </div>
@@ -101,8 +101,8 @@
         console.log(error)
       })
 
-      //generate 10 colors
-      for(let count = 0; count < 10; count ++){
+      //generate 100 colors
+      for(let count = 0; count < 100; count ++){
         this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
       }
       console.log(this.colors)

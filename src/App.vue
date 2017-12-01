@@ -36,7 +36,10 @@
           <q-list item-separator link>
 
             <q-item @click="$refs.popover2.close(); $router.push('/')">
-              Your Library
+              Your library
+            </q-item>
+            <q-item @click="$refs.popover2.close(); $router.push('/store')">
+              Add a course
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/bookmarks')">
@@ -44,7 +47,7 @@
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/support')">
-              Help & Support
+              Help & support
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/buy_pasco_gold')">
