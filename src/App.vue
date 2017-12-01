@@ -199,9 +199,6 @@
         return this.$store.state.entities.questions
           .byId[questionId]
       },
-      isSignInOrSignUp () {
-        return this.$route.name === 'signIn' || this.$route.name === 'signUp'
-      },
       getTabUrl (questionId) {
         return '/quiz/' + this.$route.params.quizId + '/question/' + questionId
       },

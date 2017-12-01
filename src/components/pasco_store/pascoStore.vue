@@ -45,7 +45,8 @@
     QCardMain,
     QIcon,
     QCardActions,
-    Loading
+    Loading,
+    QSpinnerFacebook
   } from 'quasar'
 
   let pageData = {

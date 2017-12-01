@@ -6,7 +6,7 @@
        <div class="test-details">
          <div class="row">
            <div class="col-xs-4">
-             <img class="school-logo shadow-5" src="../../assets/logo-knust.png" width="80px" height="80px">
+             <img class="school-logo shadow-5" src="../../assets/logo-knust.png" alt="knust-logo" width="80px" height="80px">
            </div>
            <div class="col-xs-8 course-info">
              <p class="course-code">
