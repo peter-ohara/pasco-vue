@@ -54,6 +54,10 @@
             New to Pasco? Sign up Now
           </router-link>
         </div>
+        <div class="preloader" v-if="!$auth.ready()">
+          <img src="~assets/loading-gif.gif">
+          <p>Loading...</p>
+        </div>
       </form>
     </div>
   </div>
@@ -89,6 +93,7 @@
     },
     data () {
       return {
+        loading: true,
         form: {
           email: '',
           password: '',
@@ -140,6 +145,21 @@
     display block
     margin 0 auto !important
 
+  .preloader
+    width 120px
+    height 120px
+    position absolute
+    left 50%
+    top 50%
+    margin -120px 0 0 -60px
+
+    .preloader
+      img
+        width 100px
+        height 84px
+      p
+        text-align center
+        font-size 16px
 
   .login-form-text
     display  block

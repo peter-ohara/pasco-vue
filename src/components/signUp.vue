@@ -205,6 +205,7 @@
     },
     data () {
       return {
+        loading: true,
         form: {
           name: '',
           programme: '',
