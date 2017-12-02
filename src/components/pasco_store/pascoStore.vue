@@ -29,7 +29,7 @@
         </router-link>
       </div>
     </div>
-    <div class="course-bottom">
+    <div class="course-bottom" v-if="!loading">
       <div> We keep adding new courses everyday. Don't see some any of your courses here? Request them so we can upload them ASAP.</div>
         <q-btn color="primary" class="request-btn"><a href="http://bit.ly/2n6RjZv">Request A Course</a></q-btn>
     </div>
@@ -88,17 +88,20 @@
     },
     created () {
       let self = this
+      self.loading = true
       this.$store.state.entities.isStale = true
       self.$store.dispatch('fetchUserData').then(function (userData) {
         Loading.show()
         return self.$http.get('courses')
       }).then(function (data) {
         Loading.hide()
+        self.loading = false
         console.log(data.body.courses)
         self.courses = data.body.courses;
         self.refreshCourses (self.keyword)
       }).catch(function (error) {
         Loading.hide()
+        self.loading = false
         console.log(error)
       })
 
