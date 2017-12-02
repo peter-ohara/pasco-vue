@@ -19,10 +19,14 @@
               {{course.code}}
             </q-card-title>
             <q-card-main class="card-bottom">
-              <p class="card-title p-card-title course-name">{{course.name}}</p>
-              <div class="test-no">{{course.total_quiz_count}}  {{ course.total_quiz_count | pluralize('test') }}</div>
+              <div class="card-title p-card-title course-name ellipsis">
+                {{course.name}}
+              </div>
+              <div class="test-no">
+                <strong>{{course.total_quiz_count}}</strong>  {{ course.total_quiz_count | pluralize('test') }}
+              </div>
               <q-card-actions align="end" >
-                <q-btn class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
+                <q-btn :small="true" flat class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
               </q-card-actions>
             </q-card-main>
           </q-card>
@@ -31,7 +35,13 @@
     </div>
     <div class="course-bottom" v-if="!loading">
       <div> We keep adding new courses everyday. Don't see some any of your courses here? Request them so we can upload them ASAP.</div>
-        <q-btn color="primary" class="request-btn"><a href="http://bit.ly/2n6RjZv">Request A Course</a></q-btn>
+
+      <a href="http://bit.ly/2n6RjZv">
+        <q-btn color="primary" class="request-btn">
+          Request A Course
+        </q-btn>
+      </a>
+
     </div>
   </div>
 </template>
@@ -158,19 +168,14 @@
     display: inline-block
     width 100%
     height:100%
-    //white-space nowrap
-    overflow hidden
-    //word-wrap break-word
-    //text-overflow ellipsis
-    font-size 15px
-    margin-bottom 5px
+    font-size 13px
 
   .course-code
     margin -10px -10px 0px
     height 60px
 
   .course-name
-    margin-top 10px
+    margin-top 7px
 
   .q-card-title
     padding 0px 5px
@@ -201,38 +206,10 @@
     a
       color white
 
-  /*
-    //Had to repeat the .search-area css because the one on the main
-    //screen was not being applied to this screen
-    .search-area
-      max-width 600px
-      margin 0 auto 20px
-      padding-left 8px
-      padding-right 8px
+  .test-no
+    font-size 12px
+    margin-bottom: 10px
 
-      .search-input
-        padding 10px
-        width 100%
-
-        .q-if-control
-          color: $tertiary !important;
-        .q-if-inner
-          input
-            color: black !important;
-
-          input:
-          :-webkit-input-placeholder
-            color $tertiary !important
-
-          input:
-          :-moz-placeholder
-            color $tertiary !important
-
-          input:-ms-input-placeholder
-            color $tertiary !important
-
-          input:-moz-placeholder
-            color $tertiary !important
-
-  */
+  .buy-btn
+    border-radius 0
 </style>
