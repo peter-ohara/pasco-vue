@@ -26,7 +26,7 @@
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
       <span class="help">
-        <a href="http://pascoapp.com/help"   v-if="(this.$route.name === 'signIn' || this.$route.name === 'signUp')">Getting Started</a>
+        <a href="http://bit.ly/2kbevom"   v-if="(this.$route.name === 'signIn' || this.$route.name === 'signUp')">Getting Started</a>
       </span>
       <q-btn ref="target" flat v-if="!(this.$route.name === 'signIn' || this.$route.name === 'signUp')">
         <q-icon name="more_vert"/>
@@ -36,7 +36,7 @@
             The DOM element(s) that make up the popup,
             in this case a list:
           -->
-          <q-list item-separator link>
+          <q-list class="menu-items" item-separator link>
 
             <q-item @click="$refs.popover2.close(); $router.push('/')">
               Your library
@@ -62,7 +62,11 @@
             </q-item>
 
             <q-item @click="$refs.popover2.close();">
-              <a href="http://bit.ly/PascoFeedback2">Give us Feedback</a>
+              <a href="http://bit.ly/2j6Nj6M">Getting Started</a>
+            </q-item>
+
+            <q-item @click="$refs.popover2.close();">
+              <a href="http://bit.ly/">Give us Feedback</a>
             </q-item>
 
           </q-list>
@@ -261,6 +265,11 @@
     margin-top 3px
     margin-left 3px
 
+  .menu-items
+    a
+      color #454545
+    a:hover
+      color #454545
 </style>
 
 <style lang="stylus">
