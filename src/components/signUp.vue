@@ -1,5 +1,13 @@
 <template>
   <div class="signin-page">
+    <div class="header-div shadow-10">
+      <router-link class="register" v-bind:to="'/signup'">
+        Register
+      </router-link>
+      <router-link class="login" v-bind:to="'/signin'">
+        Log In
+      </router-link>
+    </div>
     <div class="signin shadow-10">
       <form v-on:submit.prevent="signUp()">
         <div class="row">
@@ -45,7 +53,6 @@
           <q-select
             filter
             separator
-            autofocus-filter
             v-model="form.programme"
             :options="form.options"
             id="programme"
@@ -53,7 +60,7 @@
             :error="$v.form.programme.$error"
             placeholder="Your Programme"
             float-label="Your Programme"
-            filter-placeholder="Search programmes"
+            filter-placeholder="Search for your programme"
             :before="[
               {
                 icon: 'school'
@@ -94,7 +101,7 @@
         </div>
         <div class="form-group">
           <q-btn type="submit" class="submit-btn">
-            Sign Up
+            Register
           </q-btn>
           <router-link v-bind:to="'/signin'">
             Already have an account? Sign in
@@ -198,6 +205,7 @@
     },
     data () {
       return {
+        loading: true,
         form: {
           name: '',
           programme: '',
@@ -599,6 +607,33 @@
     text-align center
     padding-top 10px
     font-size 18px
+
+  .header-div
+    max-width 400px
+    width 80%
+    margin 0 auto
+    height 50px
+    margin-bottom 15px
+
+    .register
+      float left
+      color white
+      background-color $primary
+      display:table-cell
+      width 50%
+      text-align center
+      font-size 18px
+      padding 15px
+
+    .login
+      float right
+      color $primary
+      background-color rgba(255,255,255,0.9)
+      display table-cell
+      width 50%
+      text-align center
+      font-size 18px
+      padding 15px
 
   .signin
     background-color rgba(255,255,255,0.9)

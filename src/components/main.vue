@@ -7,7 +7,7 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a course"/>
+        placeholder="Search your library"/>
     </div>
     <!--
     <div class="trial-period">
@@ -15,10 +15,10 @@
     </div>
     -->
     <div class="content">
-      <router-link v-for="course in courses" v-bind:to="'course/'+ course.id">
-        <q-card class="card">
+      <router-link v-for="(course, index) in courses" v-bind:to="'course/'+ course.id">
+        <q-card  class="card">
           <div class="card-side">
-            <div class="card-icon blue">
+            <div v-bind:style="{backgroundColor: colors[index]}" class="card-icon blue">
               <p>
                 {{ splitCourseCode(course.code)[1] }}
                 <br>
@@ -39,13 +39,14 @@
 
     <router-link v-bind:to="'/store'">
       <div class="footer">
-        <q-btn class="button" icon="shop">Buy a course</q-btn>
+        <q-btn class="button" icon="shop">Add a course</q-btn>
       </div>
     </router-link>
   </div>
 </template>
 
 <script>
+  var randomColor = require('randomcolor')
   import {
     QSearch,
     QCard,
@@ -62,13 +63,25 @@
       return {
         loading: true,
         keyword: '',
-        timer: ''
+        timer: '',
+        colors: []
       }
     },
     created () {
       this.$store.dispatch('fetchUserData').catch(function (error) {
         console.error('There was an error running action fetchUserData', error)
       })
+
+      for (let count = 0; count < 20; count++) {
+        this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
+      }
+      /*
+      let randomColor = document.createElement('script')
+      randomColor.setAttribute('src', ' ')
+      document.head.appendChild(randomColor)
+      this.colors.push(randomColor({luminosity: 'dark', count: 27}))
+      */
+      console.log(this.colors)
     },
     computed: {
       courses () {

@@ -4,7 +4,7 @@
    <q-tabs slot="navigation" align="justify" v-if="course">
      <!-- Tabs - notice slot="title" -->
      <q-tab default slot="title" name="tests" label="Tests" />
-     <q-tab disable slot="title" name="topics" label="Topics" />
+     <q-tab @click="showComingSoonToast()" disable slot="title" name="topics" label="Topics" />
      <!-- Targets -->
      <q-tab-pane name="tests">
        <div class="content">
@@ -25,7 +25,8 @@ import {
   QCard,
   QTabs,
   QTab,
-  QTabPane
+  QTabPane,
+  Toast
 } from 'quasar'
 
 import quizItem from './quizItem.vue'
@@ -55,6 +56,17 @@ let pageData = {
     course () {
       return this.$store.state.entities.courses
         .byId[this.$route.params.courseId]
+    }
+  },
+  methods: {
+    showComingSoonToast: function () {
+      Toast.create({
+        html: 'Topics feature coming soon',
+        icon: 'thumb_up',
+        timeout: 2000,
+        color: '#ffffff',
+        bgColor: '#005d5b'
+      })
     }
   }
 }
