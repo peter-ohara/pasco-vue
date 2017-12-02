@@ -10,7 +10,7 @@
         placeholder="Search your library"/>
     </div>
     <div class="content">
-      <p v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
+      <p class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
         Hello {{ this.$store.state.entities.user.name }},<br>
         Your library is empty. Click on the <strong>"Buy A Couse"</strong> button below to add some courses.
       </p>
@@ -145,4 +145,7 @@
 
   .green
     background-color $green
+
+  .empty-state
+    padding 16px
 </style>
