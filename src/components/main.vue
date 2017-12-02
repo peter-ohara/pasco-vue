@@ -46,7 +46,6 @@
 </template>
 
 <script>
-  var randomColor = require('randomcolor')
   import {
     QSearch,
     QCard,
