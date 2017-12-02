@@ -81,7 +81,7 @@ const router = new VueRouter({
 
 router.afterEach((to, from, next) => {
  // console.log(to.name, to.name === "support")
-  if(to.name === "support" || to.name === "buyPG")
+  if((to.name === "support" || to.name === "buyPG") || (to.name === 'signUp' || to.name === 'signIn'))
     $crisp.push(['do', 'chat:show'])
   else
     $crisp.push(['do', 'chat:hide']);

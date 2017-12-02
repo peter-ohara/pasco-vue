@@ -45,7 +45,8 @@
     QCardMain,
     QIcon,
     QCardActions,
-    Loading
+    Loading,
+    QSpinnerFacebook
   } from 'quasar'
 
   let pageData = {
@@ -101,7 +102,7 @@
         console.log(error)
       })
 
-      //generate 10 colors
+      //generate 100 colors
       for(let count = 0; count < 100; count ++){
         this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
       }
@@ -132,7 +133,6 @@
     padding 5px
     display block
     float left
-    //clear both
 
   a:nth-child(odd)
     padding-left 0px
