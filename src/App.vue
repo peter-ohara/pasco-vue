@@ -25,22 +25,32 @@
       <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push({ name: 'buyPG'})">
         {{ user.pasco_gold }} <span class="currency">PG</span>
       </q-btn>
-      <q-btn ref="target" flat v-if="this.$route.name !== 'signIn'">
+      <span class="help">
+        <a href="http://pascoapp.com/help"   v-if="(this.$route.name === 'signIn' || this.$route.name === 'signUp')">Getting Started</a>
+      </span>
+      <q-btn ref="target" flat v-if="!(this.$route.name === 'signIn' || this.$route.name === 'signUp')">
         <q-icon name="more_vert"/>
         <!-- Direct child of target -->
-        <q-popover ref="popover2">
+        <q-popover ref="popover2" >
           <!--
             The DOM element(s) that make up the popup,
             in this case a list:
           -->
           <q-list item-separator link>
 
+            <q-item @click="$refs.popover2.close(); $router.push('/')">
+              Your library
+            </q-item>
+            <q-item @click="$refs.popover2.close(); $router.push('/store')">
+              Add a course
+            </q-item>
+
             <q-item @click="$refs.popover2.close(); $router.push('/bookmarks')">
               Bookmarks
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/support')">
-              Help & Support
+              Help & support
             </q-item>
 
             <q-item @click="$refs.popover2.close(); $router.push('/buy_pasco_gold')">
@@ -272,6 +282,17 @@
       text-align center
       font-size 16px
 
+  .help
+    color white
+    margin-right 15px
+    a
+      color white
+
+    a:hover
+      color #d7d7d7
+
+    a:active
+      color #d7d7d7
 
   .search-area
     max-width 600px

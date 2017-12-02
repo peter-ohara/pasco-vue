@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="course-bottom">
-      <p>We keep adding new courses everyday. If you don't see some of your courses here you can request them so we upload them ASAP.</p>
+      <div> We keep adding new courses everyday. Don't see some any of your courses here? Request them so we can upload them ASAP.</div>
         <q-btn color="primary" class="request-btn"><a href="http://bit.ly/2n6RjZv">Request A Course</a></q-btn>
     </div>
   </div>
@@ -45,7 +45,8 @@
     QCardMain,
     QIcon,
     QCardActions,
-    Loading
+    Loading,
+    QSpinnerFacebook
   } from 'quasar'
 
   let pageData = {
@@ -101,7 +102,7 @@
         console.log(error)
       })
 
-      //generate 10 colors
+      //generate 100 colors
       for(let count = 0; count < 100; count ++){
         this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
       }
@@ -132,7 +133,6 @@
     padding 5px
     display block
     float left
-    //clear both
 
   a:nth-child(odd)
     padding-left 0px
