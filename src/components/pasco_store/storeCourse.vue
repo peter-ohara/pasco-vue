@@ -35,14 +35,16 @@
          </ul>
        </div>
        <div class="test-list">
-         <p class="list-title">Tests</p>
-         <q-card class="card" v-for="quiz in course.quizzes">
+         <p class="list-title">Available Tests</p>
+         <q-card flat @click="showToast()" class="card" v-for="quiz in course.quizzes">
            <div class="card-main">
              <p class="text card-title">
                {{quiz.name}}
              </p>
-             <p class="text duration">{{quiz.duration}}  {{ quiz.duration | pluralize('hr') }}</p>
-             <p class="text question-count">{{quiz.question_count}} Q</p>
+             <p>
+               <span class="text duration"><q-icon name="timer" class="store-icons"></q-icon> {{quiz.duration}}  {{ quiz.duration | pluralize('hr') }}</span>
+               <span class="text question-count"> <q-icon name="list" class="store-icons"></q-icon> {{quiz.question_count}} Questions</span>
+             </p>
            </div>
          </q-card>
        </div>
@@ -142,6 +144,23 @@ let pageData = {
         ]
       })
     },
+    showToast: function () {
+      if (this.isBoughtAlready) {
+        Toast.create({
+          html: 'Go to the course to view this test',
+          timeout: 2000,
+          color: '#ffffff',
+          bgColor: '#005d5b'
+        })
+      } else {
+        Toast.create({
+          html: 'Buy the course to view this test',
+          timeout: 2000,
+          color: '#ffffff',
+          bgColor: '#005d5b'
+        })
+      }
+    },
     buyCourse (course) {
       let self = this
 
@@ -153,6 +172,9 @@ let pageData = {
         Loading.hide()
         Toast.create({
           html: 'Purchase successful',
+          color: '#ffffff',
+          icon: 'thumb_up',
+          bgColor: '#005d5b',
           button: {
             label: 'View Course',
             handler () {
@@ -191,7 +213,7 @@ let pageData = {
     generateColor () {
       // function not in use at the moment
       return '#' + (Math.random().toString(16) + '000000').substring(2, 8)
-    }
+    },
   },
   filters: {
     pluralize: function (number, word) {
@@ -286,6 +308,9 @@ export default pageData
   .course-info
     padding-left 10px
 
+  .card
+    height 68px
+
   .card-main
     padding-left 10px
 
@@ -294,4 +319,10 @@ export default pageData
     p
       font-size 12px
 
+  .question-count
+    margin-left 15px
+
+  .store-icons
+    font-size 16px
+    padding-right 3px
 </style>

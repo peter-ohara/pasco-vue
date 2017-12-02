@@ -20,11 +20,11 @@
             />
           </div>
           <div class="payload-form">
-            <q-btn class="submit-btn mtn" :disable="!price" @click="payWithMTNMobileMoney()">
+            <q-btn class="submit-btn mtn"  @click="payWithMTNMobileMoney()">
               <img class="momo-icon" src="~assets/momo.png" alt="icon">
               Pay with MTN Mobile Money
             </q-btn>
-            <q-btn class="submit-btn vodafone" :disable="!price" @click="payWithVodafoneCash()">
+            <q-btn class="submit-btn vodafone"  @click="payWithVodafoneCash()">
               <img class="momo-icon" src="~assets/vcash2.png" alt="icon">
               Pay with Vodafone Cash
             </q-btn>
@@ -46,7 +46,8 @@ import {
   QSelect,
   QInput,
   Alert,
-  Loading
+  Loading,
+  Toast
 } from 'quasar'
 
 let pageData = {
@@ -93,78 +94,108 @@ let pageData = {
       }
     },
     payWithMTNMobileMoney () {
-      Loading.show()
-      return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'mtn' } }).then(function (response) {
-        Loading.hide()
-        this.buyAlert = Alert.create(
-          {
-            color: 'orange',
-            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been initiated. <br>Send <strong class="orange"> GHS ' + this.price +
-            '</strong> to <strong class="orange">0548780946</strong> to complete the transaction. ' +
-            '<br> Please make sure to enter your email,  <br>(<strong class="orange">' + this.$store.state.entities.user.email +
-            '</strong>)<br> as the reference (Ref) for the payment. <br>We will credit your Pasco Gold account after a successful transaction. <br> NB: Name of MTN Mobile Money Account is <strong>Isaac Sesi</strong>',
-            icon: 'payment',
-            enter: 'bounceInLeft',
-            leave: 'bounceOutLeft',
-            position: 'left',
-            actions: [
-              {
-                label: 'Cancel',
-                handler () {
-                }
-              },
-              {
-                label: 'PAY NOW',
-                handler () {
-                  window.open('tel:*170%23')
-                }
-              }
-            ]
+      if (!this.price) {
+        Toast.create({
+          html: 'Please select an amount',
+          icon: 'error_outline',
+          timeout: 2000,
+          color: '#ffffff',
+          bgColor: '#005d5b'
+        })
+      } else {
+        Loading.show()
+        return this.$http.post('gold_purchases', {
+          gold_purchase: {
+            price: this.price,
+            network: 'mtn'
           }
-        )
-      }).catch(function (error) {
-        Loading.hide()
-        console.log(error)
-        alert('Network Error')
-        // TODO: Handle network error
-      })
+        }).then(function (response) {
+          Loading.hide()
+          this.buyAlert = Alert.create(
+            {
+              color: 'orange',
+              html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been initiated. <br>Send <strong class="orange"> GHS ' + this.price +
+              '</strong> to <strong class="orange">0548780946</strong> to complete the transaction. ' +
+              '<br> Please make sure to enter your email,  <br>(<strong class="orange">' + this.$store.state.entities.user.email +
+              '</strong>)<br> as the reference (Ref) for the payment. <br>We will credit your Pasco Gold account after a successful transaction. <br> NB: Name of MTN Mobile Money Account is <strong>Isaac Sesi</strong>',
+              icon: 'payment',
+              enter: 'bounceInLeft',
+              leave: 'bounceOutLeft',
+              position: 'left',
+              actions: [
+                {
+                  label: 'Cancel',
+                  handler() {
+                  }
+                },
+                {
+                  label: 'PAY NOW',
+                  handler() {
+                    window.open('tel:*170%23')
+                  }
+                }
+              ]
+            }
+          )
+        }).catch(function (error) {
+          Loading.hide()
+          console.log(error)
+          alert('Network Error')
+          // TODO: Handle network error
+        })
+      }
     },
     payWithVodafoneCash () {
-      Loading.show()
-      return this.$http.post('gold_purchases', { gold_purchase: { price: this.price, network: 'vodafone' } }).then(function (response) {
-        Loading.hide()
-        this.buyAlert = Alert.create(
-          {
-            color: 'red',
-            html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been initiated. <br>Send <strong class="orange"> GHS ' + this.price +
-            '</strong> to <strong class="orange">0503064768</strong> to complete the transaction. ' +
-            '<br> Please make sure to enter your email <br>(<strong class="orange">' + this.$store.state.entities.user.email +
-            '</strong>)<br> as the reference (Ref) for the payment.<br>We will credit your Pasco Gold account after a successful transaction. <br> NB: Name of Vodafone Cash Account is <strong>Isaac Sesi</strong> ',
-            icon: 'payment',
-            enter: 'bounceInLeft',
-            leave: 'bounceOutLeft',
-            position: 'left',
-            actions: [
-              {
-                label: 'Cancel',
-                handler () {
-                }
-              },
-              {
-                label: 'PAY NOW',
-                handler () {
-                  window.open('tel:*110%23')
-                }
-              }
-            ]
+      if (!this.price) {
+        Toast.create({
+          html: 'Please select an amount',
+          icon: 'error_outline',
+          timeout: 2000,
+          color: '#ffffff',
+          bgColor: '#005d5b'
+        })
+      } else {
+        Loading.show()
+        return this.$http.post('gold_purchases', {
+          gold_purchase: {
+            price: this.price,
+            network: 'vodafone'
           }
-        )
-      }).catch(function (error) {
-        Loading.hide()
-        console.log(error)
-        alert('Network Error')
-        // TODO: Handle network error
-      })
+        }).then(function (response) {
+          Loading.hide()
+          this.buyAlert = Alert.create(
+            {
+              color: 'red',
+              html: 'Your purchase of ' + this.getAmount(this.price) + ' PG has been initiated. <br>Send <strong class="orange"> GHS ' + this.price +
+              '</strong> to <strong class="orange">0503064768</strong> to complete the transaction. ' +
+              '<br> Please make sure to enter your email <br>(<strong class="orange">' + this.$store.state.entities.user.email +
+              '</strong>)<br> as the reference (Ref) for the payment.<br>We will credit your Pasco Gold account after a successful transaction. <br> NB: Name of Vodafone Cash Account is <strong>Isaac Sesi</strong> ',
+              icon: 'payment',
+              enter: 'bounceInLeft',
+              leave: 'bounceOutLeft',
+              position: 'left',
+              actions: [
+                {
+                  label: 'Cancel',
+                  handler() {
+                  }
+                },
+                {
+                  label: 'PAY NOW',
+                  handler() {
+                    window.open('tel:*110%23')
+                  }
+                }
+              ]
+            }
+          )
+        }).catch(function (error) {
+          Loading.hide()
+          console.log(error)
+          alert('Network Error')
+          // TODO: Handle network error
+        })
+      }
     }
   },
   created () {
