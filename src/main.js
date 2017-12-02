@@ -30,7 +30,7 @@ Vue.use(require('@websanova/vue-auth'), {
   http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
   router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
   rolesVar: 'type',
-  authRedirect: {path: '/signin'},
+  authRedirect: {path: '/signup'},
   forbiddenRedirect: {path: '/403'},
   notFoundRedirect: {path: '/404'},
   registerData: {url: 'auth/register', method: 'POST', redirect: '/signin'},

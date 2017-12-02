@@ -10,10 +10,11 @@
         placeholder="Search your library"/>
     </div>
     <div class="content">
-      <p class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
-        Hello {{ this.$store.state.entities.user.name }},<br>
-        Your library is empty. Click on the <strong>"Add A Couse"</strong> button below to add some courses.
-      </p>
+      <div class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
+          <q-icon class="sentiment" name="sentiment_satisfied"></q-icon>
+        <p>Hello {{ this.$store.state.entities.user.name }},<br>
+          Your library is empty. Click on the <strong>"Add A Course"</strong> button below to add some courses to your library <br> or check out our <a href="http://bit.ly/2j6Nj6M">getting started guide</a></p>
+      </div>
 
       <router-link v-for="(course, index) in courses" v-bind:to="'course/'+ course.id">
         <q-card  class="card">
@@ -49,14 +50,16 @@
   import {
     QSearch,
     QCard,
-    QBtn
+    QBtn,
+    QIcon
   } from 'quasar'
 
   let pageData = {
     components: {
       QSearch,
       QCard,
-      QBtn
+      QBtn,
+      QIcon
     },
     data () {
       return {
@@ -148,4 +151,13 @@
 
   .empty-state
     padding 16px
+    margin-top 30px
+    width 100%
+    text-align center
+
+  .sentiment
+    font-size 150px
+    color #ccc
+    padding 10px
+
 </style>
