@@ -9,12 +9,12 @@
         v-model="keyword"
         placeholder="Search your library"/>
     </div>
-    <!--
-    <div class="trial-period">
-      <p>Pasco is currently in the trial period till October 31st</p>
-    </div>
-    -->
     <div class="content">
+      <p class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
+        Hello {{ this.$store.state.entities.user.name }},<br>
+        Your library is empty. Click on the <strong>"Add A Couse"</strong> button below to add some courses.
+      </p>
+
       <router-link v-for="(course, index) in courses" v-bind:to="'course/'+ course.id">
         <q-card  class="card">
           <div class="card-side">
@@ -145,4 +145,7 @@
 
   .green
     background-color $green
+
+  .empty-state
+    padding 16px
 </style>
