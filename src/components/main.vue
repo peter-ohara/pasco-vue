@@ -54,6 +54,8 @@
     QIcon
   } from 'quasar'
 
+  import randomColor from 'randomcolor'
+
   let pageData = {
     components: {
       QSearch,
@@ -73,17 +75,14 @@
       this.$store.dispatch('fetchUserData').catch(function (error) {
         console.error('There was an error running action fetchUserData', error)
       })
-
       for (let count = 0; count < 20; count++) {
-        this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
+        this.colors.push(
+          randomColor({
+            luminosity: 'dark',
+            hue: 'random'
+          }))
+        console.log('randomColor', randomColor)
       }
-      /*
-      let randomColor = document.createElement('script')
-      randomColor.setAttribute('src', ' ')
-      document.head.appendChild(randomColor)
-      this.colors.push(randomColor({luminosity: 'dark', count: 27}))
-      */
-      console.log(this.colors)
     },
     computed: {
       courses () {
