@@ -59,6 +59,8 @@
     QSpinnerFacebook
   } from 'quasar'
 
+  import randomColor from 'randomcolor'
+
   let pageData = {
     components: {
       QCard,
@@ -116,10 +118,16 @@
       })
 
       //generate 100 colors
-      for(let count = 0; count < 100; count ++){
-        this.colors.push('#' + (Math.random().toString(10) + '000000').substring(2, 8))
+      for (let count = 0; count < 20; count++) {
+        this.colors.push(
+          randomColor({
+            luminosity: 'dark',
+            hue: 'random',
+            format: 'rgba',
+            alpha: 0.7
+          }))
+        console.log('randomColor', randomColor)
       }
-      console.log(this.colors)
     },
     filters: {
       pluralize: function (number, word) {
