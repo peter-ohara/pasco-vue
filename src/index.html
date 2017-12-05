@@ -12,7 +12,18 @@
      <meta name="keywords" content="Pasco, Passco, Pasco App, Pasco KNUST, Past Questions App">
     <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-16x16.png">
-    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>statics/manifest.json">
+    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(["init", {
+        appId: "f125a98c-9651-486e-879e-5ee99fbdb9d1",
+        autoRegister: false,
+        notifyButton: {
+          enable: true /* Set to false to hide */
+        }
+      }]);
+    </script>
 
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
