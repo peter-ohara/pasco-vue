@@ -7,16 +7,62 @@
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Pasco</title>
+    <title>Pasco | Past Questions on Your Smartphone or PC</title>
+    <meta name="description" content="Pasco helps you prepare for exams by making it possible to access past questions and other resources from your smartphone or PC."/>
+     <meta name="keywords" content="Pasco, Passco, Pasco App, Pasco KNUST, Past Questions App">
     <link rel="icon" type="image/png" sizes="32x32" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/favicon-16x16.png">
-<!--    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>statics/manifest.json">-->
+    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>manifest.json">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(["init", {
+        appId: "f125a98c-9651-486e-879e-5ee99fbdb9d1",
+        autoRegister: false,
+        persistNotification: false,
+        notifyButton: {
+          enable: true, /* Set to false to hide */
+          prenotify: true,
+          position: 'bottom-left',
+          displayPredicate: function() {
+            return Oneignal.isPushNotificationsEnabled()
+              .then(function(isPushEnabled) {
+                /* The user is subscribed, so we want to return "false" to hide the notify button */
+                return !isPushEnabled;
+              });
+          }
+        },
+        promptOptions: {
+          /* These prompt options values configure both the HTTP prompt and the HTTP popup. */
+          /* actionMessage limited to 90 characters */
+          actionMessage: "We'd like to be able to notify you when upload new courses and questions.",
+          /* acceptButtonText limited to 15 characters */
+          acceptButtonText: "ALLOW",
+          /* cancelButtonText limited to 15 characters */
+          cancelButtonText: "NO THANKS",
+          showCredit: false,
+          siteName: 'Pasco App',
+          /* Subtitle, limited to 90 characters */
+          exampleNotificationTitle: 'Example notification',
+          /* Example notification message */
+          exampleNotificationMessage: 'Here is how our notifications look like',
+          /* Text below example notification, limited to 50 characters */
+          exampleNotificationCaption: 'You can unsubscribe anytime',
+          /* Accept button text, limited to 15 characters */
+        },
+        welcomeNotification: {
+          title: "Thanks for subscribing to Pasco",
+          message: "You will receive notifications when we add new content"
+        }
+      }]);
+    </script>
 
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
     <meta name="apple-mobile-web-app-title" content="Pasco">
     <link rel="apple-touch-icon" href="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/apple-icon-152x152.png">
+
     <!-- Add to home screen for Windows -->
     <meta name="msapplication-TileImage" content="<%= htmlWebpackPlugin.files.publicPath %>statics/icons/ms-icon-144x144.png">
     <meta name="msapplication-TileColor" content="#ffffff">
@@ -25,11 +71,11 @@
     <!-- Global Site Tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64316417-4"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments)};
-      gtag('js', new Date());
+      window.dataLayer = window.dataLayer || []
+      function gtag () { dataLayer.push(arguments) }
+      gtag('js', new Date())
 
-      gtag('config', 'UA-64316417-4');
+      gtag('config', 'UA-64316417-4')
     </script>
 
     <style>
@@ -37,6 +83,7 @@
         height: 100%;
         width: 100%;
         background: #f0f0f0 !important;
+
       }
       body{
         top: 0px;
@@ -47,6 +94,33 @@
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
     <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
+    <!--User session recording using SmartLook-->
+    <!--<script type="text/javascript">-->
+      <!--window.smartlook||(function(d) {-->
+        <!--var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];-->
+        <!--var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';-->
+        <!--c.charset='utf-8';c.src='https://rec.smartlook.com/recorder.js';h.appendChild(c);-->
+      <!--})(document);-->
+      <!--smartlook('init', '59b80c738331731d8aa64484200e756acb99bf2e');-->
+    <!--</script>-->
+
+    <script>
+      window['_fs_debug'] = false;
+      window['_fs_host'] = 'fullstory.com';
+      window['_fs_org'] = '8VPNW';
+      window['_fs_namespace'] = 'FS';
+      (function(m,n,e,t,l,o,g,y){
+        if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
+        g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
+        o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+        y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+        g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){g(l,v)};
+        g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+        g.clearUserCookie=function(c,d,i){if(!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[`;`]*`')){
+          d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+
+            ';path=/;expires='+new Date(0).toUTCString();i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}}};
+      })(window,document,window['_fs_namespace'],'script','user');
+    </script>
   </head>
   <body>
     <noscript>
@@ -65,12 +139,12 @@
     </script>
 
     <link rel="stylesheet" href="<%= htmlWebpackPlugin.files.publicPath %>statics/katex/katex.min.css">
-    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_CHTML-full'></script>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/MathJax/MathJax.js?config=AM_CHTML-full" async type="text/javascript"></script>
     <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/ASCIIMathTeXKaTeX-2016-06-17.min.js"></script>
     <script src="<%= htmlWebpackPlugin.files.publicPath %>statics/katex/katex.min.js"></script>
-    <script>
-      if (typeof(katex) != "undefined") AMfunc(true);
-    </script>
-
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="ca9d7dec-db90-4f88-aa76-2801f94ee469";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <script src="https://cdn.auth0.com/js/auth0/8.9/auth0.min.js"></script>
   </body>
 </html>

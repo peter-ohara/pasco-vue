@@ -1,5 +1,5 @@
 <template>
- <div class="main">
+  <div class="main">
     <div class="search-area">
       <q-search
         class="search-input"
@@ -7,175 +7,168 @@
         :inverted="true"
         :debounce="300"
         v-model="keyword"
-        placeholder="Find a test"
-        @change="searchTests(keyword)"/>
+        placeholder="Search your library"/>
     </div>
     <div class="content">
-      <router-link v-for="test in tests"  v-bind:to="'test/'+ test.id" v-on:click.native="loadPage()">
-        <q-card class="card">
+      <div class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
+          <q-icon class="sentiment" name="sentiment_satisfied"></q-icon>
+        <p>Hello {{ this.$store.state.entities.user.name }},<br>
+          Your library is empty. Click on the <strong>"Add A Course"</strong> button below to add some courses to your library <br> or check out our <a href="http://bit.ly/2j6Nj6M">getting started guide</a></p>
+      </div>
+
+      <router-link v-for="(course, index) in courses" v-bind:to="'course/'+ course.id">
+        <q-card  class="card">
           <div class="card-side">
-            <div v-bind:class="{ blue: test.quiz_type === 'end_of_sem', green: test.quiz_type === 'mid_sem', orange: test.quiz_type === 'assignment'  }" class="card-icon">
+            <div v-bind:style="{backgroundColor: colors[index]}" class="card-icon blue">
               <p>
-                {{ splitCourseCode(test.course_code)[1] }}
+                {{ splitCourseCode(course.code)[1] }}
                 <br>
-                {{ splitCourseCode(test.course_code)[2] }}
+                {{ splitCourseCode(course.code)[2] }}
               </p>
             </div>
           </div>
           <div class="card-main">
             <p class="text card-title">
-              {{test.name}}
+              {{course.name}}
             </p>
-            <p class="text duration">{{test.course_name}}</p>
-            <p class="text question-count">{{test.question_count}}Q</p>
+            <p class="text question-count">{{course.total_quiz_count}} tests</p>
+
           </div>
         </q-card>
       </router-link>
     </div>
+
+    <router-link v-bind:to="'/store'">
+      <div class="footer">
+        <q-btn class="button" icon="shop">Add a course</q-btn>
+      </div>
+    </router-link>
   </div>
 </template>
 
 <script>
-import {
-  QSearch,
-  QCard
-} from 'quasar'
-
-var pageData = {
-  components: {
+  import {
     QSearch,
-    QCard
-  },
-  data(){
-    return{
-      loading: true,
-      keyword: "",
-      tests: [],
-      timer: ""
-    }
-  },
-  methods: {
-    splitCourseCode: function (courseCode) {
-      return courseCode.match(/([a-zA-Z]*)([0-9]*)/);
-    },
-    getTests: function(keyword){
-      console.log('get tests')
-      var url = 'https://pasco-api-staging.herokuapp.com/quizzes'+(keyword ? '?by_name='+keyword : '')
+    QCard,
+    QBtn,
+    QIcon
+  } from 'quasar'
 
-      this.loading = true;
-      this.$http.get(url).then(function(data){
-        console.log(data)
-        this.loading = false;
-        this.tests = data.body.quizzes
+  import randomColor from 'randomcolor'
+
+  let pageData = {
+    components: {
+      QSearch,
+      QCard,
+      QBtn,
+      QIcon
+    },
+    data () {
+      return {
+        loading: true,
+        keyword: '',
+        timer: '',
+        colors: []
+      }
+    },
+    created () {
+      this.$store.dispatch('fetchUserData').catch(function (error) {
+        console.error('There was an error running action fetchUserData', error)
+      })
+      for (let count = 0; count < 20; count++) {
+        this.colors.push(
+          randomColor({
+            luminosity: 'dark',
+            hue: 'random'
+          }))
+        console.log('randomColor', randomColor)
+      }
+      OneSignal.push(function() {
+        OneSignal.isPushNotificationsEnabled(function(isEnabled) {
+          if (isEnabled)
+            console.log("Push notifications are enabled!")
+          else {
+            OneSignal.registerForPushNotifications({
+              modalPrompt: true
+            })
+          }
+        })
       })
     },
-    searchTests: function(keyword){
-      clearTimeout(this.timer)
-      var fxn = this;
+    computed: {
+      courses () {
+        if(!this.keyword) return this.$store.getters.courses;
 
-      this.timer = setTimeout(function(){
-        fxn.getTests(keyword)
-      }, 200)
+        return this.$store.getters.courses.filter(course =>
+          course.code.toLowerCase().includes(this.keyword.toLowerCase()) ||
+          course.name.toLowerCase().includes(this.keyword.toLowerCase())
+        )
+      }
+//    filteredQuizzes () {
+//      let self = this
+//      return this.courses.filter(function (course) {
+//        let searchData = (course.code + ' ' + course.name).toUpperCase()
+//        return searchData.indexOf(self.keyword.toUpperCase()) !== -1
+//      })
+//    }
     },
-    loadPage: function(){
-      console.log('button clicked')
-      this.$isPageLoading = true
+    methods: {
+      splitCourseCode: function (courseCode) {
+        return courseCode.match(/([a-zA-Z]*)([0-9]*)/)
+      }
     }
-  },
-  created(){
-    //console.log('page loaded')
-    this.getTests()
   }
-}
-
-export default pageData
 
 
+  export default pageData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus">
-@import '~variables'
+<style lang="stylus" scoped>
+  @import '~variables'
 
-.search-area
-  max-width 600px
-  margin 70px auto 20px
-  padding-left 8px
-  padding-right 8px
+  .trial-period p
+    text-align center
+    color orange
 
-  .search-input
-    padding 10px
+  .trial-period
+    margin 0 auto 10px
+
+  .text
+    text-align left
+    margin-bottom 0px
+
+  .question-count
+    color $blue
+    font-size 12px
+
+  .duration
+    color $mid-gray
+
+  .card-title
+    color $dark-gray
+    font-size 18px
+    font-weight 300
+    margin-top 5px
+
+  .blue
+    background-color $blue
+
+  .orange
+    background-color $orange
+
+  .green
+    background-color $green
+
+  .empty-state
+    padding 16px
+    margin-top 30px
     width 100%
+    text-align center
 
-    .q-if-control
-      color: $tertiary !important;
-    .q-if-inner
-      input
-        color: black !important;
+  .sentiment
+    font-size 150px
+    color #ccc
+    padding 10px
 
-      input::-webkit-input-placeholder /* Chrome/Opera/Safari */
-        color $tertiary !important
-
-      input::-moz-placeholder  /* Firefox 19+ */
-        color $tertiary !important
-
-      input:-ms-input-placeholder  /* IE 10+ */
-        color $tertiary !important
-
-      input:-moz-placeholder  /* Firefox 18- */
-        color $tertiary !important
-
-
-
-.content
-  max-width 600px
-  margin 0px auto 10px
-
-.card
-  background white
-  display flex
-  padding 10px
-
-.card-side
-  width 20%
-  max-width 200px
-  min-width 80px
-
-.card-icon
-  background-color $info
-  border-radius 50px
-  height 60px
-  width 60px
-  margin-top 5px
-  padding-bottom 15px
-  padding-top 15px
-  text-align center
-  p
-    line-height 1.2em
-    color white
-    font-size 0.8em
-
-.text
-  text-align left
-  margin-bottom 0px
-
-.question-count
-  color $blue
-  font-size 15px
-
-.duration
-  color $mid-gray
-
-.card-title
-  color $dark-gray
-  font-size 18px
-
-.blue
-  background-color $blue
-
-.orange
-  background-color $orange
-
-.green
-  background-color $green
 </style>

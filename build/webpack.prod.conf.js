@@ -87,6 +87,34 @@ module.exports = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ]),
+    // copy _redirects file
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/_redirects'),
+        to: ''
+      }
+    ]),
+    // copy manifest.json file
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/manifest.json'),
+        to: ''
+      }
+    ]),
+    // copy OneSignalSDKWorker.js file
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/OneSignalSDKWorker.js'),
+        to: ''
+      }
+    ]),
+    // copy OneSignalSDKUpdaterWorker.js file
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/OneSignalSDKUpdaterWorker.js'),
+        to: ''
+      }
+    ]),
     // service worker caching
     new SWPrecacheWebpackPlugin({
       cacheId: 'my-quasar-app',
