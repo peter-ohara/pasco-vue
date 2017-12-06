@@ -40,7 +40,7 @@
 
     <router-link v-bind:to="'/store'">
       <div class="footer">
-        <q-btn class="button" icon="shop">Add a course</q-btn>
+        <q-btn class="button" icon="library_books">Add a course</q-btn>
       </div>
     </router-link>
   </div>
@@ -88,6 +88,7 @@
           if (isEnabled)
             console.log("Push notifications are enabled!")
           else {
+            setTimeout(myFunction, 3000)
             OneSignal.registerForPushNotifications({
               modalPrompt: true
             })
