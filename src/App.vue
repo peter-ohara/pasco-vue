@@ -23,7 +23,7 @@
         <q-icon name="bookmark_border" v-else/>
       </q-btn>
       <q-btn flat class="pg-balance" flat v-if="isStore" @click="$router.push({ name: 'buyPG'})">
-        {{ user.pasco_gold }} <span class="currency">PG</span>
+        <span class="pg-balance-text">You have  </span> {{ user.pasco_gold }} <span class="currency"> PG</span>
       </q-btn>
       <span class="help">
         <a href="http://bit.ly/2kbevom"   v-if="(this.$route.name === 'signIn' || this.$route.name === 'signUp')">Getting Started</a>
@@ -274,6 +274,11 @@
 
 <style lang="stylus">
   @import '~variables'
+
+  .pg-balance-text
+    text-transform capitalize !important
+    font-size 14px
+    padding-right 7px
 
   .preloader
     width 120px

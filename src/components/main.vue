@@ -83,6 +83,17 @@
           }))
         console.log('randomColor', randomColor)
       }
+      OneSignal.push(function() {
+        OneSignal.isPushNotificationsEnabled(function(isEnabled) {
+          if (isEnabled)
+            console.log("Push notifications are enabled!")
+          else {
+            OneSignal.registerForPushNotifications({
+              modalPrompt: true
+            })
+          }
+        })
+      })
     },
     computed: {
       courses () {
@@ -107,6 +118,7 @@
       }
     }
   }
+
 
   export default pageData
 </script>
