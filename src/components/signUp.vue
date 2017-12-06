@@ -32,23 +32,7 @@
             ]"
           />
         </div>
-        <!--
-        <div class="form-group programme">
-          <q-input
-            type="text"
-            id="programme"
-            v-model="form.programme"
-            @blur="$v.form.programme.$touch"
-            :error="$v.form.programme.$error"
-            placeholder="Programme"
-            :before="[
-              {
-                icon: 'school'
-            }
-            ]"
-          />
-        </div>
-         -->
+
         <div class="form-group programme">
           <q-select
             filter
@@ -114,61 +98,6 @@
     </div>
   </div>
 </template>
-
-<!--
-<template>
-  <div class="signin">
-    <form v-on:submit.prevent="signUp()">
-      <div class="form-group name">
-        <q-input
-          type="text"
-          id="name"
-          v-model="form.name"
-          @blur="$v.form.name.$touch"
-          :error="$v.form.name.$error"
-          placeholder="Name"
-        />
-      </div>
-      <div class="form-group programme">
-        <q-input
-          type="text"
-          id="programme"
-          v-model="form.programme"
-          @blur="$v.form.programme.$touch"
-          :error="$v.form.programme.$error"
-          placeholder="Programme"
-        />
-      </div>
-      <div class="form-group email">
-        <q-input
-          type="email"
-          id="email"
-          v-model="form.email"
-          @blur="$v.form.email.$touch"
-          :error="$v.form.email.$error"
-          placeholder="Email"
-        />
-      </div>
-      <div class="form-group password">
-        <q-input
-          type="password"
-          id="password"
-          v-model="form.password"
-          placeholder="Password"
-        />
-      </div>
-      <div class="form-group">
-        <router-link v-bind:to="'/signin'">
-          Sign In
-        </router-link>
-        <q-btn class="submit-btn">
-          Sign Up
-        </q-btn>
-      </div>
-    </form>
-  </div>
-</template>
--->
 
 <script>
   import {
