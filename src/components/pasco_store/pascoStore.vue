@@ -15,18 +15,19 @@
         <router-link v-for="(course, index) in filteredCourses" v-bind:to="'store/course/'+ course.id">
           <q-card inline class="card">
             <q-card-title v-bind:style="{backgroundColor: colors[index]}" class="text card-title course-code">
-              <q-icon class="book-icon" name="library_books"></q-icon>
-              {{course.code}}
+              <!--<q-icon class="book-icon" name="library_books"></q-icon>-->
+              <img src="~assets/notebook.svg" class="svg course-icon">
+              <p class="course-code light-paragraph">{{course.code}}</p>
             </q-card-title>
             <q-card-main class="card-bottom">
-              <div class="card-title p-card-title course-name ellipsis">
+              <div class="card-title text-truncate ellipsis-3-lines p-card-title course-name">
                 {{course.name}}
               </div>
               <div class="test-no">
                 <strong>{{course.total_quiz_count}}</strong>  {{ course.total_quiz_count | pluralize('test') }}
               </div>
               <q-card-actions align="end" >
-                <q-btn :small="true" flat class="buy-btn"><span class="price">{{course.price}} PG </span>&nbsp; BUY</q-btn>
+                <q-btn :small="true" flat class="buy-btn"><span class="price text-bold">{{course.price}} PG </span>&nbsp; <span class="buy-text">BUY</span></q-btn>
               </q-card-actions>
             </q-card-main>
           </q-card>
@@ -124,7 +125,7 @@
             luminosity: 'dark',
             hue: 'random',
             format: 'rgba',
-            alpha: 0.7
+            alpha: 8
           }))
         console.log('randomColor', randomColor)
       }
@@ -169,26 +170,50 @@
     width 100%
     margin 0px 0px 8px
     min-height: 150px
+    position relative
     //height 190px
 
 
   .p-card-title
     display: inline-block
     width 100%
-    height:100%
-    font-size 13px
+    //height:100%
+    font-size 15px
 
   .course-code
     margin -10px -10px 0px
-    height 60px
+    text-align: center;
+    font-size: 28px;
+    padding-top: 35px;
+    z-index: 10000;
 
   .course-name
     margin-top 7px
+    height 38px
+
+  .price
+    color: $orange
+    font-size 13px
+
+  .buy-text
+    color: $primary
+    font-size 12px
+  .course-icon
+    position absolute
+    width 80px
+    height 80px
+    opacity: 0.2
+    //filter: alpha(opacity=50)
+    left 25%
+    top 12%
+
+  svg path
+    fill: white
 
   .q-card-title
     padding 0px 5px
     //margin -31px -26px 0px -26px
-    height 60px
+    height 80px
     //background #0888d8
     color white
 
@@ -219,5 +244,52 @@
     margin-bottom: 10px
 
   .buy-btn
-    border-radius 0
+    border-radius 3px
+    background none
+    border 1px solid $primary
+
+  .card-bottom
+    height 97px
+
+
+  @media only screen and (min-width: 800px)
+    .buy-btn
+      border-radius 3px
+      background none
+      border 1px solid $primary
+
+    .card-bottom
+      height 102px
+
+    .course-code
+      font-size: 30px;
+      padding-top: 30px;
+      z-index: 10000;
+
+    .price
+      color: $orange
+      font-size 14px
+
+    .buy-text
+      color: $primary
+      font-size 13px
+
+    .course-icon
+      position absolute
+      width 80px
+      height 80px
+      opacity: 0.2
+      //filter: alpha(opacity=50)
+      left 35%
+      top 12%
+
+    .course-name
+      margin-top 7px
+      height 42px
+
+    .p-card-title
+      display: inline-block
+      width 100%
+      //height:100%
+      font-size 17px
 </style>
