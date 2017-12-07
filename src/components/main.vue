@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <!--
     <div class="search-area">
       <q-search
         class="search-input"
@@ -9,7 +10,9 @@
         v-model="keyword"
         placeholder="Search your library"/>
     </div>
+    -->
     <div class="content">
+      <div class="title light-paragraph">Your Library</div>
       <div class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
           <q-icon class="sentiment" name="sentiment_satisfied"></q-icon>
         <p>Hello {{ this.$store.state.entities.user.name }},<br>
@@ -40,7 +43,7 @@
 
     <router-link v-bind:to="'/store'">
       <div class="footer">
-        <q-btn class="button" icon="shop">Add a course</q-btn>
+        <q-btn class="button" icon="library_books">Add a course</q-btn>
       </div>
     </router-link>
   </div>
@@ -88,6 +91,7 @@
           if (isEnabled)
             console.log("Push notifications are enabled!")
           else {
+            setTimeout(myFunction, 3000)
             OneSignal.registerForPushNotifications({
               modalPrompt: true
             })
@@ -170,5 +174,11 @@
     font-size 150px
     color #ccc
     padding 10px
+
+  .title
+    font-size 20px
+    padding 20px 16px 0px
+    color #666666
+    //text-align center
 
 </style>
