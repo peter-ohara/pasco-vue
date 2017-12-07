@@ -25,7 +25,7 @@
           prenotify: true,
           position: 'bottom-left',
           displayPredicate: function() {
-            return Oneignal.isPushNotificationsEnabled()
+            return OneSignal.isPushNotificationsEnabled()
               .then(function(isPushEnabled) {
                 /* The user is subscribed, so we want to return "false" to hide the notify button */
                 return !isPushEnabled;
