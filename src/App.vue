@@ -73,7 +73,6 @@
         </q-popover>
       </q-btn>
     </q-toolbar>
-
     <!-- Navigation -->
     <template v-if="this.$route.name === 'question' && quiz">
       <q-tabs slot="navigation" class="question-numbers" inverted>
@@ -170,6 +169,10 @@
       isBookmarked () {
         return this.$store.state.bookmarks.bookmarks
           .hasOwnProperty(this.$route.params.questionId)
+      },
+      progress () {
+        console.log(this.$store.state)
+        return this.$store.state.entities.progress
       }
     },
     methods: {
@@ -307,6 +310,11 @@
 
     a:active
       color #d7d7d7
+
+  .q-progress
+    position:absolute;
+    &-track
+      opacity: 0;
 
   .search-area
     max-width 600px

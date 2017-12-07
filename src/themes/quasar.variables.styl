@@ -100,3 +100,19 @@
    *class in css; allowing the font to affect the number bar as well
    */
   font-family 'Montserrat', sans-serif
+
+//Logo and loading icon for sign in and sign up screens
+  .loading-icon
+    position: absolute;
+    left: 50%;
+    margin-left: -41px;
+    margin-top: -7px;
+    width: 83px;
+    height: 83px;
+    -webkit-animation:spin 3s linear infinite;
+    -moz-animation:spin 3s linear infinite;
+    animation:spin 3s linear infinite;
+
+  @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+  @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+  @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

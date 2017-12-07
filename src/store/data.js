@@ -12,6 +12,7 @@ const FETCH_USER_DATA_REQUEST = 'fetchUserDataRequest'
 const FETCH_USER_DATA_SUCCESS = 'fetchUserDataSuccess'
 const FETCH_USER_DATA_FAILURE = 'fetchUserDataFailure'
 const SET_CURRENT_COURSE = 'setCurrentCourse'
+const SET_PROGRESS = 'setProgress'
 
 const USER_DATA_KEY = 'pascoUser'
 
@@ -37,7 +38,8 @@ export default {
     },
     isStale: true,
     loadingUserData: false,
-    loadingUserDataError: {}
+    loadingUserDataError: {},
+    progress: 0
   },
   getters: {
     courses: state => {
@@ -102,6 +104,9 @@ export default {
     },
     [SET_CURRENT_COURSE] (state, payload) {
       state.currentQuiz = state.usersTests.find(quiz => quiz.id === payload.quizId)
+    },
+    [SET_PROGRESS] (state, payload) {
+      state.progress = payload
     }
   },
   actions: {
@@ -132,6 +137,14 @@ export default {
         console.log('Using userData from memory...')
         return state.user
       }
+    },
+    //Loading function is now redundant but can be used for other purposes so I've not deleted it
+    loading ({commit, state}) {
+      setInterval(() => {
+        const progress = Math.random();
+        commit(SET_PROGRESS, progress)
+      }, 1000)
+
     }
   }
 }

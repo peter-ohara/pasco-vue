@@ -12,7 +12,10 @@
       <form v-on:submit.prevent="signIn()">
         <div class="row">
           <div class="top-content">
-            <img src="../assets/logo.png" width="70px" height="70px" alt="" class="pasco-logo">
+            <div class="logo-wrapper">
+              <img v-if="isLoginClicked" src="../assets/icons8-loading-50.png" width="70px" height="70px" alt="" class="loading-icon">
+              <img src="../assets/logo.png" width="70px" height="70px" alt="" class="pasco-logo">
+            </div>
             <p class="text-center login-form-text">Log into your Pasco account</p>
           </div>
 
@@ -47,7 +50,7 @@
           />
         </div>
         <div class="form-group">
-          <q-btn type="submit" class="submit-btn">
+          <q-btn :disabled="isLoginClicked" type="submit" class="submit-btn">
             Log In
           </q-btn>
           <router-link v-bind:to="'/signup'">
@@ -98,11 +101,14 @@
           email: '',
           password: '',
           error: ''
-        }
+        },
+        isLoginClicked: false,
       }
     },
     methods: {
       signIn () {
+        this.isLoginClicked = true;
+        console.log("sign in clicked", this.isLoginClicked)
         this.$auth.login({
           body: {
             auth: {
@@ -111,6 +117,7 @@
             }
           },
           error: function () {
+            this.isLoginClicked = false;
             this.form.error = 'Error logging in. Please check your email, password or internet connection'
           }
         })

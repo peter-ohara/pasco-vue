@@ -12,10 +12,12 @@
       <form v-on:submit.prevent="signUp()">
         <div class="row">
           <div class="top-content">
-            <img src="../assets/logo.png" width="70px" height="70px" alt="" class="pasco-logo">
+            <div class="logo-wrapper">
+              <img v-if="isLoginClicked" src="../assets/icons8-loading-50.png" width="70px" height="70px" alt="" class="loading-icon">
+              <img src="../assets/logo.png" width="70px" height="70px" alt="" class="pasco-logo">
+            </div>
             <p class="text-center login-form-text">Create a Pasco account</p>
           </div>
-
         </div>
         <div class="form-group name">
           <q-input
@@ -84,7 +86,7 @@
           />
         </div>
         <div class="form-group">
-          <q-btn type="submit" class="submit-btn">
+          <q-btn :disabled="isLoginClicked" type="submit" class="submit-btn">
             Register
           </q-btn>
           <router-link v-bind:to="'/signin'">
@@ -434,11 +436,13 @@
               value: 'BSc Disability & Rehabilitation Studies'
             }
           ]
-        }
+        },
+        isLoginClicked: false
       }
     },
     methods: {
       signUp () {
+        this.isLoginClicked = true;
         this.$auth.register({
           body: {
             user: {
@@ -449,10 +453,12 @@
             }
           },
           success: function (response) {
-            this.signIn()
+            this.signIn();
+            this.isLoginClicked = false;
           },
           error: function (error) {
             // TODO: Handle email already taken error
+            this.isLoginClicked = false;
           }
         })
       },
@@ -611,5 +617,6 @@
       p
         font-size 12px
   //margin 10px
+
 
 </style>
