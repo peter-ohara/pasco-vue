@@ -86,18 +86,20 @@
           }))
         console.log('randomColor', randomColor)
       }
-      OneSignal.push(function() {
-        OneSignal.isPushNotificationsEnabled(function(isEnabled) {
-          if (isEnabled)
-            console.log("Push notifications are enabled!")
-          else {
-            setTimeout(myFunction, 3000)
-            OneSignal.registerForPushNotifications({
-              modalPrompt: true
-            })
-          }
+      setTimeout(showOneSignalModal, 3000)
+      function showOneSignalModal() {
+        OneSignal.push(function () {
+          OneSignal.isPushNotificationsEnabled(function (isEnabled) {
+            if (isEnabled)
+              console.log("Push notifications are enabled!")
+            else {
+              OneSignal.registerForPushNotifications({
+                modalPrompt: true
+              })
+            }
+          })
         })
-      })
+      }
     },
     computed: {
       courses () {
