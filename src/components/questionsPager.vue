@@ -1,11 +1,7 @@
 <template>
   <div class="main questions" v-touch-swipe.horizontal="swipeHandler">
-
     <template v-if="quiz">
-
       <question :question="question($route.params.questionId)"></question>
-
-
       <div class="comments-container">
         <q-list>
           <q-collapsible icon="list" label="Explanation">

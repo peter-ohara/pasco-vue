@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <!--
     <div class="search-area">
       <q-search
         class="search-input"
@@ -9,7 +10,9 @@
         v-model="keyword"
         placeholder="Search your library"/>
     </div>
+    -->
     <div class="content">
+      <div class="title light-paragraph">Your Library</div>
       <div class="empty-state" v-if="courses.length === 0 && this.$store.state.entities.loadingUserData === false">
           <q-icon class="sentiment" name="sentiment_satisfied"></q-icon>
         <p>Hello {{ this.$store.state.entities.user.name }},<br>
@@ -171,5 +174,11 @@
     font-size 150px
     color #ccc
     padding 10px
+
+  .title
+    font-size 20px
+    padding 20px 16px 0px
+    color #666666
+    //text-align center
 
 </style>

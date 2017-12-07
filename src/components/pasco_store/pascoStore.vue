@@ -16,7 +16,29 @@
           <q-card inline class="card">
             <q-card-title v-bind:style="{backgroundColor: colors[index]}" class="text card-title course-code">
               <!--<q-icon class="book-icon" name="library_books"></q-icon>-->
-              <img src="~assets/notebook.svg" class="svg course-icon">
+             <!--<img src="~assets/notebook.svg" class="svg course-icon"><-->
+              <svg class="svg course-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 58 58" style="enable-background:new 0 0 58 58;" xml:space="preserve">
+                <g>
+                  <path fill="#FFFFFF" d="M3,43c0.552,0,1-0.447,1-1c0-1.654,1.346-3,3-3s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.757-2.243-5-5-5
+                    s-5,2.243-5,5C2,42.553,2.448,43,3,43z"/>
+                  <path fill="#FFFFFF" d="M3,37c0.552,0,1-0.447,1-1c0-1.654,1.346-3,3-3s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.757-2.243-5-5-5
+                    s-5,2.243-5,5C2,36.553,2.448,37,3,37z"/>
+                  <path fill="#FFFFFF" d="M3,31c0.552,0,1-0.447,1-1c0-1.654,1.346-3,3-3s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.757-2.243-5-5-5
+                    s-5,2.243-5,5C2,30.553,2.448,31,3,31z"/>
+                  <path fill="#FFFFFF" d="M3,25c0.552,0,1-0.447,1-1c0-1.654,1.346-3,3-3s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.757-2.243-5-5-5
+                    s-5,2.243-5,5C2,24.553,2.448,25,3,25z"/>
+                  <path fill="#FFFFFF" d="M4,18c0-1.654,1.346-3,3-3s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.757-2.243-5-5-5s-5,2.243-5,5
+                    c0,0.553,0.448,1,1,1S4,18.553,4,18z"/>
+                  <path fill="#FFFFFF" d="M52.003,0.004H50h-7H19V0H6v7.101C3.721,7.566,2,9.585,2,12c0,0.553,0.448,1,1,1s1-0.447,1-1c0-1.654,1.346-3,3-3
+                    s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.415-1.721-4.434-4-4.899V2h9v54H8v-4v-3c0-0.553-0.448-1-1-1s-1,0.447-1,1v1.815
+                    C4.839,50.401,4,49.302,4,48c0-1.654,1.346-3,3-3s3,1.346,3,3c0,0.553,0.448,1,1,1s1-0.447,1-1c0-2.757-2.243-5-5-5s-5,2.243-5,5
+                    c0,2.415,1.721,4.434,4,4.899V58h11h2h24h7h2.003C54.207,58,56,56.207,56,54.004V4C56,1.797,54.207,0.004,52.003,0.004z M19,56
+                    V2.004h24V56H19z M45,56V2.004h3V56H45z M54,54.004C54,55.104,53.104,56,52.003,56H50V2.004h2.003C53.104,2.004,54,2.899,54,4
+                    V54.004z"/>
+                </g>
+              </svg>
+
               <p class="course-code light-paragraph">{{course.code}}</p>
             </q-card-title>
             <q-card-main class="card-bottom">
@@ -183,8 +205,8 @@
   .course-code
     margin -10px -10px 0px
     text-align: center;
-    font-size: 28px;
-    padding-top: 35px;
+    font-size: 26px;
+    padding-top: 32px;
     z-index: 10000;
 
   .course-name
@@ -200,12 +222,12 @@
     font-size 12px
   .course-icon
     position absolute
-    width 80px
-    height 80px
+    width 85px
+    height 85px
     opacity: 0.2
     //filter: alpha(opacity=50)
-    left 25%
-    top 12%
+    left 23%
+    top 10%
 
   svg path
     fill: white
@@ -276,12 +298,12 @@
 
     .course-icon
       position absolute
-      width 80px
-      height 80px
+      width 90px
+      height 90px
       opacity: 0.2
       //filter: alpha(opacity=50)
-      left 35%
-      top 12%
+      left 33%
+      top 8%
 
     .course-name
       margin-top 7px
